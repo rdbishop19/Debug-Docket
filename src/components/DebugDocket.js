@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import NavBar from './navbar/NavBar';
+import NavBarContainer from './navbar/NavBarContainer';
 import ApplicationViews from './ApplicationViews';
 
 export class DebugDocket extends Component {
 	render() {
 		return (
 			<React.Fragment>
-                <NavBar />
+                <NavBarContainer />
 				<ApplicationViews />
 			</React.Fragment>
 		);
