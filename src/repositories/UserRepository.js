@@ -18,13 +18,13 @@ export default {
         return await data.json()
     },
     // find specific user by email/password
-    async findUser(userName, password) {
-        const data = await fetch(`${Settings.remoteUrl}/users?email=${userName}&password=${password}`)
+    async findUser(email, password) {
+        const data = await fetch(`${Settings.remoteURL}/users?email=${email}&password=${password}`)
         return await data.json()
     },
     // delete specific user (stretch goal)
     async delete(id) {
-        const e = await fetch(`${Settings.remoteUrl}/users/${id}`, {
+        const e = await fetch(`${Settings.remoteURL}/users/${id}`, {
             method: "DELETE"
         })
         return await e.json()

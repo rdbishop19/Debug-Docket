@@ -1,5 +1,6 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useContext } from 'react'
 import { withRouter } from 'react-router-dom'
+import { UserContext } from '../providers/UserProvider'
 import useBasicAuth from '../../hooks/ui/useBasicAuth'
 
 import { FormControl, InputLabel, Input, Button, Checkbox, FormControlLabel, Paper, Typography, Link } from '@material-ui/core'
@@ -36,17 +37,30 @@ const Login = props => {
     // console.log('remember?', remember.current.value) // couldn't get this to get right value from MaterialUI component
     // console.log('checked', checked)
     
+    const { findUser } = useContext(UserContext)
+
     const handleLogin = e => {
         e.preventDefault()
         
         // console.log('remember?', remember.current.value)
         // const storage = remember.current.value !== "on" ? localStorage : sessionStorage
-        const storage = checked !== true ? localStorage : sessionStorage
-        login(email.current.value, password.current.value, storage)
-        
-        props.history.push({
-            pathname: "/home"
+        findUser(email.current.value, password.current.value).then((user) => {
+            // console.log('doing great!')
+            const foundUser = user.length
+
+            if (!foundUser){
+                window.alert("There is no account associated with this email. Please try again")
+                email.current.focus()
+                return
+            } 
+            const storage = checked !== true ? localStorage : sessionStorage
+            login(user[0].id, email.current.value, password.current.value, storage)
+            
+            props.history.push({
+                pathname: "/home"
+            })
         })
+        
     }
     return (
 
@@ -88,6 +102,7 @@ const Login = props => {
                                         id="remember"
                                         value="remember"
                                         checked={checked}
+                                        color="primary"
                                         onChange={()=>setChecked(!checked)}
                                         inputProps={{
                                             'aria-label': 'primary checkbox',

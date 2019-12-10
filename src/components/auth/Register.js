@@ -1,13 +1,15 @@
-import React, { useRef, useContext } from 'react'
+import React, { useRef, useContext, useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import { UserContext } from '../providers/UserProvider'
-import Settings from '../../repositories/Settings'
-import { FormControl, InputLabel, Input, Button, Paper, Typography, Link } from '@material-ui/core'
+import useBasicAuth from '../../hooks/ui/useBasicAuth'
+
+// import Settings from '../../repositories/Settings'
+import { FormControl, InputLabel, Input, Button, Paper, Typography, Link, FormControlLabel, Checkbox } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { Link as RouterLink } from 'react-router-dom';
 
-const login = React.forwardRef((props, ref) => <RouterLink innerRef={ref} {...props} />);
+const loginComponent = React.forwardRef((props, ref) => <RouterLink innerRef={ref} {...props} />);
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -26,28 +28,50 @@ const Register = props => {
     const password = useRef()
     const verifyPassword = useRef()
 
+    const [checked, setChecked] = useState(false)
     // use style classes defined above
     const classes = useStyles();
 
+    // save new user after validating account creation
+    const { login } = useBasicAuth()
+    
     // useContext from UserProvider
-    const { createAccount } = useContext(UserContext)
+    const { createAccount, findUser } = useContext(UserContext)
 
     const handleRegister = e => {
         e.preventDefault()
-        const newUser = {
-            firstName: firstName.current.value,
-            lastName: lastName.current.value,
-            email: email.current.value,
-            password: password.current.value,
+        if (password.current.value !== verifyPassword.current.value){
+            window.alert("Password fields don't match. Please re-enter them.")
+            password.current.focus()
+            return
         }
-
-        // post to db and 
-        createAccount(newUser).then((user) => {
-            console.log('newUser response', user)
-            props.history.push({
-                pathname: "/home"
+        // check if user already exists
+        findUser(email.current.value, password.current.value).then((data)=> {
+            const foundUser = data.length
+            if (foundUser){
+                // console.log('user already exits', data)
+                window.alert("User email already exists. Please use a different email.")
+                email.current.focus()
+                return
+            }
+            const newUser = {
+                firstName: firstName.current.value,
+                lastName: lastName.current.value,
+                email: email.current.value,
+                password: password.current.value,
+            }
+    
+            // post to db and save to local/session storage
+            createAccount(newUser).then((user) => {
+                // console.log('newUser response', user)
+                const storage = checked !== true ? localStorage : sessionStorage
+                login(user.id, user.email, user.password, storage)
+                props.history.push({
+                    pathname: "/home"
+                })
             })
         })
+
     }
 
     return (
@@ -63,7 +87,7 @@ const Register = props => {
 
                 </Typography>
                 <br />
-                <form onSubmit={handleRegister} style={{ width: "250px", margin: "0 auto"}}>
+                <form onSubmit={handleRegister} style={{ width: "200px", margin: "0 auto"}}>
                     <FormControl>
                         <InputLabel htmlFor="firstName"> First Name </InputLabel>
                         <Input inputRef={firstName} type="text"
@@ -102,22 +126,40 @@ const Register = props => {
                     </FormControl>
                     <FormControl>
                         <InputLabel htmlFor="verifyPassword"> Verify Password </InputLabel>
-                        <Input inputRef={verifyPassword} type="text"
+                        <Input inputRef={verifyPassword} type="password"
                             name="verifyPassword"
                             placeholder="Verify password"
                             autoComplete="new-password"
                             required 
                             />
                     </FormControl>
-                    <FormControl>
+                    <FormControl margin="normal">
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        // had to abandon 'ref' and use state instead
+                                        // inputRef={remember}
+                                        id="remember"
+                                        value="remember"
+                                        checked={checked}
+                                        color="primary"
+                                        onChange={()=>setChecked(!checked)}
+                                        inputProps={{
+                                            'aria-label': 'primary checkbox',
+                                        }}
+                                        />
+                                    }
+                                    label="Remember me?"
+                                    />
+                        </FormControl>
                     <FormControl margin="normal">
                         <Button type="submit" variant="contained" color="primary">
                             Sign up
                         </Button>
                     </FormControl>
-                    </FormControl>
+                    
                 </form>
-                <Link component={login} to="/login">
+                <Link component={loginComponent} to="/login">
                     Already have an account?
                 </Link>
             </Paper>

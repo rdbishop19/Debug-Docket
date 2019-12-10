@@ -46,9 +46,9 @@ export class ApplicationViews extends Component {
                 
                 <UserProvider>
                     <Route path="/register" component={Register} />
+                    <Route path="/login" component={Login} />
                 </UserProvider>
 
-                <Route path="/login" component={Login} />
 
             </React.Fragment>
         )
