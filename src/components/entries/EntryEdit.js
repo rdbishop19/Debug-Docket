@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 
-export class HistoryContainer extends Component {
+export class EntryEdit extends Component {
     render() {
         return (
             <div>
-                HISTORY CONTAINER
+                ENTRY EDIT FORM
             </div>
         )
     }
 }
 
-export default HistoryContainer
+export default EntryEdit

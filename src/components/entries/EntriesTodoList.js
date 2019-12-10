@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 
-export class HistoryContainer extends Component {
+export class EntriesTodoList extends Component {
     render() {
         return (
             <div>
-                HISTORY CONTAINER
+                ENTRIES TODO LIST
             </div>
         )
     }
 }
 
-export default HistoryContainer
+export default EntriesTodoList

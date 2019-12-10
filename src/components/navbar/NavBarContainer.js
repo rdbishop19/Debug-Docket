@@ -7,6 +7,14 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import BugReportIcon from '@material-ui/icons/BugReport';
+import { Link as RouterLink } from 'react-router-dom'
+
+const login = React.forwardRef((props, ref) => (
+  <RouterLink innerRef={ref} to="/login" {...props} />
+));
+const home = React.forwardRef((props, ref) => (
+  <RouterLink innerRef={ref} to="/home" {...props} />
+))
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,14 +29,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function NavBarNonUser() {
+function NavBarNonUser(props) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+          <IconButton edge="start" className={classes.menuButton} color="inherit" component={home} aria-label="menu">
             <BugReportIcon />
           </IconButton>
           {/* <IconButton edge="end" className={classes.menuButton} color="inherit" aria-label="menu">
@@ -37,7 +45,9 @@ function NavBarNonUser() {
           <Typography variant="h6" className={classes.title}>
             Debug Docket
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="default" component={login}>
+            Sign Up / Login
+          </Button>
         </Toolbar>
       </AppBar>
     </div>
@@ -46,7 +56,7 @@ function NavBarNonUser() {
 export class NavBarContainer extends Component {
     render() {
         return (
-            <NavBarNonUser />
+            <NavBarNonUser {...this.props} />
         )
     }
 }
