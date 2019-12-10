@@ -10,6 +10,7 @@ import TimerContainer from './timer/TimerContainer'
 import EntryDetailsContainer from './entries/EntryDetailsContainer'
 import FeedContainer from './feed/FeedContainer'
 import HistoryContainer from './history/HistoryContainer'
+import { UserProvider } from './providers/UserProvider'
 
 export class ApplicationViews extends Component {
     render() {
@@ -42,7 +43,10 @@ export class ApplicationViews extends Component {
                 }} />
                 {/* <AuthRoute path="/history" Destination={HistoryContainer} /> */}
                 
-                <Route path="/register" component={Register} />
+                <UserProvider>
+                    <Route path="/register" component={Register} />
+                </UserProvider>
+                
                 <Route path="/login" component={Login} />
 
             </React.Fragment>
