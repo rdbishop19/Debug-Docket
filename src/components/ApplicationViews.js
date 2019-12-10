@@ -5,7 +5,7 @@ import AuthRoute from './auth/AuthRoute'
 import Login from './auth/Login'
 import Register from './auth/Register'
 
-import EntriesContainer from './entries/EntriesContainer'
+import EntriesHomeContainer from './entries/EntriesHomeContainer'
 import TimerContainer from './timer/TimerContainer'
 import EntryDetailsContainer from './entries/EntryDetailsContainer'
 import FeedContainer from './feed/FeedContainer'
@@ -22,7 +22,7 @@ export class ApplicationViews extends Component {
                 {/* <Route path="/home" render={(props) => {
                     return <>
                             <TimerContainer {...props} />
-                            <EntriesContainer {...props} />
+                            <EntriesHomeContainer {...props} />
                         </>
                 }} /> */}
                 {/* TODO: refactor this after MVP so non-registered user can still use timer/todo */}

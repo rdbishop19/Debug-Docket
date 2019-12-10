@@ -1,9 +1,12 @@
-import React from 'react'
+import React from 'react';
+import TimerContainer from '../timer/TimerContainer';
+import EntriesContainer from '../entries/EntriesContainer';
 
-export default function HomeContainer() {
-    return (
-        <div>
-            HOME CONTAINER
-        </div>
-    )
+export default function HomeContainer(props) {
+	return (
+		<React.Fragment>
+			<TimerContainer {...props} />
+			<EntriesContainer {...props} />
+		</React.Fragment>
+	);
 }

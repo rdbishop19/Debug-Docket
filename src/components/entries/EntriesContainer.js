@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import EntriesTodoList from './EntriesTodoList'
+import EntriesHomeContainer from './EntriesHomeContainer'
 import { Route } from 'react-router-dom'
 import EntryEdit from './EntryEdit'
 export class EntriesContainer extends Component {
@@ -9,7 +9,7 @@ export class EntriesContainer extends Component {
             <React.Fragment>
 
                 <Route exact path={`${match.path}`} render={(props)=>{
-                    return <EntriesTodoList {...props} />
+                    return <EntriesHomeContainer {...props} />
                 }} />
                 {/* Note: had to use doubleslash for regex after changing path to JS expression */}
                 <Route path={`${match.path}/:entryId(\\d+)/edit`} render={(props)=>{
