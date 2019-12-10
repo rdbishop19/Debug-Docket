@@ -17,12 +17,6 @@ export class ApplicationViews extends Component {
 
             <React.Fragment>
                 
-                <Route exact path="/" render={(props) => {
-                    return <>
-                            <TimerContainer {...props} />
-                            <EntriesContainer {...props} />
-                        </>
-                }} />
                 <Route path="/home" render={(props) => {
                     return <>
                             <TimerContainer {...props} />
@@ -30,7 +24,7 @@ export class ApplicationViews extends Component {
                         </>
                 }} />
                 {/* TODO: refactor this after MVP so non-registered user can still use timer/todo */}
-                {/* <AuthRoute path="/home" Destination={HomeSplitViewChangeThis} /> */}
+                {/* <AuthRoute path="/home" Destination={HomeMvp} /> */}
 
                 <Route exact path="/entries/:entryId(\d+)/details" render={(props)=>{
                     return <EntryDetailsContainer {...props} />
