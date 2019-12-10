@@ -2,12 +2,17 @@ import React, { useRef, useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import useBasicAuth from '../../hooks/ui/useBasicAuth'
 
-import { FormControl, InputLabel, Input, Button, Checkbox, FormControlLabel, Paper, Typography } from '@material-ui/core'
+import { FormControl, InputLabel, Input, Button, Checkbox, FormControlLabel, Paper, Typography, Link } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
+
+import { Link as RouterLink } from 'react-router-dom';
 /* 
     Purpose: Render the login screen and set user in storage
     Author: Ryan Bishop
 */
+
+const register = React.forwardRef((props, ref) => <RouterLink innerRef={ref} {...props} />);
+
 const useStyles = makeStyles(theme => ({
     root: {
         padding: theme.spacing(3, 2),
@@ -54,19 +59,20 @@ const Login = props => {
                     Please enter your account information.
                 </Typography>
                 <Typography component="div">
-                    <form onSubmit={handleLogin} autoComplete="off">
-                        <FormControl margin="normal">
+                <br />
+                    <form onSubmit={handleLogin} autoComplete="off" style={{ width: "200px", margin: "0 auto"}}>
+                        <FormControl >
                             <InputLabel htmlFor="email">Email</InputLabel>
-                            <Input ref={email}
+                            <Input inputRef={email}
                                     id="email"
                                     type="email"
                                     autoComplete="email" 
                                     required autoFocus
                                     />
                         </FormControl>
-                        <FormControl margin="normal">
+                        <FormControl>
                             <InputLabel htmlFor="password">Password</InputLabel>
-                            <Input ref={password} 
+                            <Input inputRef={password} 
                                     id="password"
                                     type="password"
                                     autoComplete="current-password"
@@ -77,8 +83,8 @@ const Login = props => {
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                    // had to abandon 'ref' and use state instead
-                                        // ref={remember}
+                                        // had to abandon 'ref' and use state instead
+                                        // inputRef={remember}
                                         id="remember"
                                         value="remember"
                                         checked={checked}
@@ -97,6 +103,9 @@ const Login = props => {
                             </Button>
                         </FormControl>
                     </form>
+                    <Link component={register} to="/register">
+                        New user? Create account
+                    </Link>
                 </Typography>
             </Paper>
 

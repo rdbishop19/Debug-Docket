@@ -11,6 +11,7 @@ import EntryDetailsContainer from './entries/EntryDetailsContainer'
 import FeedContainer from './feed/FeedContainer'
 import HistoryContainer from './history/HistoryContainer'
 import { UserProvider } from './providers/UserProvider'
+import HomeContainer from './home/HomeContainer'
 
 export class ApplicationViews extends Component {
     render() {
@@ -18,14 +19,14 @@ export class ApplicationViews extends Component {
 
             <React.Fragment>
                 
-                <Route path="/home" render={(props) => {
+                {/* <Route path="/home" render={(props) => {
                     return <>
                             <TimerContainer {...props} />
                             <EntriesContainer {...props} />
                         </>
-                }} />
+                }} /> */}
                 {/* TODO: refactor this after MVP so non-registered user can still use timer/todo */}
-                {/* <AuthRoute path="/home" Destination={HomeMvp} /> */}
+                <AuthRoute path="/home" Destination={HomeContainer} />
 
                 <Route exact path="/entries/:entryId(\d+)/details" render={(props)=>{
                     return <EntryDetailsContainer {...props} />
@@ -46,7 +47,7 @@ export class ApplicationViews extends Component {
                 <UserProvider>
                     <Route path="/register" component={Register} />
                 </UserProvider>
-                
+
                 <Route path="/login" component={Login} />
 
             </React.Fragment>
