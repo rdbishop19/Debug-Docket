@@ -154,7 +154,7 @@ const Register = props => {
                         </FormControl>
                     <FormControl margin="normal">
                         <Button type="submit" variant="contained" color="primary">
-                            Sign up
+                            Register
                         </Button>
                     </FormControl>
                     
