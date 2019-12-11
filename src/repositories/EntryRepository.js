@@ -32,5 +32,17 @@ export default {
     async getAll() {
         const e = await fetch(`${Settings.remoteURL}/entries`)
         return await e.json()
+    },
+
+    // update entry from the edit view
+    async updateEntry(newEntry) {
+        const e = await fetch (`${Settings.remoteURL}/entries/${newEntry.id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newEntry)
+        })
+        return await e.json()
     }
 }
