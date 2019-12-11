@@ -12,6 +12,7 @@ import FeedContainer from './feed/FeedContainer'
 import HistoryContainer from './history/HistoryContainer'
 import { UserProvider } from './providers/UserProvider'
 import HomeContainer from './home/HomeContainer'
+import { EntryProvider } from './providers/EntryProvider'
 
 export class ApplicationViews extends Component {
     render() {
@@ -26,7 +27,10 @@ export class ApplicationViews extends Component {
                         </>
                 }} /> */}
                 {/* TODO: refactor this after MVP so non-registered user can still use timer/todo */}
-                <AuthRoute path="/home" Destination={HomeContainer} />
+                <EntryProvider>
+                    <AuthRoute path="/home" Destination={HomeContainer} />
+                </EntryProvider>
+
 
                 <Route exact path="/entries/:entryId(\d+)/details" render={(props)=>{
                     return <EntryDetailsContainer {...props} />

@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Paper, Typography, FormControl, InputLabel, Input, RadioGroup, Radio, FormControlLabel, FormLabel } from '@material-ui/core'
 import Settings from '../../repositories/Settings'
+import { EntryContext } from '../providers/EntryProvider'
 
-
-export default function EntryEdit() {
-
+export default function EntryEdit(props) {
+    
     const initialEntry = {
         title: '',
         description: '',
@@ -21,22 +21,31 @@ export default function EntryEdit() {
         category: {
             id: '',
             label: ''
-        },
+        }
     }
+    // useContext from UserProvider
+    const { getEntry } = useContext(EntryContext)
 
     const [entry, setEntry] = useState(initialEntry)
-    // const [title, setTitle] = useState('')
+    
     const [priorities, setPriorities] = useState([])
     const [severities, setSeverities] = useState([])
     const [categories, setCategories] = useState([])
 
+    const handleFieldChange = e => {
+        setEntry({...entry, [e.target.name]: e.target.value})
+    }
+
+    // const handleRadioChange = e=> {
+    //     setEntry({...entry, [e.target.name]: {}})
+    // }
+
+
     useEffect(()=>{
-        fetch(`${Settings.remoteURL}/entries/1?_expand=severity&_expand=priority&_expand=category`)
-        .then((data)=>data.json())
-        .then((data)=> {
-            console.log('fetch', data)
-            setEntry(data)
-            // setTitle(data.title)
+        console.log('initial useEffect ran')
+        getEntry(props.match.params.entryId)
+        .then((result)=>{
+            setEntry(result)
         })
         //TODO: move to separate component
         fetch(`${Settings.remoteURL}/priorities`)
@@ -55,11 +64,17 @@ export default function EntryEdit() {
         .then((data)=>data.json())
         .then((data)=>{
             setCategories(data)
+            // console.log('data', data)
+        })
+        //TODO: move to separate component
+        fetch(`${Settings.remoteURL}/categories`)
+        .then((data)=>data.json())
+        .then((data)=>{
+            setCategories(data)
         })
     }, [])
 
-    const { title, description, priority, severity, category } = entry
-    console.log('priority', priority)
+    const { title, description, priority, severity, category, isCompleted } = entry
 
     return (
         <Paper>
@@ -67,45 +82,50 @@ export default function EntryEdit() {
                 <Typography>Bug Ticket</Typography>
                 <FormControl component="fieldset">
                     <InputLabel>Title:</InputLabel>
-                    <Input value={title}></Input>
+                    <Input value={title} name="title" onChange={handleFieldChange}></Input>
                 </FormControl>
+
                 <FormControl>
                     <InputLabel>Description:</InputLabel>
-                    <Input value={description}></Input>
+                    <Input value={description} name="description" onChange={handleFieldChange}></Input>
                 </FormControl>
+
                 <FormControl>
                     <FormLabel>Priority:</FormLabel>
-                    <RadioGroup value={priority.id} aria-label="priority">
+                    <RadioGroup value={priority.id} aria-label="priority" name="priority">
                         {priorities.map((priority)=>{
-                            return <FormControlLabel value={priority.id} label={priority.label} control={
+                            return <FormControlLabel key={priority.id} value={priority.id} label={priority.label} control={
                                 <Radio color="default" />} />
                         })}
                     </RadioGroup>
                 </FormControl>
+
                 <FormControl>
                     <FormLabel>Severity:</FormLabel>
-                    <RadioGroup value={severity.id} aria-label="severity">
+                    <RadioGroup value={severity.id} aria-label="severity" name="severity">
                         {severities.map((severity)=>{
-                            return <FormControlLabel value={severity.id} label={severity.label} control={
+                            return <FormControlLabel key={severity.id} value={severity.id} label={severity.label} control={
                                 <Radio color="default" />} />
                         })}
                     </RadioGroup>
                 </FormControl>
+
                 <FormControl>
                     <FormLabel>Category:</FormLabel>
-                    <RadioGroup value={category.id} aria-label="category">
+                    <RadioGroup value={category.id} aria-label="category" name="category">
                         {categories.map((category)=>{
-                            return <FormControlLabel value={category.id} label={category.label} control={
+                            return <FormControlLabel key={category.id} value={category.id} label={category.label} control={
                                 <Radio color="default" />} />
                         })}
                     </RadioGroup>
                 </FormControl>
+
                 <FormControl>
                     <FormLabel>Status:</FormLabel>
-                    <RadioGroup defaultValue="0" aria-label="status">
-                    <FormControlLabel value="0" control={
+                    <RadioGroup defaultValue={isCompleted} aria-label="status" name="status">
+                        <FormControlLabel value={false} control={
                         <Radio color="default" />} label="Open" />
-                        <FormControlLabel value="1" control={
+                        <FormControlLabel value={true} control={
                         <Radio color="default" />} label="Closed"/>
                     </RadioGroup>
                 </FormControl>
