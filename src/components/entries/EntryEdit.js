@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Paper, Typography, FormControl, InputLabel, Input, RadioGroup, Radio, FormControlLabel, FormLabel, Button } from '@material-ui/core'
+import { Paper, Typography, FormControl, InputLabel, Input, RadioGroup, Radio, FormControlLabel, FormLabel, Button, MenuItem, FormHelperText, Select } from '@material-ui/core'
 import Settings from '../../repositories/Settings'
 import { EntryContext } from '../providers/EntryProvider'
 
@@ -108,6 +108,22 @@ export default function EntryEdit(props) {
                 </FormControl>
                 <br/>
                 <FormControl>
+                <InputLabel id="demo-simple-select-helper-label">Priority</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-helper-label"
+                        id="demo-simple-select-helper"
+                        value={priority.id}
+                        name="priority"
+                        onChange={handleRadioChange}
+                        
+                        >
+                        {priorities.map((priority)=>{
+                            return <MenuItem key={priority.id} value={priority.id}>{priority.label}</MenuItem>
+                        })}
+                    </Select>
+                    {/* <FormHelperText>Some important helper text</FormHelperText> */}
+                </FormControl>
+                {/* <FormControl>
                     <FormLabel>Priority:</FormLabel>
                     <RadioGroup value={priority.id} aria-label="priority" name="priority" onChange={handleRadioChange}>
                         {priorities.map((priority)=>{
@@ -115,7 +131,7 @@ export default function EntryEdit(props) {
                                 <Radio color="default" />} />
                         })}
                     </RadioGroup>
-                </FormControl>
+                </FormControl> */}
                 {/* <br/> */}
                 <FormControl>
                     <FormLabel>Severity:</FormLabel>
