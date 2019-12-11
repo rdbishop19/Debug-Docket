@@ -6,7 +6,7 @@ export class EntriesContainer extends Component {
     render() {
         const { match } = this.props
         return (
-            <React.Fragment>
+            <div style={{ flex: 1, minWidth: "375px"}}>
 
                 <Route exact path={`${match.path}`} render={(props)=>{
                     return <EntriesHomeContainer {...props} />
@@ -16,7 +16,7 @@ export class EntriesContainer extends Component {
                     return <EntryEdit {...props} />
                 }} />
 
-            </React.Fragment>
+            </div>
         )
     }
 }
