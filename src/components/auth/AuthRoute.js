@@ -14,7 +14,7 @@ const AuthRoute = ({ path, Destination, history }) => {
     const { isAuthenticated } = useBasicAuth()
 
     return (
-        <Route exact path={path} render={props => {
+        <Route path={path} render={props => {
             if (isAuthenticated()) {
                 return <Destination {...props} />
             } else {
