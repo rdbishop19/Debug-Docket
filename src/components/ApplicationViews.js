@@ -13,7 +13,7 @@ import HistoryContainer from './history/HistoryContainer'
 import { UserProvider } from './providers/UserProvider'
 import HomeContainer from './home/HomeContainer'
 import { EntryProvider } from './providers/EntryProvider'
-
+import { FriendProvider } from './providers/FriendProvider';
 export class ApplicationViews extends Component {
     render() {
         return (
@@ -37,10 +37,9 @@ export class ApplicationViews extends Component {
                 }} />
                 {/* <AuthRoute path="/entries/:entryId(\d+)/details" Destination={EntryDetailsContainer} /> */}
 
-                <Route path="/feed" render={(props)=>{
+                {/* <Route path="/feed" render={(props)=>{
                     return <FeedContainer {...props} />
-                }} />
-                {/* <AuthRoute path="/feed" Destination={FeedContainer} /> */}
+                }} /> */}
                 
 
                 <Route path="/history" render={(props)=>{
@@ -49,6 +48,9 @@ export class ApplicationViews extends Component {
                 {/* <AuthRoute path="/history" Destination={HistoryContainer} /> */}
                 
                 <UserProvider>
+                    <FriendProvider>
+                        <AuthRoute path="/feed" Destination={FeedContainer} />
+                    </FriendProvider>
                     <Route path="/register" component={Register} />
                     <Route path="/login" component={Login} />
                 </UserProvider>
