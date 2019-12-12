@@ -10,21 +10,13 @@ export const FriendProvider = props => {
     const { getLoggedInUser } = useContext(UserContext)
     const user = getLoggedInUser()
 
-    const friendRelationship = (friendObj, friendId) => {
-        return friendObj.userId === friendId && friendObj.loggedInUserId === user.id
+    const removeFriend = (relationId) => {
+        FriendRepository.removeFriend(relationId)
+            .then(()=>{
+                // this should refresh the friends list
+                FriendRepository.getAllFriends(user.id).then(setFriends)
+            })
     }
-    const removeFriend = (friendId) => {
-        //get relationship endpoint id based on userId
-        const found = friends.find((relation)=>{
-            // console.log('remove friend')
-            return friendRelationship(relation, friendId)
-        })
-        if (found){
-            // console.log('found', found.id)
-            FriendRepository.removeFriend(found.id)
-        }
-    }
-    removeFriend(4)
     
     useEffect(() => {
         FriendRepository.getAllFriends(user.id).then(setFriends)
