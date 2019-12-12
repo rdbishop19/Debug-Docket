@@ -12,14 +12,14 @@ export default function FeedContainer(props) {
     const activeUser = getLoggedInUser()
 
 	//get current friends list
-    const { friends, removeFriend } = useContext(FriendContext)
+    const { friends, nonFriends, addNewFriend, removeFriend } = useContext(FriendContext)
 
 	//TODO: get all entries from you and your friends
 	return (
 
 		    <React.Fragment>
     			<FriendList user={activeUser} friends={friends} removeFriend={removeFriend} {...props}/>
-    			<SearchList />
+    			<SearchList nonFriends={nonFriends} addNewFriend={addNewFriend}/>
     			<FeedList />
     		</React.Fragment>
 
