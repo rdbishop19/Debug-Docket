@@ -95,76 +95,104 @@ export default function EntryEdit(props) {
 
     return (
         <Paper>
-            <form style={{ width: "50%", textAlign: "center", margin: "0 auto"}} onSubmit={handleSubmit}>
-                <Typography>Bug Ticket</Typography>
-                <FormControl component="fieldset">
-                    <InputLabel>Title:</InputLabel>
-                    <Input value={title} name="title" onChange={handleFieldChange}></Input>
-                </FormControl>
-                <br/>
-                <FormControl>
-                    <InputLabel>Description:</InputLabel>
-                    <Input value={description} name="description" onChange={handleFieldChange}></Input>
-                </FormControl>
-                <br/>
-                <FormControl>
-                <InputLabel id="demo-simple-select-helper-label">Priority</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-helper-label"
-                        id="demo-simple-select-helper"
-                        value={priority.id}
-                        name="priority"
-                        onChange={handleRadioChange}
-                        
-                        >
-                        {priorities.map((priority)=>{
-                            return <MenuItem key={priority.id} value={priority.id}>{priority.label}</MenuItem>
-                        })}
-                    </Select>
-                    {/* <FormHelperText>Some important helper text</FormHelperText> */}
-                </FormControl>
-                {/* <FormControl>
-                    <FormLabel>Priority:</FormLabel>
-                    <RadioGroup value={priority.id} aria-label="priority" name="priority" onChange={handleRadioChange}>
-                        {priorities.map((priority)=>{
-                            return <FormControlLabel key={priority.id} value={priority.id} label={priority.label} control={
-                                <Radio color="default" />} />
-                        })}
-                    </RadioGroup>
-                </FormControl> */}
-                {/* <br/> */}
-                <FormControl>
-                    <FormLabel>Severity:</FormLabel>
-                    <RadioGroup value={severity.id} aria-label="severity" name="severity" onChange={handleRadioChange}>
-                        {severities.map((severity)=>{
-                            return <FormControlLabel key={severity.id} value={severity.id} label={severity.label} control={
-                                <Radio color="default" />} />
-                        })}
-                    </RadioGroup>
-                </FormControl>
-                <br/>
-                <FormControl>
-                    <FormLabel>Category:</FormLabel>
-                    <RadioGroup value={category.id} aria-label="category" name="category" onChange={handleRadioChange}>
-                        {categories.map((category)=>{
-                            return <FormControlLabel key={category.id} value={category.id} label={category.label} control={
-                                <Radio color="default" />} />
-                        })}
-                    </RadioGroup>
-                </FormControl>
-                {/* <br/> */}
-                <FormControl>
-                    <FormLabel>Status:</FormLabel>
-                    <RadioGroup value={isCompleted} aria-label="status" name="isCompleted" onChange={handleIsCompletedChange}>
-                        <FormControlLabel value={false} control={
-                        <Radio color="default" />} label="Open" />
-                        <FormControlLabel value={true} control={
-                        <Radio color="default" />} label="Closed"/>
-                    </RadioGroup>
-                </FormControl>
-                <Button type="submit" color="primary" variant="outlined">Save</Button>
-                <Button type="button" color="default" variant="outlined" onClick={()=>props.history.push("/home")}>Cancel</Button>
-            </form>
+            <Typography variant="h4" component="h3">
+                Ticket Info
+            </Typography>
+            <Typography component="div">
+                <form style={{ width: "50%", textAlign: "center", margin: "0 auto"}} onSubmit={handleSubmit}>
+                    <FormControl component="fieldset">
+                        <InputLabel>Title:</InputLabel>
+                        <Input value={title} name="title" onChange={handleFieldChange}></Input>
+                    </FormControl>
+                    <br/>
+                    <FormControl>
+                        <InputLabel>Description:</InputLabel>
+                        <Input value={description} name="description" onChange={handleFieldChange}></Input>
+                    </FormControl>
+                    <br /><br />
+                    <FormControl>
+                        <FormLabel>Status:</FormLabel>
+                        <RadioGroup row value={isCompleted} aria-label="status" name="isCompleted" onChange={handleIsCompletedChange}>
+                            <FormControlLabel value={false} control={
+                                <Radio color="default" />} label="Open" />
+                            <FormControlLabel value={true} control={
+                                <Radio color="default" />} label="Closed"/>
+                        </RadioGroup>
+                    </FormControl>
+                    <br/><br />
+                    <FormControl style={{ margin: "0 10px"}}>
+                        <InputLabel id="priority-label">Priority</InputLabel>
+                        <Select
+                            labelId="priority-label"
+                            id="priority"
+                            value={priority.id}
+                            name="priority"
+                            onChange={handleRadioChange}
+                            >
+                            <MenuItem key="0" value="0">
+                                <em>n/a</em>
+                            </MenuItem>
+                            {priorities.map((priority)=>{
+                                if (priority.id === 0){
+                                    return null
+                                }
+                                return <MenuItem key={priority.id} value={priority.id}>{priority.label}</MenuItem>
+                            })}
+                        </Select>
+                        <FormHelperText>Order to be fixed</FormHelperText>
+                    </FormControl>
+                    
+                    <FormControl>
+                        <InputLabel id="severity-label">Severity</InputLabel>
+                        <Select
+                            labelId="severity-label"
+                            id="severity"
+                            value={severity.id}
+                            name="severity"
+                            onChange={handleRadioChange}
+                            
+                            >
+                            <MenuItem key="0" value="0">
+                                <em>n/a</em>
+                            </MenuItem>
+                            {priorities.map((severity)=>{
+                                if (severity.id === 0){
+                                    return null
+                                }
+                                return <MenuItem key={severity.id} value={severity.id}>{severity.label}</MenuItem>
+                            })}
+                        </Select>
+                        <FormHelperText>Degree of impact</FormHelperText>
+                    </FormControl>
+                    <br/><br />
+                    <FormControl>
+                        <InputLabel id="category-label">Category</InputLabel>
+                        <Select
+                            labelId="category-label"
+                            id="category"
+                            value={category.id}
+                            name="category"
+                            onChange={handleRadioChange}
+                            
+                            >
+                            <MenuItem key="0" value="0">
+                                <em>none</em>
+                            </MenuItem>
+                            {categories.map((category)=>{
+                                if (category.id === 0){
+                                    return null
+                                }
+                                return <MenuItem key={category.id} value={category.id}>{category.label}</MenuItem>
+                            })}
+                        </Select>
+                        <FormHelperText>What type of bug is this?</FormHelperText>
+                    </FormControl>
+                    <br/><br />
+                    <Button type="submit" color="primary" variant="contained">Save</Button>
+                    <Button type="button" color="default" variant="outlined" onClick={()=>props.history.push("/home")}>Cancel</Button>
+                </form>
+                <br />
+            </Typography>
         </Paper>
     )
 }
