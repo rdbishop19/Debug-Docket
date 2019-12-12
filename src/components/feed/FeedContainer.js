@@ -3,9 +3,13 @@ import React, { Component } from 'react'
 export class FeedContainer extends Component {
     render() {
         return (
-            <div>
-                FEED CONTAINER
-            </div>
+            <React.Fragment>
+
+                <div>Friends Container</div>
+                <div>Search Container</div>
+                <div>FeedList Container</div>
+
+            </React.Fragment>
         )
     }
 }
