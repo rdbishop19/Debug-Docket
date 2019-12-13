@@ -11,7 +11,7 @@ function convertDateTimeFromISO(date) {
 
 export default function FeedCard({ entry, activeUser }) {
     const { user } = entry
-    console.log('entry', entry)
+    // console.log('entry', entry)
     
     //TODO: update this later during styline time
 	let entryStyle = {
