@@ -59,6 +59,23 @@ export const FriendProvider = (props) => {
 		return filteredUsers;
 	}; 
 
+	const filterNonFriends = (search) => {
+		const nonFriends = getNonFriends()
+		setNonFriends(nonFriends)
+		const filteredNonFriends = nonFriends.filter((user)=> {
+			let isMatch = false;
+			// helps make search case insensitive
+			const first = user.firstName.toLowerCase()
+			const last = user.lastName.toLowerCase()
+			const searchLowerCase = search.toLowerCase()
+			if (first.indexOf(searchLowerCase) !== -1 || user.lastName.toLowerCase().indexOf(searchLowerCase) !== -1){
+				isMatch = true
+			}
+			return isMatch
+		})
+		setNonFriends(filteredNonFriends)
+	}
+
 	useEffect(
 		() => {
             // console.log('initial useEffect ran')
@@ -69,7 +86,7 @@ export const FriendProvider = (props) => {
 	);
 
 	return (
-		<FriendContext.Provider value={{ friends, nonFriends, removeFriend, addNewFriend }}>
+		<FriendContext.Provider value={{ friends, nonFriends, removeFriend, addNewFriend, filterNonFriends }}>
 			{props.children}
 		</FriendContext.Provider>
 	);

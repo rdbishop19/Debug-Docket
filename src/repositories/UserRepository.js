@@ -31,7 +31,7 @@ export default {
     },
     // get all users from system
     async getAll() {
-        const e = await fetch(`${Settings.remoteURL}/users`)
+        const e = await fetch(`${Settings.remoteURL}/users?_sort=firstName`)
         return await e.json()
     }
 }
