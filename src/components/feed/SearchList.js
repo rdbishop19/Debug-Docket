@@ -4,7 +4,7 @@ import { Paper, Typography, Button } from '@material-ui/core';
 export default function SearchList({ nonFriends, addNewFriend }) {
 	return (
 		<Paper>
-			<Typography>Search Friends</Typography>
+			<Typography variant="h5" component="h3">Search Friends</Typography>
 			{nonFriends.map((user) => {
 				return (
 					<Typography key={user.id} component="div">

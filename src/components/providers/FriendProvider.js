@@ -12,22 +12,37 @@ export const FriendProvider = (props) => {
 	const activeUser = getLoggedInUser();
 
 	const addNewFriend = (id) => {
+        // console.log('add new friend')
 		const newFriendObj = {
 			userId: id,
 			loggedInUserId: activeUser.id
-		};
+        };
+        // this should update both the friends and nonfriends arrays
 		FriendRepository.addFriend(newFriendObj).then(() => {
-            FriendRepository.getAllFriends(activeUser.id).then(setFriends)
-            .then(getNonFriends).then(setNonFriends);
+            FriendRepository.getAllFriends(activeUser.id).then((newFriends)=>{
+                // console.log('newFriends', newFriends)
+                setFriends(newFriends)
+            })
+            // .then(getNonFriends).then((filteredUsers)=>{
+            //     console.log('filtered users', filteredUsers)
+            //     setNonFriends(filteredUsers)
+            // })
 		});
-	};
+    };
+    
+    useEffect(()=>{
+        // console.log('new useEffect hook ran')
+        const filteredUsers = getNonFriends()
+        setNonFriends(filteredUsers)
+    }, [ friends ])
 
 	const removeFriend = (relationId) => {
 		FriendRepository.removeFriend(relationId).then(() => {
 			// this should refresh the friends list
 			FriendRepository.getAllFriends(activeUser.id).then(setFriends);
 		});
-	};
+    };
+    
 	const getNonFriends = () => {
 		const filteredUsers = users.filter((user) => {
 			let isFriend = false;
@@ -42,10 +57,12 @@ export const FriendProvider = (props) => {
 			return !isFriend;
 		});
 		return filteredUsers;
-	};
+	}; 
 
 	useEffect(
 		() => {
+            // console.log('initial useEffect ran')
+            // console.log('users', users)
 			FriendRepository.getAllFriends(activeUser.id).then(setFriends).then(getNonFriends).then(setNonFriends);
 		},
 		[ users ]
