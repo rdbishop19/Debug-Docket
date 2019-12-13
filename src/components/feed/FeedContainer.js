@@ -14,7 +14,7 @@ export default function FeedContainer(props) {
 	const [filteredEntries, setFilteredEntries] = useState([])
 
 	//get current friends list
-    const { friends, nonFriends, addNewFriend, removeFriend } = useContext(FriendContext)
+    const { friends, nonFriends, addNewFriend, removeFriend, filterNonFriends } = useContext(FriendContext)
 	const { entries } = useContext(EntryContext)
 	
 	//TODO: get all entries from you and your friends
@@ -41,7 +41,7 @@ export default function FeedContainer(props) {
 
 		    <React.Fragment>
     			<FriendList user={activeUser} friends={friends} removeFriend={removeFriend} {...props}/>
-    			<SearchList nonFriends={nonFriends} addNewFriend={addNewFriend}/>
+    			<SearchList nonFriends={nonFriends} addNewFriend={addNewFriend} filterNonFriends={filterNonFriends}/>
     			<FeedList user={activeUser} entries={filteredEntries}/>
     		</React.Fragment>
 

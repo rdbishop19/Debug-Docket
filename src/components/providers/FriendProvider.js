@@ -59,6 +59,19 @@ export const FriendProvider = (props) => {
 		return filteredUsers;
 	}; 
 
+	const filterNonFriends = (search) => {
+		const nonFriends = getNonFriends()
+		setNonFriends(nonFriends)
+		const filteredNonFriends = nonFriends.filter((user)=> {
+			let isMatch = false;
+			if (user.firstName.toLowerCase().indexOf(search) !== -1 || user.lastName.toLowerCase().indexOf(search) !== -1){
+				isMatch = true
+			}
+			return isMatch
+		})
+		setNonFriends(filteredNonFriends)
+	}
+
 	useEffect(
 		() => {
             // console.log('initial useEffect ran')
@@ -69,7 +82,7 @@ export const FriendProvider = (props) => {
 	);
 
 	return (
-		<FriendContext.Provider value={{ friends, nonFriends, removeFriend, addNewFriend }}>
+		<FriendContext.Provider value={{ friends, nonFriends, removeFriend, addNewFriend, filterNonFriends }}>
 			{props.children}
 		</FriendContext.Provider>
 	);
