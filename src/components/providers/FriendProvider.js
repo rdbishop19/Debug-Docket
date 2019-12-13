@@ -64,7 +64,11 @@ export const FriendProvider = (props) => {
 		setNonFriends(nonFriends)
 		const filteredNonFriends = nonFriends.filter((user)=> {
 			let isMatch = false;
-			if (user.firstName.toLowerCase().indexOf(search) !== -1 || user.lastName.toLowerCase().indexOf(search) !== -1){
+			// helps make search case insensitive
+			const first = user.firstName.toLowerCase()
+			const last = user.lastName.toLowerCase()
+			const searchLowerCase = search.toLowerCase()
+			if (first.indexOf(searchLowerCase) !== -1 || user.lastName.toLowerCase().indexOf(searchLowerCase) !== -1){
 				isMatch = true
 			}
 			return isMatch
