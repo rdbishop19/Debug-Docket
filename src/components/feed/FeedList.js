@@ -12,7 +12,7 @@ export default function FeedList({ entries, user }) {
         <Paper>
             <Typography variant="h5" component="h3">Bug Feed</Typography>
             {entries.length && entries.map((entry)=>{
-                return <FeedCard entry={entry} user={user} />
+                return <FeedCard entry={entry} activeUser={user} />
             })}
         </Paper>
     )

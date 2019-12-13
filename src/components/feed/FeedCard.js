@@ -5,7 +5,12 @@ import React from 'react';
     Author: Ryan Bishop
 */
 
-export default function FeedCard({ entry, user }) {
+function convertDateTimeFromISO(date) {
+    return new Date(date)
+}
+
+export default function FeedCard({ entry, activeUser }) {
+    const { user } = entry
     console.log('entry', entry)
     
     //TODO: update this later during styline time
@@ -14,7 +19,7 @@ export default function FeedCard({ entry, user }) {
         margin: "0 auto",
         padding: "5px"
 	};
-	if (entry.userId === user.id) {
+	if (entry.userId === activeUser.id) {
 		entryStyle = {
             ...entryStyle,
 			backgroundColor: 'aquamarine'
@@ -22,7 +27,12 @@ export default function FeedCard({ entry, user }) {
 	}
 	return (
 		<div key={entry.id} style={entryStyle}>
-			{entry.title}
+			<span>{user.firstName} {user.lastName} </span>
+            {activeUser.id === entry.userId && <span>(you) </span>}
+            <span>on </span><span>{convertDateTimeFromISO(entry.timeStarted).toLocaleString()}</span>
+            <p>{entry.title}</p>
+
+
 		</div>
 	);
 }
