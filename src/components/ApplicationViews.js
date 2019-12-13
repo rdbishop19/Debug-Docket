@@ -49,7 +49,9 @@ export class ApplicationViews extends Component {
                 
                 <UserProvider>
                     <FriendProvider>
-                        <AuthRoute path="/feed" Destination={FeedContainer} />
+                        <EntryProvider>
+                            <AuthRoute path="/feed" Destination={FeedContainer} />
+                        </EntryProvider>
                     </FriendProvider>
                     <Route path="/register" component={Register} />
                     <Route path="/login" component={Login} />

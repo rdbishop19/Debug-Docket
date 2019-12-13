@@ -30,7 +30,7 @@ export default {
     },
     // get all entries from system
     async getAll() {
-        const e = await fetch(`${Settings.remoteURL}/entries`)
+        const e = await fetch(`${Settings.remoteURL}/entries?_expand=user&_expand=severity&_expand=priority&_expand=category`)
         return await e.json()
     },
 
