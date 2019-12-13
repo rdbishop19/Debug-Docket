@@ -42,7 +42,7 @@ export default function FeedContainer(props) {
 		    <React.Fragment>
     			<FriendList user={activeUser} friends={friends} removeFriend={removeFriend} {...props}/>
     			<SearchList nonFriends={nonFriends} addNewFriend={addNewFriend}/>
-    			<FeedList entries={filteredEntries}/>
+    			<FeedList user={activeUser} entries={filteredEntries}/>
     		</React.Fragment>
 
 	);
