@@ -4,6 +4,7 @@ import SearchList from './SearchList';
 import FeedList from './FeedList';
 import { UserContext } from '../providers/UserProvider'
 import { FriendContext } from '../providers/FriendProvider';
+import { EntryContext } from '../providers/EntryProvider';
 
 
 export default function FeedContainer(props) {
@@ -13,6 +14,7 @@ export default function FeedContainer(props) {
 
 	//get current friends list
     const { friends, nonFriends, addNewFriend, removeFriend } = useContext(FriendContext)
+    const { entries } = useContext(EntryContext)
 
 	//TODO: get all entries from you and your friends
 	return (
@@ -20,7 +22,7 @@ export default function FeedContainer(props) {
 		    <React.Fragment>
     			<FriendList user={activeUser} friends={friends} removeFriend={removeFriend} {...props}/>
     			<SearchList nonFriends={nonFriends} addNewFriend={addNewFriend}/>
-    			<FeedList />
+    			<FeedList entries={entries}/>
     		</React.Fragment>
 
 	);

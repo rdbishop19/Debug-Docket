@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import EntryRepository from '../../repositories/EntryRepository'
+
 /* 
     Purpose: component to grab Entry contextual information for components that need it
     Author: Ryan Bishop
