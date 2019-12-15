@@ -7,12 +7,13 @@ import FeedCard from './FeedCard'
     Author: Ryan Bishop
 */
 
-export default function FeedList({ entries, user }) {
+export default function FeedList(props) {
+    const { entries, user } = props
     return (
         <Paper>
             <Typography variant="h5" component="h3">Bug Feed</Typography>
             {entries.length > 0 ? entries.map((entry)=>{
-                return <FeedCard key={entry.id} entry={entry} activeUser={user} container="feed" />
+                return <FeedCard key={entry.id} entry={entry} activeUser={user} container="feed" {...props}/>
             }) : <h5>No entries. Add friends to see their bugs along with yours.</h5>}
         </Paper>
     )

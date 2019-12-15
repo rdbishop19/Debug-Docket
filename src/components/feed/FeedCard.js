@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Card, CardContent } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 /* 
     Purpose: display the contents of each bug entry with styling and functionality
@@ -10,11 +11,12 @@ function convertDateTimeFromISO(date) {
     return new Date(date)
 }
 
-export default function FeedCard({ entry, activeUser, container }) {
+export default function FeedCard( props) {
+    const { entry, activeUser, container, history, match } = props
     const { user } = entry
     // console.log('entry', entry)
-    const feed = container === "feed"
-    const history = container === "history"
+    const feedView = container === "feed"
+    const historyView = container === "history"
     //TODO: update this later during styline time
 	let entryStyle = {
         backgroundColor: 'cornsilk',
@@ -26,16 +28,17 @@ export default function FeedCard({ entry, activeUser, container }) {
             ...entryStyle,
 			backgroundColor: 'aquamarine'
 		};
-	}
+    }
+
 	return (
 		<Card key={entry.id} style={entryStyle}>
             <CardContent>
-                {feed && <span>{user.firstName} {user.lastName} </span>}
+                {feedView && <span>{user.firstName} {user.lastName} </span>}
                 {activeUser.id === entry.userId && container === "feed" && <span>(you) </span>}
                 <span>{convertDateTimeFromISO(entry.timeStarted).toLocaleString()}</span>
                 <p>{entry.title}</p>
-                <Button>Details</Button>
-                {history && <Button color="secondary">Edit</Button>}
+                <Button onClick={()=> history.push(`/entries/${Number(entry.id)}/details`)}>Details</Button>
+                {historyView && <Button color="secondary" onClick={()=> history.push(`/home/${Number(entry.id)}/edit`)}>Edit</Button>}
             </CardContent>
 		</Card>
 	);

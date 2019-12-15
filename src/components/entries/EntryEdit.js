@@ -6,21 +6,21 @@ import { EntryContext } from '../providers/EntryProvider'
 export default function EntryEdit(props) {
     
     const initialEntry = {
-        title: '',
-        description: '',
+        title: '...loading',
+        description: '...loading',
         id: '',
         isCompleted: false,
         priority: {
-            id: '',
-            label: ''
+            id: '0',
+            label: 'n/a'
         },
         severity: {
-            id: '',
-            label: ''
+            id: '0',
+            label: 'n/a'
         },
         category: {
-            id: '',
-            label: ''
+            id: '0',
+            label: 'none'
         }
     }
     // useContext from UserProvider
@@ -70,9 +70,8 @@ export default function EntryEdit(props) {
 
     useEffect(()=>{
         // console.log('initial useEffect ran')
-        getEntry(props.match.params.entryId)
-        .then(setEntry)
-        //TODO: move to separate component
+
+        // MOVED THESE THREE FETCHES ABOVE ENTRY FETCH TO PREVENT REACT WARNING ON 'SELECT' FORM COMPONENTS
         fetch(`${Settings.remoteURL}/priorities`)
         .then((data)=>data.json())
         .then(setPriorities)
@@ -89,6 +88,10 @@ export default function EntryEdit(props) {
         fetch(`${Settings.remoteURL}/categories`)
         .then((data)=>data.json())
         .then(setCategories)
+
+        getEntry(props.match.params.entryId)
+        .then(setEntry)
+        //TODO: move to separate component
     }, [])
 
     const { title, description, priority, severity, category, isCompleted } = entry
@@ -155,7 +158,7 @@ export default function EntryEdit(props) {
                             <MenuItem key="0" value="0">
                                 <em>n/a</em>
                             </MenuItem>
-                            {priorities.map((severity)=>{
+                            {severities.map((severity)=>{
                                 if (severity.id === 0){
                                     return null
                                 }

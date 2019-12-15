@@ -49,7 +49,7 @@ export default function HistoryContainer(props) {
             <form onSubmit={handleSubmit}>
                 <Input placeholder="Search by keyword" value={searchTerm} onChange={handleChange}/>
             </form>
-            <HistoryList entries={userEntries} activeUser={activeUser} />
+            <HistoryList entries={userEntries} activeUser={activeUser} {...props}/>
         </React.Fragment>
     )
 }
