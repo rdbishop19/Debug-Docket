@@ -6,16 +6,14 @@ import { UserContext } from '../providers/UserProvider';
 
 export default function EntriesHomeContainer(props) {
 
-    const [bugArray, setBugArray] = useState([])
     const [isEditing, setIsEditing] = useState(false)
     const [editingId, setEditingId] = useState()
 
-    const { userEntries, createEntry } = useContext(EntryContext)
+    const { entries, userEntries, createEntry, updateEntry, getUserEntries } = useContext(EntryContext)
     const { getLoggedInUser } = useContext(UserContext)
     const activeUser = getLoggedInUser()
 
     const addNew = (todo) => {
-        // let newArray = [{ id: bugArray.length, todo: todo }, ...bugArray ]
         const newEntry = {
             userId: activeUser.id,
             title: todo,
@@ -29,13 +27,10 @@ export default function EntriesHomeContainer(props) {
             totalWorkTime: 0,
             totalBreakTime: 0,
         }
-        console.log('new entry', newEntry)
-        createEntry(newEntry)
-        // setBugArray(newArray)
+        createEntry(newEntry).then(()=> getUserEntries(activeUser.id))
     };
 
     const edit = (id) => {
-        // console.log('editing parent state' )
         setIsEditing(!isEditing)
         setEditingId(id)
     };
@@ -44,17 +39,18 @@ export default function EntriesHomeContainer(props) {
     }
 
 	const updateItem = (todo, index) => {
-        let newArray = bugArray
-        // handles the reverse array logic of the main display
-        newArray[bugArray.length - index - 1] = { id: index, todo: todo }; //new value
-        setBugArray(newArray)
+        const entryEdit = {
+            id: index,
+            title: todo,
+        }
+        updateEntry(entryEdit).then(getUserEntries)
         setIsEditing(false)
         setEditingId()
     };
 
     useEffect(()=>{
-        console.log('userentries', userEntries)
-    }, [userEntries])
+        
+    }, [entries, userEntries])
     
     return (
         <div style={{ flex: 1 }}>
