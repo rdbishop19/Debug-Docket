@@ -37,7 +37,7 @@ export default function FeedContainer(props) {
 		// console.log('filteredArray', filteredArray)
 		setFilteredEntries(filteredArray)
 	}, [friends, entries])
-	console.log('props feed container', props)
+	
 	return (
 
 		    <React.Fragment>

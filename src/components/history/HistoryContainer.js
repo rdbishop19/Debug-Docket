@@ -43,8 +43,6 @@ export default function HistoryContainer(props) {
         setUserEntries(userEntries)
     }, [ entries ])
 
-    console.log('props history container', props)
-
 	return (
         <React.Fragment>
             <Typography>SEARCH</Typography>

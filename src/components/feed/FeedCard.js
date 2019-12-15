@@ -29,8 +29,7 @@ export default function FeedCard( props) {
 			backgroundColor: 'aquamarine'
 		};
     }
-    console.log('props Feed card', props)
-    console.log('entry', entry)
+
 	return (
 		<Card key={entry.id} style={entryStyle}>
             <CardContent>
@@ -39,7 +38,7 @@ export default function FeedCard( props) {
                 <span>{convertDateTimeFromISO(entry.timeStarted).toLocaleString()}</span>
                 <p>{entry.title}</p>
                 <Button onClick={()=> history.push(`/entries/${Number(entry.id)}/details`)}>Details</Button>
-                {historyView && <Button color="secondary">Edit</Button>}
+                {historyView && <Button color="secondary" onClick={()=> history.push(`/home/${Number(entry.id)}/edit`)}>Edit</Button>}
             </CardContent>
 		</Card>
 	);

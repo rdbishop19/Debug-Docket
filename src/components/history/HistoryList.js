@@ -8,7 +8,6 @@ import FeedCard from '../feed/FeedCard'
 */
 export default function HistoryList(props) {
     const { entries, activeUser } = props
-    console.log('props history list', props)
     return (
         <Paper>
             <Typography>
