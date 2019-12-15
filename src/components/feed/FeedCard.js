@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, Card, CardContent } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 
 /* 
     Purpose: display the contents of each bug entry with styling and functionality
@@ -12,7 +11,7 @@ function convertDateTimeFromISO(date) {
 }
 
 export default function FeedCard( props) {
-    const { entry, activeUser, container, history, match } = props
+    const { entry, activeUser, container, history } = props
     const { user } = entry
     // console.log('entry', entry)
     const feedView = container === "feed"

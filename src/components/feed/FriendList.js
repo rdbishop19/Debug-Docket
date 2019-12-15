@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import { FriendContext } from '../providers/FriendProvider';
+import React from 'react';
 import { Paper, Typography, Button } from '@material-ui/core';
 
 export default function FriendList({ friends, removeFriend }) {

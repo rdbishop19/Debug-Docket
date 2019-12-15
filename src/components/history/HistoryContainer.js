@@ -33,7 +33,7 @@ export default function HistoryContainer(props) {
         })
         // console.log('filteredEntries', filteredEntries)
         setUserEntries(filteredEntries)
-    }, [searchTerm])
+    }, [activeUser.id, entries, searchTerm])
 
     useEffect(()=>{
         // console.log('entries', entries);
@@ -41,7 +41,7 @@ export default function HistoryContainer(props) {
             return (entry.userId === activeUser.id)
         })
         setUserEntries(userEntries)
-    }, [ entries ])
+    }, [activeUser.id, entries])
 
 	return (
         <React.Fragment>

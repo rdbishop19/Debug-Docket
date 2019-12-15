@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Paper, Typography, Button, Input, FormHelperText } from '@material-ui/core';
+import { Paper, Typography, Button, Input } from '@material-ui/core';
 
 export default function SearchList({ nonFriends, addNewFriend, filterNonFriends }) {
 	const [searchTerm, setSearchTerm] = useState("")

@@ -23,10 +23,11 @@ export default function EntryEdit(props) {
             label: 'none'
         }
     }
+    const [entry, setEntry] = useState(initialEntry)
+
     // useContext from UserProvider
     const { getEntry, updateEntry } = useContext(EntryContext)
 
-    const [entry, setEntry] = useState(initialEntry)
     
     const [priorities, setPriorities] = useState([])
     const [severities, setSeverities] = useState([])
@@ -91,8 +92,8 @@ export default function EntryEdit(props) {
 
         getEntry(props.match.params.entryId)
         .then(setEntry)
-        //TODO: move to separate component
-    }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.match.params.entryId])
 
     const { title, description, priority, severity, category, isCompleted } = entry
 
