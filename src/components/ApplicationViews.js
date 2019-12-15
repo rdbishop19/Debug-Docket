@@ -5,8 +5,9 @@ import AuthRoute from './auth/AuthRoute'
 import Login from './auth/Login'
 import Register from './auth/Register'
 
-import EntriesHomeContainer from './entries/EntriesHomeContainer'
-import TimerContainer from './timer/TimerContainer'
+//TODO: uncomment and use these possibly after MVP met and working on TIMER
+// import EntriesHomeContainer from './entries/EntriesHomeContainer'
+// import TimerContainer from './timer/TimerContainer'
 import EntryDetailsContainer from './entries/EntryDetailsContainer'
 import FeedContainer from './feed/FeedContainer'
 import HistoryContainer from './history/HistoryContainer'

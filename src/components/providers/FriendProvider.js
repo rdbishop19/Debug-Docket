@@ -23,10 +23,6 @@ export const FriendProvider = (props) => {
                 // console.log('newFriends', newFriends)
                 setFriends(newFriends)
             })
-            // .then(getNonFriends).then((filteredUsers)=>{
-            //     console.log('filtered users', filteredUsers)
-            //     setNonFriends(filteredUsers)
-            // })
 		});
     };
     
@@ -34,6 +30,7 @@ export const FriendProvider = (props) => {
         // console.log('new useEffect hook ran')
         const filteredUsers = getNonFriends()
         setNonFriends(filteredUsers)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ friends ])
 
 	const removeFriend = (relationId) => {
@@ -68,7 +65,7 @@ export const FriendProvider = (props) => {
 			const first = user.firstName.toLowerCase()
 			const last = user.lastName.toLowerCase()
 			const searchLowerCase = search.toLowerCase()
-			if (first.indexOf(searchLowerCase) !== -1 || user.lastName.toLowerCase().indexOf(searchLowerCase) !== -1){
+			if (first.indexOf(searchLowerCase) !== -1 || last.toLowerCase().indexOf(searchLowerCase) !== -1){
 				isMatch = true
 			}
 			return isMatch
@@ -82,6 +79,7 @@ export const FriendProvider = (props) => {
             // console.log('users', users)
 			FriendRepository.getAllFriends(activeUser.id).then(setFriends).then(getNonFriends).then(setNonFriends);
 		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[ users ]
 	);
 
