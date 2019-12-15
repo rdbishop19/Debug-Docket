@@ -43,13 +43,15 @@ export default function HistoryContainer(props) {
         setUserEntries(userEntries)
     }, [ entries ])
 
+    console.log('props history container', props)
+
 	return (
         <React.Fragment>
             <Typography>SEARCH</Typography>
             <form onSubmit={handleSubmit}>
                 <Input placeholder="Search by keyword" value={searchTerm} onChange={handleChange}/>
             </form>
-            <HistoryList entries={userEntries} activeUser={activeUser} />
+            <HistoryList entries={userEntries} activeUser={activeUser} {...props}/>
         </React.Fragment>
     )
 }

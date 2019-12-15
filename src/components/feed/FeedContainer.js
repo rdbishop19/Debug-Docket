@@ -36,13 +36,14 @@ export default function FeedContainer(props) {
 			});
 		// console.log('filteredArray', filteredArray)
 		setFilteredEntries(filteredArray)
-    }, [friends, entries])
+	}, [friends, entries])
+	console.log('props feed container', props)
 	return (
 
 		    <React.Fragment>
     			<FriendList user={activeUser} friends={friends} removeFriend={removeFriend} {...props}/>
     			<SearchList nonFriends={nonFriends} addNewFriend={addNewFriend} filterNonFriends={filterNonFriends}/>
-    			<FeedList user={activeUser} entries={filteredEntries}/>
+    			<FeedList user={activeUser} entries={filteredEntries} {...props}/>
     		</React.Fragment>
 
 	);
