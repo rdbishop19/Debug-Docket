@@ -22,8 +22,8 @@ export const UserProvider = props => {
         if (sessionUser !== null){
             return sessionUser
         }
-        console.log('localUser', localUser)
-        console.log('sessionUser', sessionUser)
+        // console.log('localUser', localUser)
+        // console.log('sessionUser', sessionUser)
     }
     // loads users list when component mounts
     // empty array as second argument to only run once: https://stackoverflow.com/questions/53120972/how-to-call-loading-function-with-react-useeffect-only-once

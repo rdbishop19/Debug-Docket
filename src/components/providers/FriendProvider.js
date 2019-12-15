@@ -76,8 +76,10 @@ export const FriendProvider = (props) => {
 	useEffect(
 		() => {
             // console.log('initial useEffect ran')
-            // console.log('users', users)
-			FriendRepository.getAllFriends(activeUser.id).then(setFriends).then(getNonFriends).then(setNonFriends);
+			// console.log('users', users)
+			if (activeUser !== undefined){
+				FriendRepository.getAllFriends(activeUser.id).then(setFriends).then(getNonFriends).then(setNonFriends);
+			}
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[ users ]
