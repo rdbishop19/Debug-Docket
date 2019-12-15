@@ -34,6 +34,12 @@ export default {
         return await e.json()
     },
 
+    // get all user entries
+    async getUserEntries(id) {
+        const e = await fetch(`${Settings.remoteURL}/entries?userId=${id}&_expand=user&_expand=severity&_expand=priority&_expand=category&_sort=timeStarted&_order=desc`)
+        return await e.json()
+    },
+
     // update entry from the edit view
     async updateEntry(newEntry) {
         const e = await fetch (`${Settings.remoteURL}/entries/${newEntry.id}`, {

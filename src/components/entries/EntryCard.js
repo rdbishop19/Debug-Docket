@@ -16,7 +16,7 @@ export default function EntryCard(props) {
     const editInput = useRef()
 
     const initEditor = () => {
-        editInput.current = <input type="text" defaultValue={item.todo} onKeyPress={(e) => {
+        editInput.current = <input type="text" defaultValue={item.title} onKeyPress={(e) => {
             const key = e.which || e.keyCode;
             if (key === 13) { // User pressed ENTER
                 updateItem(e.target.value, item.id)
@@ -43,7 +43,7 @@ export default function EntryCard(props) {
                 </>
                 :
                 <>
-                    <span>{item.todo}</span>
+                    <span>{item.title}</span>
                     <FontAwesomeIcon style={{ position: "absolute", right: "10px" }} icon={faCheckSquare} />
                 </>
             }
