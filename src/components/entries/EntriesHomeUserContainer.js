@@ -31,7 +31,9 @@ export default function EntriesHomeContainer(props) {
     };
 
     const edit = (id) => {
-        setIsEditing(!isEditing)
+        if (!isEditing){
+            setIsEditing(true)
+        }
         setEditingId(id)
     };
     const cancelEdit = () => {
@@ -43,9 +45,9 @@ export default function EntriesHomeContainer(props) {
             id: index,
             title: todo,
         }
-        updateEntry(entryEdit).then(getUserEntries)
         setIsEditing(false)
         setEditingId()
+        updateEntry(entryEdit).then(getUserEntries)
     };
 
     useEffect(()=>{
@@ -65,7 +67,9 @@ export default function EntriesHomeContainer(props) {
                                 editingId={editingId} 
                                 edit={edit} 
                                 updateItem={updateItem}
-                                cancelEdit={cancelEdit} />;
+                                cancelEdit={cancelEdit} 
+                                {...props}
+                            />;
             })}
         </div>
     );
