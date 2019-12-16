@@ -12,36 +12,36 @@ export default function FeedContainer(props) {
     //get current logged in userId from state
     const { getLoggedInUser } = useContext(UserContext)
 	const activeUser = getLoggedInUser()
-	const [filteredEntries, setFilteredEntries] = useState([])
-
+	
 	//get current friends list
     const { friends, nonFriends, addNewFriend, removeFriend, filterNonFriends } = useContext(FriendContext)
-	const { entries, userEntries, setEntries } = useContext(EntryContext)
-	
+	// const { entries, userEntries, setEntries } = useContext(EntryContext)
+	const [entries, setEntries] = useState([])
+	const [filteredEntries, setFilteredEntries] = useState([])
 	//TODO: get all entries from you and your friends
 	useEffect(() => {
 		console.log('feedContainer', getLoggedInUser())
 		// console.log('friends', friends)
 		// console.log('entries', entries)
 		EntryRepository.getAll().then(setEntries)
-		.then(()=>{
-			const filteredArray = entries.filter((entry)=>{
-					let isFriendEntry = false;
-					if (entry.userId === activeUser.id) {
-						return true;
-					}
-					for (const friend of friends) {
-						if (entry.userId === friend.userId) {
-							isFriendEntry = true;
-						}
-					}
-					return isFriendEntry;
-				});
-			// console.log('filteredArray', filteredArray)
-			setFilteredEntries(filteredArray)
+	}, [])
 
-		})
-	}, [userEntries, friends, activeUser.id])
+	useEffect(()=>{
+		const filteredArray = entries.filter((entry)=>{
+			let isFriendEntry = false;
+			if (entry.userId === activeUser.id) {
+				return true;
+			}
+			for (const friend of friends) {
+				if (entry.userId === friend.userId) {
+					isFriendEntry = true;
+				}
+			}
+			return isFriendEntry;
+		});
+		// console.log('filteredArray', filteredArray)
+		setFilteredEntries(filteredArray)
+	}, [entries, activeUser.id])
 	
 	return (
 
