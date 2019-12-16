@@ -13,8 +13,10 @@ export const EntryContext = React.createContext()
 export const EntryProvider = props => {
     const [entries, setEntries] = useState([])
     const [userEntries, setUserEntries] = useState([])
-    const { getLoggedInUser } = useContext(UserContext)
+    const { getLoggedInUser, loggedInUser } = useContext(UserContext)
     const activeUser = getLoggedInUser()
+
+    //this logic prevents error when a user logs out and the component tries to re-mount
     let userId
     if (activeUser){
         userId = activeUser.id
@@ -31,14 +33,21 @@ export const EntryProvider = props => {
         // console.log('entry provider updated')
         // console.log('entry provider user', activeUser)
         EntryRepository.getAll().then(setEntries)
-    }, [userId])
+    }, [userId, userEntries])
 
     useEffect(()=>{
+        setUserEntries([])
         EntryRepository.getUserEntries(userId).then(setUserEntries)
-    }, [userId])
+    }, [userId, loggedInUser])
+
+    useEffect(() => {
+        // console.log('entry provider updated')
+        // console.log('entry provider user', activeUser)
+        EntryRepository.getAll().then(setEntries)
+    }, [])
 
     return(
-        <EntryContext.Provider value={{ entries, userEntries, createEntry, getEntry, updateEntry, getUserEntries, deleteEntry }}>
+        <EntryContext.Provider value={{ entries, userEntries, createEntry, getEntry, updateEntry, getUserEntries, deleteEntry, setEntries, setUserEntries }}>
             {props.children}
         </EntryContext.Provider>
     )

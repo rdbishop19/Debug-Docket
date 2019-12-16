@@ -10,8 +10,8 @@ export default function EntriesHomeContainer(props) {
     const [isEditing, setIsEditing] = useState(false)
     const [editingId, setEditingId] = useState()
 
-    const { entries, userEntries, createEntry, updateEntry, getUserEntries, deleteEntry } = useContext(EntryContext)
-    const { getLoggedInUser } = useContext(UserContext)
+    const { entries, userEntries, createEntry, updateEntry, getUserEntries, deleteEntry, setUserEntries } = useContext(EntryContext)
+    const { getLoggedInUser, loggedInUser } = useContext(UserContext)
     const activeUser = getLoggedInUser()
 
     const addNew = (todo) => {
@@ -28,7 +28,7 @@ export default function EntriesHomeContainer(props) {
             totalWorkTime: 0,
             totalBreakTime: 0,
         }
-        createEntry(newEntry).then(()=> getUserEntries(activeUser.id))
+        createEntry(newEntry).then(getUserEntries)
     };
 
     const edit = (id) => {
@@ -57,8 +57,12 @@ export default function EntriesHomeContainer(props) {
     };
 
     useEffect(()=>{
-        console.log('entries home', getLoggedInUser())
+        // console.log('entries home', getLoggedInUser())
         getUserEntries()
+    }, [loggedInUser])
+
+    useEffect(()=>{
+        setUserEntries([])
     }, [])
     
     return (

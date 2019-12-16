@@ -42,7 +42,7 @@ export default function FeedContainer(props) {
 		});
 		// console.log('filteredArray', filteredArray)
 		setFilteredEntries(filteredArray)
-	}, [entries, userId])
+	}, [entries, userId, friends, nonFriends])
 	
 	return (
 
