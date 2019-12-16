@@ -5,12 +5,12 @@ import HistoryList from './HistoryList';
 import { Input, Typography } from '@material-ui/core';
 
 export default function HistoryContainer(props) {
-    const { entries } = React.useContext(EntryContext)
+    const { entries, userEntries, getUserEntries } = React.useContext(EntryContext)
     const { getLoggedInUser } = React.useContext(UserContext)
     const [searchTerm, setSearchTerm] = useState('')
 
     const activeUser = getLoggedInUser()
-    const [userEntries, setUserEntries] = useState([])
+    const [filteredEntries, setFilteredEntries] = useState([])
 
     const handleChange = e => {
         setSearchTerm(e.target.value)
@@ -21,27 +21,21 @@ export default function HistoryContainer(props) {
     }
 
     useEffect(()=>{
-        const userEntries = entries.filter((entry)=>{
-            return (entry.userId === activeUser.id)
-        })
-        setUserEntries(userEntries)
+        console.log('useEffect')
+        setFilteredEntries(userEntries)
         const filteredEntries = userEntries.filter((entry)=>{
             const searchLower = searchTerm.toLowerCase()
             const title = entry.title.toLowerCase()
             const description = entry.description.toLowerCase()
             return title.includes(searchLower) || description.includes(searchLower)
         })
-        // console.log('filteredEntries', filteredEntries)
-        setUserEntries(filteredEntries)
-    }, [activeUser.id, entries, searchTerm])
+        setFilteredEntries(filteredEntries)
+    }, [activeUser.id, entries, userEntries, searchTerm])
 
     useEffect(()=>{
-        // console.log('entries', entries);
-        const userEntries = entries.filter((entry)=>{
-            return (entry.userId === activeUser.id)
-        })
-        setUserEntries(userEntries)
-    }, [activeUser.id, entries])
+        getUserEntries(activeUser.id).then(setFilteredEntries)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [activeUser.id])
 
 	return (
         <React.Fragment>
@@ -49,7 +43,7 @@ export default function HistoryContainer(props) {
             <form onSubmit={handleSubmit}>
                 <Input placeholder="Search by keyword" value={searchTerm} onChange={handleChange}/>
             </form>
-            <HistoryList entries={userEntries} activeUser={activeUser} {...props}/>
+            <HistoryList entries={filteredEntries} activeUser={activeUser} {...props}/>
         </React.Fragment>
     )
 }
