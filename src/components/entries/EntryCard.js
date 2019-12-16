@@ -9,7 +9,7 @@ import CreateIcon from '@material-ui/icons/Create';
 import SaveIcon from '@material-ui/icons/Save';
 
 export default function EntryCard(props) {
-    const { item, isEditing, edit, editingId, cancelEdit, updateItem, match, history } = props;
+    const { item, isEditing, edit, editingId, cancelEdit, updateItem, deleteItem, match, history } = props;
     const [editedItem, setEditedItem] = useState(item.title)
 
 	const listStyle = {
@@ -72,7 +72,7 @@ export default function EntryCard(props) {
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Delete" aria-label="delete">
-                    <IconButton aria-label="delete" size="small">
+                    <IconButton aria-label="delete" size="small" onClick={()=> deleteItem(item.id)}>
                         <DeleteIcon />
                     </IconButton>
                 </Tooltip>

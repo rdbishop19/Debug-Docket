@@ -20,6 +20,7 @@ export const EntryProvider = props => {
     const getEntry = id => EntryRepository.getEntry(id)
     const updateEntry = newEntry => EntryRepository.updateEntry(newEntry)
     const getUserEntries = id => EntryRepository.getUserEntries(activeUser.id).then(setUserEntries)
+    const deleteEntry = id => EntryRepository.delete(id)
     // loads users list when component mounts
     // empty array as second argument to only run once: https://stackoverflow.com/questions/53120972/how-to-call-loading-function-with-react-useeffect-only-once
     useEffect(() => {
@@ -29,7 +30,7 @@ export const EntryProvider = props => {
     }, [activeUser.id])
 
     return(
-        <EntryContext.Provider value={{ entries, userEntries, createEntry, getEntry, updateEntry, getUserEntries }}>
+        <EntryContext.Provider value={{ entries, userEntries, createEntry, getEntry, updateEntry, getUserEntries, deleteEntry }}>
             {props.children}
         </EntryContext.Provider>
     )

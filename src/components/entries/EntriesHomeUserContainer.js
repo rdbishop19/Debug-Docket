@@ -9,7 +9,7 @@ export default function EntriesHomeContainer(props) {
     const [isEditing, setIsEditing] = useState(false)
     const [editingId, setEditingId] = useState()
 
-    const { entries, userEntries, createEntry, updateEntry, getUserEntries } = useContext(EntryContext)
+    const { entries, userEntries, createEntry, updateEntry, getUserEntries, deleteEntry } = useContext(EntryContext)
     const { getLoggedInUser } = useContext(UserContext)
     const activeUser = getLoggedInUser()
 
@@ -40,6 +40,10 @@ export default function EntriesHomeContainer(props) {
         setIsEditing(false)
     }
 
+    const deleteItem = id => {
+        deleteEntry(id).then(getUserEntries)
+    }
+
 	const updateItem = (todo, index) => {
         const entryEdit = {
             id: index,
@@ -67,6 +71,7 @@ export default function EntriesHomeContainer(props) {
                                 editingId={editingId} 
                                 edit={edit} 
                                 updateItem={updateItem}
+                                deleteItem={deleteItem}
                                 cancelEdit={cancelEdit} 
                                 {...props}
                             />;
