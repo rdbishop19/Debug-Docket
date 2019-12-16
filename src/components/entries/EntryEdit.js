@@ -65,6 +65,7 @@ export default function EntryEdit(props) {
         .then((result)=>{
             // console.log('result', result)
             //TODO: style/add MaterialUI Snackbar popup here after successful update to notify user
+            props.history.push("/home")
         })
     }
 

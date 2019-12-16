@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Input, TextField } from '@material-ui/core'
 
 export default function EntryInputNew(props) {
 
@@ -16,7 +17,24 @@ export default function EntryInputNew(props) {
 
     return (
         <form onSubmit={handleSubmit}>
-            <input name="todo" placeholder="Add new bug" onChange={handleFieldChange} required/>
+            {/* <Input type="text" name="todo" placeholder="Add new bug" onChange={handleFieldChange} required/> */}
+            <TextField
+                id="new-todo"
+                name="todo"
+                label="To-Do item"
+                style={{ margin: 8 }}
+                placeholder={`What's on the docket today?`}
+                helperText="Click it and ticket!"
+                style={{ width: "95% "}}
+                margin="none"
+                InputLabelProps={{
+                    shrink: true,
+                }}
+                onChange={handleFieldChange}
+                variant="outlined"
+                required
+            />
+ 
         </form>
     )
 }

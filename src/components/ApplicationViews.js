@@ -28,9 +28,11 @@ export class ApplicationViews extends Component {
                         </>
                 }} /> */}
                 {/* TODO: refactor this after MVP so non-registered user can still use timer/todo */}
-                <EntryProvider>
-                    <AuthRoute path="/home" Destination={HomeContainer} />
-                </EntryProvider>
+                <UserProvider>
+                    <EntryProvider>
+                        <AuthRoute path="/home" Destination={HomeContainer} />
+                    </EntryProvider>
+                </UserProvider>
 
 
                 {/* <Route exact path="/entries/:entryId(\d+)/details" render={(props)=>{
