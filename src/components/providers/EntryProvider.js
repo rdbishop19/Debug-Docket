@@ -26,7 +26,11 @@ export const EntryProvider = props => {
     useEffect(() => {
         // console.log('entry provider updated')
         console.log('entry provider user', activeUser)
-        EntryRepository.getAll().then(setEntries)
+        EntryRepository.getAll().then((data)=>{
+            console.log('data', data)
+            setEntries(data)
+            console.log('entries', entries)
+        })
     }, [activeUser.id, userEntries])
 
     return(

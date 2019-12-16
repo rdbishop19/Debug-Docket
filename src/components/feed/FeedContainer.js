@@ -16,14 +16,14 @@ export default function FeedContainer(props) {
 
 	//get current friends list
     const { friends, nonFriends, addNewFriend, removeFriend, filterNonFriends } = useContext(FriendContext)
-	const { entries, getUserEntries, setEntries } = useContext(EntryContext)
+	const { entries, userEntries, setEntries } = useContext(EntryContext)
 	
 	//TODO: get all entries from you and your friends
 	useEffect(() => {
 		console.log('feedContainer', getLoggedInUser())
 		// console.log('friends', friends)
 		// console.log('entries', entries)
-		EntryRepository.getAll().then(setEntries).then(getUserEntries)
+		EntryRepository.getAll().then(setEntries)
 		.then(()=>{
 			const filteredArray = entries.filter((entry)=>{
 					let isFriendEntry = false;
@@ -41,7 +41,7 @@ export default function FeedContainer(props) {
 			setFilteredEntries(filteredArray)
 
 		})
-	}, [friends, activeUser.id])
+	}, [userEntries, friends, activeUser.id])
 	
 	return (
 
