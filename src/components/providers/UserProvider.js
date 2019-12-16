@@ -11,6 +11,7 @@ export const UserContext = React.createContext()
 
 export const UserProvider = props => {
     const [users, setUsers] = useState([])
+    const [loggedInUser, setLoggedInUser] = useState(null)
     const createAccount = user => UserRepository.createAccount(user)
     const findUser = (email, password) => UserRepository.findUser(email, password)
     const updateUserProfile = user => UserRepository.updateUserProfile(user)
@@ -29,11 +30,12 @@ export const UserProvider = props => {
     // loads users list when component mounts
     // empty array as second argument to only run once: https://stackoverflow.com/questions/53120972/how-to-call-loading-function-with-react-useeffect-only-once
     useEffect(() => {
+        console.log('userprovider', getLoggedInUser())
         UserRepository.getAll().then(setUsers)
-    }, [])
+    }, [loggedInUser])
 
     return(
-        <UserContext.Provider value={{ users, createAccount, findUser, getLoggedInUser, updateUserProfile }}>
+        <UserContext.Provider value={{ users, createAccount, findUser, getLoggedInUser, updateUserProfile, setLoggedInUser }}>
             {props.children}
         </UserContext.Provider>
     )

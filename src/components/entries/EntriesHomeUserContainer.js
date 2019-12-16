@@ -57,8 +57,9 @@ export default function EntriesHomeContainer(props) {
     };
 
     useEffect(()=>{
-        
-    }, [entries, userEntries])
+        console.log('entries home', getLoggedInUser())
+        getUserEntries()
+    }, [])
     
     return (
         <div style={{ flex: 1 }}>

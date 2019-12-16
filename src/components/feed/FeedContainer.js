@@ -5,6 +5,7 @@ import FeedList from './FeedList';
 import { UserContext } from '../providers/UserProvider'
 import { FriendContext } from '../providers/FriendProvider';
 import { EntryContext } from '../providers/EntryProvider';
+import EntryRepository from '../../repositories/EntryRepository';
 
 
 export default function FeedContainer(props) {
@@ -15,28 +16,32 @@ export default function FeedContainer(props) {
 
 	//get current friends list
     const { friends, nonFriends, addNewFriend, removeFriend, filterNonFriends } = useContext(FriendContext)
-	const { entries } = useContext(EntryContext)
+	const { entries, getUserEntries, setEntries } = useContext(EntryContext)
 	
 	//TODO: get all entries from you and your friends
 	useEffect(() => {
-		// console.log('useEffect on Mount')
+		console.log('feedContainer', getLoggedInUser())
 		// console.log('friends', friends)
 		// console.log('entries', entries)
-		const filteredArray = entries.filter((entry)=>{
-				let isFriendEntry = false;
-				if (entry.userId === activeUser.id) {
-					return true;
-				}
-				for (const friend of friends) {
-					if (entry.userId === friend.userId) {
-						isFriendEntry = true;
+		EntryRepository.getAll().then(setEntries).then(getUserEntries)
+		.then(()=>{
+			const filteredArray = entries.filter((entry)=>{
+					let isFriendEntry = false;
+					if (entry.userId === activeUser.id) {
+						return true;
 					}
-				}
-				return isFriendEntry;
-			});
-		// console.log('filteredArray', filteredArray)
-		setFilteredEntries(filteredArray)
-	}, [friends, entries, activeUser.id])
+					for (const friend of friends) {
+						if (entry.userId === friend.userId) {
+							isFriendEntry = true;
+						}
+					}
+					return isFriendEntry;
+				});
+			// console.log('filteredArray', filteredArray)
+			setFilteredEntries(filteredArray)
+
+		})
+	}, [friends, activeUser.id])
 	
 	return (
 

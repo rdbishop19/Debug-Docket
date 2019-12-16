@@ -37,7 +37,7 @@ const Login = props => {
     // console.log('remember?', remember.current.value) // couldn't get this to get right value from MaterialUI component
     // console.log('checked', checked)
     
-    const { findUser } = useContext(UserContext)
+    const { findUser, setLoggedInUser } = useContext(UserContext)
 
     const handleLogin = e => {
         e.preventDefault()
@@ -55,7 +55,7 @@ const Login = props => {
             } 
             const storage = checked !== true ? localStorage : sessionStorage
             login(user[0].id, email.current.value, password.current.value, storage)
-            
+            setLoggedInUser(user[0].id)
             props.history.push({
                 pathname: "/home"
             })
