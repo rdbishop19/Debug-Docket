@@ -15,6 +15,7 @@ import { UserProvider } from './providers/UserProvider'
 import HomeContainer from './home/HomeContainer'
 import { EntryProvider } from './providers/EntryProvider'
 import { FriendProvider } from './providers/FriendProvider';
+import EditProfile from './profile/EditProfile'
 export class ApplicationViews extends Component {
     render() {
         return (
@@ -62,6 +63,7 @@ export class ApplicationViews extends Component {
                     </FriendProvider>
                     <Route path="/register" component={Register} />
                     <Route path="/login" component={Login} />
+                    <AuthRoute path="/profile/edit" Destination={EditProfile} />
                 </UserProvider>
 
 

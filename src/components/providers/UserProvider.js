@@ -13,6 +13,7 @@ export const UserProvider = props => {
     const [users, setUsers] = useState([])
     const createAccount = user => UserRepository.createAccount(user)
     const findUser = (email, password) => UserRepository.findUser(email, password)
+    const updateUserProfile = user => UserRepository.updateUserProfile(user)
     const getLoggedInUser = () => {
         const localUser = JSON.parse(localStorage.getItem("credentials"))
         if (localUser !== null){
@@ -32,7 +33,7 @@ export const UserProvider = props => {
     }, [])
 
     return(
-        <UserContext.Provider value={{ users, createAccount, findUser, getLoggedInUser }}>
+        <UserContext.Provider value={{ users, createAccount, findUser, getLoggedInUser, updateUserProfile }}>
             {props.children}
         </UserContext.Provider>
     )

@@ -33,5 +33,17 @@ export default {
     async getAll() {
         const e = await fetch(`${Settings.remoteURL}/users?_sort=firstName`)
         return await e.json()
-    }
+    },
+
+    // update user account
+    async updateUserProfile(user){
+        const data = await fetch(`${Settings.remoteURL}/users/${user.id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(user)
+        })
+        return await data.json()
+    },
 }
