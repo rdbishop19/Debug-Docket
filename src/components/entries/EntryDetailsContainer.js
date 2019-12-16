@@ -30,6 +30,10 @@ export default function EntryDetailsContainer({ history, match }) {
     }, [entries, getLoggedInUser])
 
 	return (
-        <EntryDetailsCard entry={currentEntry}/>
+        <React.Fragment>
+            {currentEntry.map((entry)=>{
+                return <EntryDetailsCard key={entry.id} entry={entry}/>
+            })}
+        </React.Fragment>
     )
 }

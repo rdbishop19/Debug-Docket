@@ -2,12 +2,13 @@ import React/* , { useEffect } */ from 'react';
 import { Paper, Typography } from '@material-ui/core';
 
 export default function EntryDetailsCard({ entry }) {
-	let title = '';
-	let description = '';
-	if (entry.length) {
-		title = entry[0].title;
-		description = entry[0].description;
-	}
+	const {title, description, severity, priority, category} = entry
+	// let title = '';
+	// let description = '';
+	// if (entry.length) {
+	// 	title = entry[0].title;
+	// 	description = entry[0].description;
+	// }
 
 	// useEffect(
 	// 	() => {
@@ -25,6 +26,18 @@ export default function EntryDetailsCard({ entry }) {
 			<Typography>
 				<span>Title: </span>
 				{title}
+			</Typography>
+			<Typography>
+				<span>Severity: </span>
+				{severity.label}
+			</Typography>
+			<Typography>
+				<span>Priority: </span>
+				{priority.label}
+			</Typography>
+			<Typography>
+				<span>Category: </span>
+				{category.label}
 			</Typography>
 
 			<Typography>
