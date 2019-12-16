@@ -48,17 +48,17 @@ export class ApplicationViews extends Component {
                 {/* <Route path="/history" render={(props)=>{
                     return <HistoryContainer {...props} />
                 }} /> */}
-                <UserProvider>
+                {/* <UserProvider>
                     <EntryProvider>
-                        <AuthRoute path="/history" Destination={HistoryContainer} />
-                        <AuthRoute exact path="/entries/:entryId(\d+)/details" Destination={EntryDetailsContainer} />
                     </EntryProvider>
-                </UserProvider>
+                </UserProvider> */}
                 
                 <UserProvider>
                     <FriendProvider>
                         <EntryProvider>
                             <AuthRoute path="/feed" Destination={FeedContainer} />
+                            <AuthRoute path="/history" Destination={HistoryContainer} />
+                            <AuthRoute exact path="/entries/:entryId(\d+)/details" Destination={EntryDetailsContainer} />
                             <Route path="/register" component={Register} />
                             <Route path="/login" component={Login} />
                         </EntryProvider>
