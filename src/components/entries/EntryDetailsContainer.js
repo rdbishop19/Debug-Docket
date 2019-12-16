@@ -6,18 +6,18 @@ import EntryDetailsCard from './EntryDetailsCard';
 export default function EntryDetailsContainer({ history, match }) {
 
     const { entryId } = match.params
-    const { entries } = useContext(EntryContext)
+    const { entries, deleteEntry } = useContext(EntryContext)
     const [userEntries, setUserEntries] = useState([])
     const [currentEntry, setCurrentEntry] = useState([])
     const { getLoggedInUser } = React.useContext(UserContext)
 
     useEffect(()=>{
-        const displayedEntry = userEntries.filter((entry)=>{
+        const displayedEntry = entries.filter((entry)=>{
             return (entry.id === Number(entryId))
         })
         setCurrentEntry(displayedEntry)
         // console.log('displayentry', displayedEntry)
-    }, [userEntries, entryId])
+    }, [userEntries])
 
     useEffect(()=>{
         // console.log('useEffect mounted')
@@ -32,7 +32,7 @@ export default function EntryDetailsContainer({ history, match }) {
 	return (
         <React.Fragment>
             {currentEntry.map((entry)=>{
-                return <EntryDetailsCard key={entry.id} entry={entry}/>
+                return <EntryDetailsCard key={entry.id} entry={entry} history={history} deleteEntry={deleteEntry}/>
             })}
         </React.Fragment>
     )

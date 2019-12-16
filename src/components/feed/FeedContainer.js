@@ -21,7 +21,7 @@ export default function FeedContainer(props) {
 	const [filteredEntries, setFilteredEntries] = useState([])
 	//TODO: get all entries from you and your friends
 	useEffect(() => {
-		console.log('feedContainer', getLoggedInUser())
+		// console.log('feedContainer', getLoggedInUser())
 		// console.log('friends', friends)
 		// console.log('entries', entries)
 		EntryRepository.getAll().then(setEntries)
