@@ -12,6 +12,7 @@ export default function FeedContainer(props) {
     //get current logged in userId from state
     const { getLoggedInUser } = useContext(UserContext)
 	const activeUser = getLoggedInUser()
+	const userId = activeUser.id
 	
 	//get current friends list
     const { friends, nonFriends, addNewFriend, removeFriend, filterNonFriends } = useContext(FriendContext)
@@ -29,7 +30,7 @@ export default function FeedContainer(props) {
 	useEffect(()=>{
 		const filteredArray = entries.filter((entry)=>{
 			let isFriendEntry = false;
-			if (entry.userId === activeUser.id) {
+			if (entry.userId === userId) {
 				return true;
 			}
 			for (const friend of friends) {
@@ -41,7 +42,7 @@ export default function FeedContainer(props) {
 		});
 		// console.log('filteredArray', filteredArray)
 		setFilteredEntries(filteredArray)
-	}, [entries, activeUser.id])
+	}, [entries, userId])
 	
 	return (
 
