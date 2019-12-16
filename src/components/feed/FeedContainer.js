@@ -5,38 +5,44 @@ import FeedList from './FeedList';
 import { UserContext } from '../providers/UserProvider'
 import { FriendContext } from '../providers/FriendProvider';
 import { EntryContext } from '../providers/EntryProvider';
+import EntryRepository from '../../repositories/EntryRepository';
 
 
 export default function FeedContainer(props) {
     //get current logged in userId from state
     const { getLoggedInUser } = useContext(UserContext)
 	const activeUser = getLoggedInUser()
-	const [filteredEntries, setFilteredEntries] = useState([])
-
+	const userId = activeUser.id
+	
 	//get current friends list
     const { friends, nonFriends, addNewFriend, removeFriend, filterNonFriends } = useContext(FriendContext)
-	const { entries } = useContext(EntryContext)
-	
+	// const { entries, userEntries, setEntries } = useContext(EntryContext)
+	const [entries, setEntries] = useState([])
+	const [filteredEntries, setFilteredEntries] = useState([])
 	//TODO: get all entries from you and your friends
 	useEffect(() => {
-		// console.log('useEffect on Mount')
+		console.log('feedContainer', getLoggedInUser())
 		// console.log('friends', friends)
 		// console.log('entries', entries)
+		EntryRepository.getAll().then(setEntries)
+	}, [])
+
+	useEffect(()=>{
 		const filteredArray = entries.filter((entry)=>{
-				let isFriendEntry = false;
-				if (entry.userId === activeUser.id) {
-					return true;
+			let isFriendEntry = false;
+			if (entry.userId === userId) {
+				return true;
+			}
+			for (const friend of friends) {
+				if (entry.userId === friend.userId) {
+					isFriendEntry = true;
 				}
-				for (const friend of friends) {
-					if (entry.userId === friend.userId) {
-						isFriendEntry = true;
-					}
-				}
-				return isFriendEntry;
-			});
+			}
+			return isFriendEntry;
+		});
 		// console.log('filteredArray', filteredArray)
 		setFilteredEntries(filteredArray)
-	}, [friends, entries, activeUser.id])
+	}, [entries, userId, friends, nonFriends])
 	
 	return (
 

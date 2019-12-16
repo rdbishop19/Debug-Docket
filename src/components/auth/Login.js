@@ -7,6 +7,7 @@ import { FormControl, InputLabel, Input, Button, Checkbox, FormControlLabel, Pap
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Link as RouterLink } from 'react-router-dom';
+import { EntryContext } from '../providers/EntryProvider'
 /* 
     Purpose: Render the login screen and set user in storage
     Author: Ryan Bishop
@@ -37,7 +38,8 @@ const Login = props => {
     // console.log('remember?', remember.current.value) // couldn't get this to get right value from MaterialUI component
     // console.log('checked', checked)
     
-    const { findUser } = useContext(UserContext)
+    const { findUser, setLoggedInUser } = useContext(UserContext)
+    const { setEntries, setUserEntries } = useContext(EntryContext)
 
     const handleLogin = e => {
         e.preventDefault()
@@ -55,7 +57,8 @@ const Login = props => {
             } 
             const storage = checked !== true ? localStorage : sessionStorage
             login(user[0].id, email.current.value, password.current.value, storage)
-            
+            setLoggedInUser(user[0].id)
+            setUserEntries([])
             props.history.push({
                 pathname: "/home"
             })
