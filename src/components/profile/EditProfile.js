@@ -3,7 +3,7 @@ import { Paper, Typography, Button, TextField } from '@material-ui/core';
 import { UserContext } from '../providers/UserProvider';
 import useBasicAuth from '../../hooks/ui/useBasicAuth';
 
-export default function EditProfile() {
+export default function EditProfile(props) {
 
     const { getLoggedInUser, users, updateUserProfile } = useContext(UserContext)
     const activeUser = getLoggedInUser()
@@ -45,6 +45,9 @@ export default function EditProfile() {
             localStorage.removeItem("credentials")
             sessionStorage.removeItem("credentials")
             login(user.id, user.email, user.password)
+            if (window.confirm("Profile updated. Go back to main page?")){
+                props.history.push("/home")
+            }
         })
     }
 
