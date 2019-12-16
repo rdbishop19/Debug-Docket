@@ -8,7 +8,7 @@ export const FriendProvider = (props) => {
 	const [ friends, setFriends ] = useState([]);
 	const [ nonFriends, setNonFriends ] = useState([]);
 
-	const { users, getLoggedInUser } = useContext(UserContext);
+	const { users, getLoggedInUser, loggedInUser } = useContext(UserContext);
 	const activeUser = getLoggedInUser();
 
 	const addNewFriend = (id) => {
@@ -27,7 +27,7 @@ export const FriendProvider = (props) => {
     };
     
     useEffect(()=>{
-        // console.log('new useEffect hook ran')
+        // console.log('friend provider friends updated')
         const filteredUsers = getNonFriends()
         setNonFriends(filteredUsers)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -82,7 +82,7 @@ export const FriendProvider = (props) => {
 			}
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[ users ]
+		[ users, loggedInUser ]
 	);
 
 	return (
