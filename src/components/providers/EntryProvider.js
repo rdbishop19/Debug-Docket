@@ -24,7 +24,7 @@ export const EntryProvider = props => {
     // loads users list when component mounts
     // empty array as second argument to only run once: https://stackoverflow.com/questions/53120972/how-to-call-loading-function-with-react-useeffect-only-once
     useEffect(() => {
-        // console.log('entry provider mount')
+        console.log('entry provider updated')
         EntryRepository.getAll().then(setEntries)
         EntryRepository.getUserEntries(activeUser.id).then(setUserEntries)
     }, [activeUser.id])

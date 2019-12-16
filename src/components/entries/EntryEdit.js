@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { Paper, Typography, FormControl, InputLabel, Input, RadioGroup, Radio, FormControlLabel, FormLabel, Button, MenuItem, FormHelperText, Select } from '@material-ui/core'
 import Settings from '../../repositories/Settings'
 import { EntryContext } from '../providers/EntryProvider'
+import Dropdowns from '../inputform/Dropdowns'
 
 export default function EntryEdit(props) {
     
@@ -27,11 +28,6 @@ export default function EntryEdit(props) {
 
     // useContext from UserProvider
     const { getEntry, updateEntry } = useContext(EntryContext)
-
-    
-    const [priorities, setPriorities] = useState([])
-    const [severities, setSeverities] = useState([])
-    const [categories, setCategories] = useState([])
 
     const handleFieldChange = e => {
         setEntry({...entry, [e.target.name]: e.target.value})
@@ -72,25 +68,6 @@ export default function EntryEdit(props) {
 
     useEffect(()=>{
         // console.log('initial useEffect ran')
-
-        // MOVED THESE THREE FETCHES ABOVE ENTRY FETCH TO PREVENT REACT WARNING ON 'SELECT' FORM COMPONENTS
-        fetch(`${Settings.remoteURL}/priorities`)
-        .then((data)=>data.json())
-        .then(setPriorities)
-    
-        //TODO: move to separate component
-        fetch(`${Settings.remoteURL}/severities`)
-        .then((data)=>data.json())
-        .then(setSeverities)
-        //TODO: move to separate component
-        fetch(`${Settings.remoteURL}/categories`)
-        .then((data)=>data.json())
-        .then(setCategories)
-        //TODO: move to separate component
-        fetch(`${Settings.remoteURL}/categories`)
-        .then((data)=>data.json())
-        .then(setCategories)
-
         getEntry(props.match.params.entryId)
         .then(setEntry)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -125,73 +102,12 @@ export default function EntryEdit(props) {
                         </RadioGroup>
                     </FormControl>
                     <br/><br />
-                    <FormControl style={{ margin: "0 10px"}}>
-                        <InputLabel id="priority-label">Priority</InputLabel>
-                        <Select
-                            labelId="priority-label"
-                            id="priority"
-                            value={priority.id}
-                            name="priority"
-                            onChange={handleRadioChange}
-                            >
-                            <MenuItem key="0" value="0">
-                                <em>n/a</em>
-                            </MenuItem>
-                            {priorities.map((priority)=>{
-                                if (priority.id === 0){
-                                    return null
-                                }
-                                return <MenuItem key={priority.id} value={priority.id}>{priority.label}</MenuItem>
-                            })}
-                        </Select>
-                        <FormHelperText>Order to be fixed</FormHelperText>
-                    </FormControl>
+                    <Dropdowns priority={priority}
+                               severity={severity}
+                               category={category}
+                               handleRadioChange={handleRadioChange}
                     
-                    <FormControl>
-                        <InputLabel id="severity-label">Severity</InputLabel>
-                        <Select
-                            labelId="severity-label"
-                            id="severity"
-                            value={severity.id}
-                            name="severity"
-                            onChange={handleRadioChange}
-                            
-                            >
-                            <MenuItem key="0" value="0">
-                                <em>n/a</em>
-                            </MenuItem>
-                            {severities.map((severity)=>{
-                                if (severity.id === 0){
-                                    return null
-                                }
-                                return <MenuItem key={severity.id} value={severity.id}>{severity.label}</MenuItem>
-                            })}
-                        </Select>
-                        <FormHelperText>Degree of impact</FormHelperText>
-                    </FormControl>
-                    <br/><br />
-                    <FormControl>
-                        <InputLabel id="category-label">Category</InputLabel>
-                        <Select
-                            labelId="category-label"
-                            id="category"
-                            value={category.id}
-                            name="category"
-                            onChange={handleRadioChange}
-                            
-                            >
-                            <MenuItem key="0" value="0">
-                                <em>none</em>
-                            </MenuItem>
-                            {categories.map((category)=>{
-                                if (category.id === 0){
-                                    return null
-                                }
-                                return <MenuItem key={category.id} value={category.id}>{category.label}</MenuItem>
-                            })}
-                        </Select>
-                        <FormHelperText>What type of bug is this?</FormHelperText>
-                    </FormControl>
+                        />
                     <br/><br />
                     <Button type="submit" color="primary" variant="contained">Save</Button>
                     <Button type="button" color="default" variant="outlined" onClick={()=>props.history.push("/home")}>Cancel</Button>
