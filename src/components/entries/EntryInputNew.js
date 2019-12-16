@@ -23,10 +23,10 @@ export default function EntryInputNew(props) {
                 name="todo"
                 label="To-Do item"
                 style={{ margin: 8 }}
-                placeholder="Get started by adding items to your to-do list"
+                placeholder={`What's on the docket today?`}
                 helperText="Click it and ticket!"
                 style={{ width: "95% "}}
-                margin="normal"
+                margin="none"
                 InputLabelProps={{
                     shrink: true,
                 }}

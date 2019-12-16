@@ -3,6 +3,7 @@ import EntryCard from './EntryCard';
 import EntryInputNew from './EntryInputNew';
 import { EntryContext } from '../providers/EntryProvider';
 import { UserContext } from '../providers/UserProvider';
+import { Paper, Typography } from '@material-ui/core';
 
 export default function EntriesHomeContainer(props) {
 
@@ -47,7 +48,8 @@ export default function EntriesHomeContainer(props) {
 	const updateItem = (todo, index) => {
         const entryEdit = {
             id: index,
-            title: todo,
+            title: todo.title,
+            description: todo.description,
         }
         setIsEditing(false)
         setEditingId()
@@ -61,21 +63,25 @@ export default function EntriesHomeContainer(props) {
     return (
         <div style={{ flex: 1 }}>
             <h3>DOCK IT</h3>
-            <h4>Current Bugs</h4>
-            <EntryInputNew addNew={addNew} />
-            <br />
-            {userEntries.map((item) => {
-                return <EntryCard key={item.id}
-                                item={item}
-                                isEditing={isEditing}
-                                editingId={editingId} 
-                                edit={edit} 
-                                updateItem={updateItem}
-                                deleteItem={deleteItem}
-                                cancelEdit={cancelEdit} 
-                                {...props}
-                            />;
-            })}
+            <EntryInputNew addNew={addNew} activeUser={activeUser}/>
+            <Paper style={{ marginTop: "10px"}}>
+                <Typography variant="h5">
+                    Current Bugs
+                </Typography>
+                <br />
+                {userEntries.map((item) => {
+                    return <EntryCard key={item.id}
+                                    item={item}
+                                    isEditing={isEditing}
+                                    editingId={editingId} 
+                                    edit={edit} 
+                                    updateItem={updateItem}
+                                    deleteItem={deleteItem}
+                                    cancelEdit={cancelEdit} 
+                                    {...props}
+                                />;
+                })}
+            </Paper>
         </div>
     );
 }
