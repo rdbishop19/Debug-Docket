@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Paper, Typography, Button } from '@material-ui/core';
+import FriendCard from './FriendCard';
 
 export default function FriendList({ friends, removeFriend }) {
 	return (
@@ -9,11 +10,7 @@ export default function FriendList({ friends, removeFriend }) {
             </Typography>
 			{friends.map((friend) => {
 				return (
-					<Typography key={friend.id}>
-						<span>{friend.user.firstName} </span>
-						<span>{friend.user.lastName}</span>
-                        <Button variant="contained" color="secondary" onClick={()=>removeFriend(friend.id)}>x</Button>
-					</Typography>
+					<FriendCard key={friend.id} friend={friend} removeFriend={removeFriend}/>
 				);
 			})}
 		</Paper>
