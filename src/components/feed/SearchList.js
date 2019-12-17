@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Paper, Typography, Button, Input } from '@material-ui/core';
+import SearchCard from './SearchCard'
 
 export default function SearchList({ nonFriends, addNewFriend, filterNonFriends }) {
 	const [searchTerm, setSearchTerm] = useState("")
@@ -22,15 +23,7 @@ export default function SearchList({ nonFriends, addNewFriend, filterNonFriends 
 				<Input ref={input} placeholder="Enter name" value={searchTerm} onChange={handleChange}/>
 			</form>
 			{nonFriends.map((user) => {
-				return (
-					<Typography key={user.id} component="div">
-						<span>{user.firstName} </span>
-						<span>{user.lastName}</span>
-						<Button variant="contained" color="primary" onClick={() => addNewFriend(user.id)}>
-							+
-						</Button>
-					</Typography>
-				);
+				return <SearchCard key={user.id} user={user} addNewFriend={addNewFriend}/>
 			})}
 		</Paper>
 	);
