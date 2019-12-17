@@ -5,7 +5,7 @@ import useBasicAuth from '../../hooks/ui/useBasicAuth';
 
 export default function EditProfile(props) {
 
-    const { getLoggedInUser, users, updateUserProfile } = useContext(UserContext)
+    const { getLoggedInUser, users, updateUserProfile, setLoggedInUser } = useContext(UserContext)
     const activeUser = getLoggedInUser()
     const { email: currentEmail, password: currentPassword } = activeUser
     const [currentUser, setCurrentUser] = useState({
@@ -45,6 +45,8 @@ export default function EditProfile(props) {
             localStorage.removeItem("credentials")
             sessionStorage.removeItem("credentials")
             login(user.id, user.email, user.password)
+            setLoggedInUser(null)
+            setLoggedInUser(user.id)
             if (window.confirm("Profile updated. Go back to main page?")){
                 props.history.push("/home")
             }
