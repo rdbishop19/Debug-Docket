@@ -6,7 +6,7 @@ import EntryDetailsCard from './EntryDetailsCard';
 export default function EntryDetailsContainer({ history, match }) {
 
     const { entryId } = match.params
-    const { entries, deleteEntry } = useContext(EntryContext)
+    const { entries, deleteEntry, getUserEntries } = useContext(EntryContext)
     const [userEntries, setUserEntries] = useState([])
     const [currentEntry, setCurrentEntry] = useState([])
     const { getLoggedInUser } = React.useContext(UserContext)
@@ -28,6 +28,10 @@ export default function EntryDetailsContainer({ history, match }) {
         })
         setUserEntries(filteredUserEntries)
     }, [entries, getLoggedInUser])
+
+    useEffect(()=>{
+        getUserEntries()
+    }, [])
 
 	return (
         <React.Fragment>
