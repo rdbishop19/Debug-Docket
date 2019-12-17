@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Paper, Typography, FormControl, InputLabel, Input, RadioGroup, Radio, FormControlLabel, FormLabel, Button, MenuItem, FormHelperText, Select } from '@material-ui/core'
+import { Paper, Typography, FormControl, InputLabel, Input, RadioGroup, Radio, FormControlLabel, FormLabel, Button, MenuItem, FormHelperText, Select, Tooltip, IconButton } from '@material-ui/core'
 import Settings from '../../repositories/Settings'
 import { EntryContext } from '../providers/EntryProvider'
 import Dropdowns from '../inputform/Dropdowns'
+import DeleteIcon from '@material-ui/icons/Delete';
 
 export default function EntryEdit(props) {
     
@@ -27,7 +28,7 @@ export default function EntryEdit(props) {
     const [entry, setEntry] = useState(initialEntry)
 
     // useContext from UserProvider
-    const { getEntry, updateEntry } = useContext(EntryContext)
+    const { getEntry, updateEntry, deleteEntry } = useContext(EntryContext)
 
     const handleFieldChange = e => {
         setEntry({...entry, [e.target.name]: e.target.value})
@@ -40,6 +41,15 @@ export default function EntryEdit(props) {
     //TODO: need to refactor this. Hacky and implicit
     const handleRadioChange = e => {
         setEntry({...entry, [e.target.name]: { id: Number(e.target.value) }})
+    }
+
+    const handleDelete = () => {
+        if (window.confirm("Delete this entry?")){
+            // console.log('delete')
+            deleteEntry(id).then(()=>{
+                props.history.push("/home")
+            })
+        }
     }
 
     const handleSubmit = e => {
@@ -73,7 +83,7 @@ export default function EntryEdit(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.match.params.entryId])
 
-    const { title, description, priority, severity, category, isCompleted } = entry
+    const { id, title, description, priority, severity, category, isCompleted } = entry
 
     return (
         <Paper>
@@ -111,6 +121,11 @@ export default function EntryEdit(props) {
                     <br/><br />
                     <Button type="submit" color="primary" variant="contained">Save</Button>
                     <Button type="button" color="default" variant="outlined" onClick={()=>props.history.push("/home")}>Cancel</Button>
+                    <Tooltip title="Delete" aria-label="delete">
+                        <IconButton aria-label="delete" size="small" onClick={handleDelete}>
+                            <DeleteIcon />
+                        </IconButton>
+                    </Tooltip>
                 </form>
                 <br />
             </Typography>
