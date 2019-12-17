@@ -5,9 +5,7 @@ export default function FriendCard({ friend, removeFriend }) {
     const [loadingStatus, setLoadingStatus] = useState(false)
 
 	const handleClick = (id) => {
-		// console.log('clicked')
 		setLoadingStatus(loadingStatus => !loadingStatus)
-		// console.log('loadingStatus', loadingStatus)
 		removeFriend(id)
 	}
     return (
