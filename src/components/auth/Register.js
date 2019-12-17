@@ -8,6 +8,7 @@ import { FormControl, InputLabel, Input, Button, Paper, Typography, Link, FormCo
 import { makeStyles } from '@material-ui/core/styles'
 
 import { Link as RouterLink } from 'react-router-dom';
+import { EntryContext } from '../providers/EntryProvider'
 
 const loginComponent = React.forwardRef((props, ref) => <RouterLink innerRef={ref} {...props} />);
 
@@ -36,7 +37,8 @@ const Register = props => {
     const { login } = useBasicAuth()
     
     // useContext from UserProvider
-    const { createAccount, findUser } = useContext(UserContext)
+    const { createAccount, findUser, setLoggedInUser } = useContext(UserContext)
+    const { setEntries, setUserEntries } = useContext(EntryContext)
 
     const handleRegister = e => {
         e.preventDefault()
@@ -66,6 +68,8 @@ const Register = props => {
                 // console.log('newUser response', user)
                 const storage = checked !== true ? localStorage : sessionStorage
                 login(user.id, user.email, user.password, storage)
+                setLoggedInUser(user.id)
+                setUserEntries([])
                 props.history.push({
                     pathname: "/home"
                 })
