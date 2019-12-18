@@ -30,17 +30,18 @@ export default function EntryCard(props) {
 			{isEditing && editingId === item.id ? (
 				<React.Fragment>
 					{/* <span>Quick Edit</span> */}
-                    <EntryQuickEdit cancelEdit={cancelEdit}
-                                    deleteItem={deleteItem}
-                                    updateItem={updateItem}
-                                    item={item}
-                                    history={history}
-                                    match={match}
-                                    />
+					<EntryQuickEdit
+						cancelEdit={cancelEdit}
+						deleteItem={deleteItem}
+						updateItem={updateItem}
+						item={item}
+						history={history}
+						match={match}
+					/>
 				</React.Fragment>
 			) : (
 				<Tooltip title="Click to edit" aria-label="click-to-edit">
-					<Typography>
+					<Typography component="p" style={{ textAlign: 'left', paddingLeft: '30px' }}>
 						<span>{item.title}</span>
 						{/* <FontAwesomeIcon style={{ position: 'absolute', right: '10px' }} icon={faCheckSquare} /> */}
 					</Typography>
