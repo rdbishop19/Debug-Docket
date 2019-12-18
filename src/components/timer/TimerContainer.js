@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Paper, Typography, IconButton, CardContent, Card } from '@material-ui/core';
+import Timer from './Timer';
 
 export class TimerContainer extends Component {
 	render() {
@@ -11,7 +12,7 @@ export class TimerContainer extends Component {
 					<Card style={{ width: '50%', margin: '0 auto', backgroundColor: 'salmon' }}>
 						<CardContent>
 							<Typography component="h3" variant="h3">
-								2 5 : 0 0
+								<Timer />
 							</Typography>
 						</CardContent>
 					</Card>
