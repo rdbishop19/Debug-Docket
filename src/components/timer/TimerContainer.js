@@ -1,13 +1,28 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Paper, Typography, IconButton, CardContent, Card } from '@material-ui/core';
 
 export class TimerContainer extends Component {
-    render() {
-        return (
-            <div style={{ flex: 1, minWidth: "375px"}}>
-                TIMER CONTAINER
-            </div>
-        )
-    }
+	render() {
+		return (
+			<div style={{ flex: 1, minWidth: '375px' }}>
+				<h3>CLOCK IT</h3>
+				<Paper style={{ width: '97%', margin: '0 10px' }}>
+					<br />
+					<Card style={{ width: '50%', margin: '0 auto', backgroundColor: 'salmon' }}>
+						<CardContent>
+							<Typography component="h3" variant="h3">
+								2 5 : 0 0
+							</Typography>
+						</CardContent>
+					</Card>
+					<br />
+					version 2.0
+					<br />
+					<IconButton />
+				</Paper>
+			</div>
+		);
+	}
 }
 
-export default TimerContainer
+export default TimerContainer;
