@@ -42,7 +42,9 @@ export default function EntriesHomeContainer(props) {
     }
 
     const deleteItem = id => {
-        deleteEntry(id).then(getUserEntries)
+        if (window.confirm("Delete this entry?")){
+            deleteEntry(id).then(getUserEntries)
+        }
     }
 
 	const updateItem = (todo, index) => {
