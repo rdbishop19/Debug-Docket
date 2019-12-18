@@ -52,10 +52,12 @@ export default function EntryQuickEdit(props) {
             }
             title={
                 <React.Fragment>
-                    <InputLabel htmlFor="title">Title:</InputLabel>
-                    <Input
+                    {/* <InputLabel htmlFor="title">Title:</InputLabel> */}
+                    <TextField
                         id="title"
+                        label="Title"
                         type="text"
+                        style={{ width: "95%" }}
                         defaultValue={item.title}
                         onKeyPress={handleKeyPress}
                         autoFocus={true}
@@ -65,7 +67,7 @@ export default function EntryQuickEdit(props) {
                     />
                 </React.Fragment>
             }
-            subheader={'Enter in bug info'}
+            subheader={'Quick Edit'}
         />
         <CardContent>
             {/* <InputLabel htmlFor="description">Description:</InputLabel> */}
@@ -82,13 +84,8 @@ export default function EntryQuickEdit(props) {
                 variant="outlined"
             />
             <br />
-            <Tooltip title="Save" aria-label="save">
-                <IconButton aria-label="save" size="small" onClick={handleSave}>
-                    <SaveIcon />
-                </IconButton>
-            </Tooltip>
             <Tooltip title="Edit" aria-label="edit">
-                <IconButton
+                <IconButton style={{ margin: "0 15px"}} 
                     aria-label="edit"
                     size="small"
                     onClick={() => history.push(`${match.path}/${item.id}/edit`)}
@@ -96,8 +93,15 @@ export default function EntryQuickEdit(props) {
                     <CreateIcon />
                 </IconButton>
             </Tooltip>
+            <Tooltip title="Save" aria-label="save">
+                <IconButton color="primary" style={{ margin: "0 15px"}} aria-label="save" size="small" onClick={handleSave}>
+                    <SaveIcon />
+                </IconButton>
+            </Tooltip>
             <Tooltip title="Delete" aria-label="delete">
-                <IconButton aria-label="delete" size="small" onClick={() => deleteItem(item.id)}>
+                <IconButton aria-label="delete" 
+                            style={{ margin: "0 15px"}} 
+                            size="small" onClick={() => deleteItem(item.id)}>
                     <DeleteIcon />
                 </IconButton>
             </Tooltip>
