@@ -56,9 +56,9 @@ export default function EntryDetailsCard({ entry, history/* , deleteEntry */ }) 
 					<React.Fragment>
 						<Button variant="outlined" color="default" onClick={()=> history.push(`/home/${id}/edit`)}>Edit</Button>
 						{/* <Button variant="contained" color="secondary" onClick={deleteEntry}>Delete</Button> */}
-						<Button variant="outlined" color="primary" onClick={()=> history.push('/history')}>Go back</Button>
 					</React.Fragment>
 				}
+				<Button variant="outlined" color="primary" onClick={()=> history.goBack()}>Go back</Button>
 
 			</Card>
 		</Paper>
