@@ -25,11 +25,12 @@ export default function EntryQuickEdit(props) {
 				window.alert('Title cannot be blank');
 			}
 		}
+		else handleChange(e)
 	};
 
 	const handleChange = (e) => {
 		setEditedItem({
-			[e.target.id]: e.target.value
+			...editedItem, [e.target.id]: e.target.value
 		});
 	};
 
@@ -38,7 +39,7 @@ export default function EntryQuickEdit(props) {
 	};
 
 	return (
-		<Card style={{ backgroundColor: "#FFECB3"}}>
+		<Card style={{ backgroundColor: "beige"}}>
 			<CardHeader
 				// avatar={
 
@@ -57,7 +58,7 @@ export default function EntryQuickEdit(props) {
 							id="title"
 							label="Title"
 							type="text"
-							style={{ width: '95%', backgroundColor: "#FFF8E1" }}
+							style={{ width: '95%', backgroundColor: "white" }}
 							defaultValue={item.title}
 							onKeyPress={handleKeyPress}
 							autoFocus={true}
@@ -74,7 +75,7 @@ export default function EntryQuickEdit(props) {
 				<TextField
 					id="description"
 					type="text"
-					style={{ width: '95%', backgroundColor: "#FFF8E1" }}
+					style={{ width: '95%', backgroundColor: "white" }}
 					label="Description"
 					defaultValue={item.description}
 					onKeyPress={handleKeyPress}

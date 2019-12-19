@@ -18,6 +18,7 @@ export default function EntryInputNew(props) {
         e.preventDefault()
         props.addNew(todo)
         e.target.reset()
+        setHelperText(initialHelper)
     }
 
     return (
