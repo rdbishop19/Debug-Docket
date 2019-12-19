@@ -6,7 +6,7 @@ export default function FriendList({ friends, removeFriend }) {
 	return (
 		<React.Fragment>
 			<Typography variant="h5" component="h3" style={{ textAlign: 'center' }}>
-				Friend List
+				<h4>Friend List</h4>
 			</Typography>
 			<Card>
 				{friends.length > 0 ? (

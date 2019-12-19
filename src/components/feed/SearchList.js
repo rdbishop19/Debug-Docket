@@ -19,7 +19,7 @@ export default function SearchList({ nonFriends, addNewFriend, filterNonFriends 
 	return (
 		<React.Fragment>
 			<Typography variant="h5" component="h3" style={{ textAlign: 'center' }}>
-				Search Users
+				<h3>Search Users</h3>
 			</Typography>
 			<Card>
 				<form onSubmit={handleSubmit} style={{ textAlign: 'center', padding: '10px' }}>
