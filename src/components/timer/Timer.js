@@ -5,6 +5,8 @@ import PauseIcon from '@material-ui/icons/Pause';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import UpdateIcon from '@material-ui/icons/Update';
+import SkipNextIcon from '@material-ui/icons/SkipNext';
+import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 
 export default function Timer() {
 	// get current remaining timer
@@ -146,16 +148,18 @@ export default function Timer() {
 		setBreakTime(breakTime);
 	}
 
+	function restartBreak(){
+		setMode('break')
+		// setBreakTime(breakTime)
+		setTimer(breakTime)
+	}
+
 	function toggle() {
 		// about to change state from active to inactive, so set state as 'paused' for localStorage
 		if (active) {
 			storeState.current = 'paused';
 		} else storeState.current = 'started';
 		setActive(!active);
-	}
-	function handleClick(){
-		console.log('clicked')
-
 	}
 
 	return (
@@ -180,6 +184,11 @@ export default function Timer() {
 								00:00
 							</Typography>
 						)}
+						<Tooltip title="Restart break" aria-label="restart-break">
+							<IconButton style={{ visibility: mode === "break" ? "visible" : "hidden" }} size="small" onClick={restartBreak}>
+								<SkipPreviousIcon />
+							</IconButton>
+						</Tooltip>
 						{active ? (
 							<Tooltip title="Pause" aria-label="pause" placement="right">
 								<Button variant="outlined" color="default" onClick={toggle} size="large">
@@ -193,6 +202,11 @@ export default function Timer() {
 								</Button>
 							</Tooltip>
 						)}
+						<Tooltip title="Skip break" aria-label="skip" placement="right">
+							<IconButton style={{ visibility: mode === "break" ? "visible" : "hidden" }} size="small" onClick={resetTimers}>
+								<SkipNextIcon />
+							</IconButton>
+						</Tooltip>
 						<br />
 						<Typography>Elapsed Time:</Typography>
 						<Typography component="h3" variant="h4">
