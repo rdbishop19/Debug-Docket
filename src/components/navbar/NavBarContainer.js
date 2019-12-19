@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import HomeButton from './HomeButton'
 import ProfileButton from './ProfileButton'
+import BugReportIcon from '@material-ui/icons/BugReport';
 
 import { Link as RouterLink } from 'react-router-dom';
 import useBasicAuth from '../../hooks/ui/useBasicAuth';
@@ -22,7 +23,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	title: {
 		flexGrow: 1,
-		textAlign: 'center'
+		textAlign: 'center',
+		cursor: 'pointer',
 	}
 }));
 
@@ -36,8 +38,10 @@ function NavBarNonUser(props) {
 				<Toolbar>
 					<HomeButton className={classes.menuButton}/>
 					
-					<Typography variant="h6" className={classes.title}>
-						Debug Docket
+					<Typography variant="h6" className={classes.title} onClick={()=>{props.history.push('/home')}}>
+						Debug
+						<BugReportIcon />
+						Docket
 					</Typography>
 					{ isAuthenticated() ? 
 						<ProfileButton className={classes.menuButton} {...props} />
