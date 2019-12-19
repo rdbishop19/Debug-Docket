@@ -44,6 +44,8 @@ export default function EntriesHomeContainer(props) {
     const deleteItem = id => {
         if (window.confirm("Delete this entry?")){
             deleteEntry(id).then(getUserEntries)
+            setIsEditing(false)
+            setEditingId()
         }
     }
 
