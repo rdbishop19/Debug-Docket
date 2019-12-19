@@ -184,7 +184,7 @@ export default function Timer() {
 								00:00
 							</Typography>
 						)}
-						<Tooltip title="Restart break" aria-label="restart-break">
+						<Tooltip title="Restart break" aria-label="restart-break" placement="left">
 							<IconButton style={{ visibility: mode === "break" ? "visible" : "hidden" }} size="small" onClick={restartBreak}>
 								<SkipPreviousIcon />
 							</IconButton>
