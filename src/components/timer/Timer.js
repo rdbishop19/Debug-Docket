@@ -21,7 +21,7 @@ export default function Timer() {
 			? storedTimer - (new Date().getTime() - storedRefTimer)
 			: storedTimer;
 
-	const defaultTimer = 180000;
+	const defaultTimer = 1500000;
 	const [ timer, setTimer ] = useState(storedTimer ? resumeTimer : 180000); // change to 1500000 when done testing (25 minutes)
 	const [ sessionTime, setSessionTime ] = useState(defaultTimer);
 	const [ breakTime, setBreakTime ] = useState(300000);
@@ -200,23 +200,23 @@ export default function Timer() {
 						<div style={{ display: 'flex', textAlign: 'center', justifyContent: 'space-around' }}>
 							<Card style={{ margin: '5px', flex: 1 }}>
 								<Grid container spacing={0}>
-									<Grid item xs={4}>
+									<Grid item xs={3}>
 										<IconButton onClick={increment} size="small" edge="start">
 											<AddIcon color="primary" />
 										</IconButton>
 									</Grid>
 									{/* <Input /> */}
-									<Grid container item xs={4}>
+									<Grid container item xs={6}>
 										<div style={{ width: '100%' }}>
 											<Typography
-												variant="h4"
-												style={{ margin: '10px auto', verticalAlign: 'center' }}
+												variant="h3"
+												// style={{ margin: '10px auto', verticalAlign: 'center' }}
 											>
 												{sessionTime / 60000}
 											</Typography>
 										</div>
 									</Grid>
-									<Grid item xs={4}>
+									<Grid item xs={3}>
 										<IconButton onClick={decrement} size="small" edge="end">
 											<RemoveIcon color="secondary" />
 										</IconButton>
@@ -230,23 +230,23 @@ export default function Timer() {
 							</Card>
 							<Card style={{ margin: '5px', flex: 1 }}>
 								<Grid container spacing={0}>
-									<Grid item xs={4}>
+									<Grid item xs={3}>
 										<IconButton onClick={incrementBreak} size="small">
 											<AddIcon color="primary" />
 										</IconButton>
 									</Grid>
 									{/* <Input value={breakTime}/> */}
-									<Grid item xs={4}>
+									<Grid item xs={6}>
 										<div style={{ width: '100%' }}>
 											<Typography
-												variant="h4"
-												style={{ margin: '10px auto', verticalAlign: 'center' }}
+												variant="h3"
+												// style={{ margin: '10px auto', verticalAlign: 'center' }}
 											>
 												{breakTime / 60000}
 											</Typography>
 										</div>
 									</Grid>
-									<Grid item xs={4}>
+									<Grid item xs={3}>
 										<IconButton onClick={decrementBreak} size="small">
 											<RemoveIcon color="secondary" />
 										</IconButton>
