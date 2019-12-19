@@ -27,6 +27,7 @@ export default function EditProfile(props) {
     const activeUser = getLoggedInUser();
     const [avatarUrl, setAvatarUrl] = useState("")
     const [selectedFile, setSelectedFile] = useState("")
+    const [uploadDisabled, setUploadDisabled] = useState(true)
 	const { email: currentEmail, password: currentPassword } = activeUser;
 	const [ currentUser, setCurrentUser ] = useState({
 		email: '',
@@ -93,14 +94,18 @@ export default function EditProfile(props) {
 		updateUserProfile(updatedUser).then((user) => {
 			localStorage.removeItem('credentials');
 			sessionStorage.removeItem('credentials');
-			login(user.id, user.email, user.password);
+			login(user, user.email, user.password);
 			setLoggedInUser(null);
 			setLoggedInUser(user.id);
 			if (window.confirm('Profile updated. Go back to main page?')) {
 				props.history.push('/home');
 			}
 		});
-	};
+    };
+    
+    const toggle = () =>{
+        setUploadDisabled(!uploadDisabled)
+    }
 
 	useEffect(
 		() => {
@@ -138,14 +143,20 @@ export default function EditProfile(props) {
                 <Input name="verifyPassword" type="password" value={verifyPassword} onChange={handleChange}/> */}
                 <Typography>Current Profile Picture: </Typography>
                 <Avatar src={avatarUrl} className={classes.large}/>
-				<Input label="Choose New File" accept="image/*" id="contained-button-file" type="file" onChange={fileSelectorHandler} />
-				<InputLabel htmlFor="contained-button-file">
-				</InputLabel>
-					<Button disabled={selectedFile === ""} variant="contained" component="span" onClick={fileUploadHandler}>
-						Upload
-					</Button>
-				<br />
-				<br />
+                <Button color="secondary" onClick={toggle}>
+                    {uploadDisabled ? "Change Profile Picture" : "Cancel"}
+                </Button>
+                <br/>
+				<div style={{ visibility: uploadDisabled ? "hidden" : "visible"}} >
+				    <Input label="Choose New File" accept="image/*" id="contained-button-file" type="file" onChange={fileSelectorHandler} />
+    				<InputLabel htmlFor="contained-button-file">
+    				</InputLabel>
+    					<Button disabled={selectedFile === ""} variant="contained" component="span" onClick={fileUploadHandler}>
+    						Upload
+    					</Button>
+    				<br />
+    				<br />
+				</div>
 				<Button type="submit" color="primary" variant="contained" onClick={updateProfile}>
 					Update Profile
 				</Button>
