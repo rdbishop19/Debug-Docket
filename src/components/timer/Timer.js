@@ -153,6 +153,10 @@ export default function Timer() {
 		} else storeState.current = 'started';
 		setActive(!active);
 	}
+	function handleClick(){
+		console.log('clicked')
+
+	}
 
 	return (
 		<Card style={{ width: '50%', margin: '0 auto', backgroundColor: mode === 'session' ? 'salmon' : 'aquamarine' }}>
@@ -164,11 +168,13 @@ export default function Timer() {
 							{mode === 'break' && 'BREAK'}
 						</Typography>
 						{timer > 0 ? (
-							<Typography component="h3" variant="h1">
-								{minutes >= 10 ? minutes : '0' + minutes}
-								{':'}
-								{seconds >= 10 ? seconds : '0' + seconds}
-							</Typography>
+							<Tooltip title="Click to start/stop" aria-label="start-stop" placement="bottom">
+								<Typography component="h3" variant="h1" onClick={toggle} style={{ cursor: "pointer" }}>
+									{minutes >= 10 ? minutes : '0' + minutes}
+									{':'}
+									{seconds >= 10 ? seconds : '0' + seconds}
+								</Typography>
+							</Tooltip>
 						) : (
 							<Typography component="h3" variant="h3">
 								00:00
