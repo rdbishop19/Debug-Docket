@@ -9,13 +9,7 @@ export class TimerContainer extends Component {
 				<h3>CLOCK IT</h3>
 				<Paper style={{ width: '97%', margin: '0 10px' }}>
 					<br />
-					<Card style={{ width: '50%', margin: '0 auto', backgroundColor: 'salmon' }}>
-						<CardContent>
-							<Typography component="h3" variant="h3">
-								<Timer />
-							</Typography>
-						</CardContent>
-					</Card>
+					<Timer />
 					<br />
 					version 2.0
 					<br />
