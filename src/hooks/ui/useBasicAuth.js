@@ -22,6 +22,7 @@ const useBasicAuth = () => {
                 password: password,
                 firstName: userObj.firstName,
                 lastName: userObj.lastName,
+                avatarUrl: userObj.avatarUrl ? userObj.avatarUrl : "",
             })
         )
         // change state to logged in
