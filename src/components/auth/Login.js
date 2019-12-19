@@ -56,7 +56,7 @@ const Login = props => {
                 return
             } 
             const storage = checked !== true ? localStorage : sessionStorage
-            login(user[0].id, email.current.value, password.current.value, storage)
+            login(user[0], email.current.value, password.current.value, storage)
             setLoggedInUser(user[0].id)
             setUserEntries([])
             props.history.push({

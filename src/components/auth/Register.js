@@ -67,7 +67,7 @@ const Register = props => {
             createAccount(newUser).then((user) => {
                 // console.log('newUser response', user)
                 const storage = checked !== true ? localStorage : sessionStorage
-                login(user.id, user.email, user.password, storage)
+                login(user, user.email, user.password, storage)
                 setLoggedInUser(user.id)
                 setUserEntries([])
                 props.history.push({
