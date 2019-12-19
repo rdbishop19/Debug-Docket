@@ -31,6 +31,7 @@ export default function HomeButton(props) {
 
 	return (
 		<div>
+			{props.user && props.user.firstName}
 			<IconButton edge="end" color="inherit" aria-label="menu" onClick={handleClick}>
 				<AccountCircleIcon />
 			</IconButton>

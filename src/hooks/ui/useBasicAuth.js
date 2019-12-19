@@ -13,13 +13,15 @@ const useBasicAuth = () => {
 
     // accept validated user inputs and set local/session Storage based
     // on user 'remember be' settings
-    const login = (id, email, password, storageType = localStorage) => {
+    const login = (userObj, email, password, storageType = localStorage) => {
         storageType.setItem(
             "credentials",
             JSON.stringify({
-                id: id,
+                id: userObj.id,
                 email: email,
                 password: password,
+                firstName: userObj.firstName,
+                lastName: userObj.lastName,
             })
         )
         // change state to logged in

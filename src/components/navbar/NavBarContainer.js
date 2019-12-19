@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { withRouter } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -13,6 +13,18 @@ import { Link as RouterLink } from 'react-router-dom';
 import useBasicAuth from '../../hooks/ui/useBasicAuth';
 
 const login = React.forwardRef((props, ref) => <RouterLink innerRef={ref} to="/login" {...props} />);
+const getLoggedInUser = () => {
+	const localUser = JSON.parse(localStorage.getItem("credentials"))
+	if (localUser !== null){
+		return localUser
+	}
+	const sessionUser = JSON.parse(sessionStorage.getItem("credentials"))
+	if (sessionUser !== null){
+		return sessionUser
+	}
+	// console.log('localUser', localUser)
+	// console.log('sessionUser', sessionUser)
+}
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -29,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function NavBarNonUser(props) {
+
+  const user = getLoggedInUser()
+  console.log('user', user)
   const classes = useStyles();
   const { isAuthenticated } = useBasicAuth()
 
@@ -44,7 +59,7 @@ function NavBarNonUser(props) {
 						Docket
 					</Typography>
 					{ isAuthenticated() ? 
-						<ProfileButton className={classes.menuButton} {...props} />
+						<ProfileButton className={classes.menuButton} user={user} {...props} />
 						:
             			<Button color="secondary" component={login} variant="contained">
               			  Register / Login
