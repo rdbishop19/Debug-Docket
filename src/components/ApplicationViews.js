@@ -6,8 +6,8 @@ import Login from './auth/Login'
 import Register from './auth/Register'
 
 //TODO: uncomment and use these possibly after MVP met and working on TIMER
-// import EntriesHomeContainer from './entries/EntriesHomeContainer'
-// import TimerContainer from './timer/TimerContainer'
+import EntriesHomeContainer from './entries/EntriesHomeContainer'
+import TimerContainer from './timer/TimerContainer'
 import EntryDetailsContainer from './entries/EntryDetailsContainer'
 import FeedContainer from './feed/FeedContainer'
 import HistoryContainer from './history/HistoryContainer'
@@ -22,12 +22,12 @@ export class ApplicationViews extends Component {
 
             <React.Fragment>
                 
-                {/* <Route path="/home" render={(props) => {
-                    return <>
+                <Route exact path="/" render={(props) => {
+                    return <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: "center", height: "85vh", textAlign: "center"}}>
                             <TimerContainer {...props} />
                             <EntriesHomeContainer {...props} />
-                        </>
-                }} /> */}
+                        </div>
+                }} />
                 {/* TODO: refactor this after MVP so non-registered user can still use timer/todo */}
                 <UserProvider>
                     <EntryProvider>

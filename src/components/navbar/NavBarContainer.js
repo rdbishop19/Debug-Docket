@@ -1,30 +1,31 @@
 import React, { useContext } from 'react';
-import { withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import HomeButton from './HomeButton'
-import ProfileButton from './ProfileButton'
+import HomeButton from './HomeButton';
+import ProfileButton from './ProfileButton';
 import BugReportIcon from '@material-ui/icons/BugReport';
 
 import { Link as RouterLink } from 'react-router-dom';
 import useBasicAuth from '../../hooks/ui/useBasicAuth';
+import CurrentTime from '../timer/CurrentTime';
 
 const login = React.forwardRef((props, ref) => <RouterLink innerRef={ref} to="/login" {...props} />);
 const getLoggedInUser = () => {
-	const localUser = JSON.parse(localStorage.getItem("credentials"))
-	if (localUser !== null){
-		return localUser
+	const localUser = JSON.parse(localStorage.getItem('credentials'));
+	if (localUser !== null) {
+		return localUser;
 	}
-	const sessionUser = JSON.parse(sessionStorage.getItem("credentials"))
-	if (sessionUser !== null){
-		return sessionUser
+	const sessionUser = JSON.parse(sessionStorage.getItem('credentials'));
+	if (sessionUser !== null) {
+		return sessionUser;
 	}
 	// console.log('localUser', localUser)
 	// console.log('sessionUser', sessionUser)
-}
+};
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -36,35 +37,43 @@ const useStyles = makeStyles((theme) => ({
 	title: {
 		flexGrow: 1,
 		textAlign: 'center',
-		cursor: 'pointer',
+		cursor: 'pointer'
 	}
 }));
 
 function NavBarNonUser(props) {
+	const user = getLoggedInUser();
+	console.log('user', user);
+	const classes = useStyles();
+	const { isAuthenticated } = useBasicAuth();
 
-  const user = getLoggedInUser()
-  console.log('user', user)
-  const classes = useStyles();
-  const { isAuthenticated } = useBasicAuth()
+	const goToHome = () => {
+		if (isAuthenticated()) {
+			props.history.push('/home');
+		} else props.history.push('/');
+	};
 
 	return (
 		<div className={classes.root}>
 			<AppBar position="static">
 				<Toolbar>
-					<HomeButton className={classes.menuButton}/>
-					
-					<Typography variant="h6" className={classes.title} onClick={()=>{props.history.push('/home')}}>
+					{isAuthenticated() && <HomeButton className={classes.menuButton} />}
+					<Typography variant="subtitle1" className={classes.menuButton}>
+						<CurrentTime />
+					</Typography>
+
+					<Typography variant="h6" className={classes.title} onClick={goToHome}>
 						Debug
 						<BugReportIcon />
 						Docket
 					</Typography>
-					{ isAuthenticated() ? 
+					{isAuthenticated() ? (
 						<ProfileButton className={classes.menuButton} user={user} {...props} />
-						:
-            			<Button color="secondary" component={login} variant="contained">
-              			  Register / Login
-            			</Button>
-					}
+					) : (
+						<Button color="secondary" component={login} variant="contained">
+							Register / Login
+						</Button>
+					)}
 				</Toolbar>
 			</AppBar>
 		</div>
