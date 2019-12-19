@@ -4,8 +4,13 @@ import { Input, TextField } from '@material-ui/core'
 export default function EntryInputNew(props) {
 
     const [todo, setTodo] = useState('')
+    const initialHelper = 'Click it and ticket!'
+    const [helperText, setHelperText] = useState(initialHelper)
 
     const handleFieldChange = e => {
+        if (e.target.value !== ""){
+            setHelperText('Press [Enter] to add item to list')
+        } else setHelperText(initialHelper)
         setTodo(e.target.value)
     }
 
@@ -24,7 +29,7 @@ export default function EntryInputNew(props) {
                 label="To-Do item"
                 style={{ margin: 8 }}
                 placeholder={`What's on the docket today?`}
-                helperText="Click it and ticket!"
+                helperText={helperText}
                 style={{ width: "95% "}}
                 margin="none"
                 InputLabelProps={{
