@@ -30,24 +30,24 @@ export default function HomeButton(props) {
 	};
 
 	return (
-		// <div>
-			<Button color="primary" variant="container" onClick={handleClick} style={{ color: "white"}}>
+		<React.Fragment>
+			<Button color="primary" variant="primary" onClick={handleClick} style={{ color: "white"}}>
 				{props.user && props.user.firstName}
 				{/* <IconButton edge="end" color="inherit" aria-label="menu" > */}
 					<AccountCircleIcon edge="end" style={{ padding: "5px" }}/>
 				{/* </IconButton> */}
-				<Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-					<MenuItem onClick={handleClose} component={profile}>
-						Profile
-					</MenuItem>
-					<MenuItem onClick={handleClose} /* component={settings} */>
-						Settings (todo)
-					</MenuItem>
-					<MenuItem onClick={handleLogout}>
-						Logout
-					</MenuItem>
-				</Menu>
 			</Button>
-		// </div>
+			<Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+				<MenuItem onClick={handleClose} component={profile}>
+					Profile
+				</MenuItem>
+				<MenuItem onClick={handleClose} /* component={settings} */>
+					Settings (todo)
+				</MenuItem>
+				<MenuItem onClick={handleLogout}>
+					Logout
+				</MenuItem>
+			</Menu>
+		</React.Fragment>
 	);
 }
