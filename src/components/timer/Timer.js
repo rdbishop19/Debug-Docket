@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Card, Typography, IconButton } from '@material-ui/core';
+import { Card, Typography, IconButton, Input } from '@material-ui/core';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 import AddIcon from '@material-ui/icons/Add';
@@ -20,7 +20,10 @@ export default function Timer() {
 	? storedTimer - (new Date().getTime() - storedRefTimer)
 	: storedTimer;
 	
-	const [ timer, setTimer ] = useState(storedTimer ? resumeTimer : 180000);
+	const defaultTimer = 180000
+	const [ timer, setTimer ] = useState(storedTimer ? resumeTimer : 180000); // change to 1500000 when done testing (25 minutes)
+	const [ displayTimer, setDisplayTimer ] = useState(defaultTimer)
+	const [ breakTime, setBreakTime ] = useState(300000)
 	const [ mode, setMode ] = useState(storedMode ? storedMode : "session")
 	const storeTimer = useRef(resumeTimer !== null ? storedTimer : timer);
 	const storeState = useRef(storedState !== null ? storedState : 'paused');
@@ -54,7 +57,7 @@ export default function Timer() {
 				}
 				setMode("break")
 				document.title = 'Break time!';
-				setTimer(300000);
+				setTimer(breakTime);
 			}
 			else {
 				if (Notification.permission === 'granted'){
@@ -63,7 +66,7 @@ export default function Timer() {
 				setMode("session")
 				document.title = 'Debug Docket'
 				setActive(!active);
-				setTimer(1500000)
+				setTimer(displayTimer)
 			}
 			return;
 		}
@@ -108,6 +111,7 @@ export default function Timer() {
 		// this floor logic allows the adding of minutes to always round down the seconds
 		const newTimer = Math.floor((timer + 60000) / 60000) * 60000;
 		setTimer(newTimer);
+		setDisplayTimer(newTimer)
 	}
 	function decrement() {
 		setActive(false);
@@ -116,6 +120,20 @@ export default function Timer() {
 		// prevent negative timer
 		if (newTimer > 0) {
 			setTimer(newTimer);
+			setDisplayTimer(newTimer)
+		}
+	}
+
+	function incrementBreak(){
+		setActive(false)
+		const newBreak = Math.floor((breakTime + 60000) / 60000) * 60000;
+		setBreakTime(newBreak)
+	}
+	function decrementBreak(){
+		setActive(false)
+		const newBreak = Math.floor((breakTime - 60000) / 60000) * 60000;
+		if (newBreak > 0){
+			setBreakTime(newBreak)
 		}
 	}
 	
@@ -164,7 +182,17 @@ export default function Timer() {
 			<IconButton onClick={increment}>
 				<AddIcon />
 			</IconButton>
+			{/* <Input /> */}
+			{displayTimer/60000}
 			<IconButton onClick={decrement}>
+				<RemoveIcon />
+			</IconButton>
+			<IconButton onClick={incrementBreak}>
+				<AddIcon />
+			</IconButton>
+			{/* <Input value={breakTime}/> */}
+			{breakTime/60000}
+			<IconButton onClick={decrementBreak}>
 				<RemoveIcon />
 			</IconButton>
 		</Card>
