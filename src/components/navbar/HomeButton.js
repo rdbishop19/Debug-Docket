@@ -3,7 +3,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { IconButton } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
-import BugReportIcon from '@material-ui/icons/BugReport';
+// import BugReportIcon from '@material-ui/icons/BugReport';
+import MenuIcon from '@material-ui/icons/Menu';
 
 const home = React.forwardRef((props, ref) => <RouterLink innerRef={ref} to="/home" {...props} />);
 const feed = React.forwardRef((props, ref) => <RouterLink innerRef={ref} to="/feed" {...props} />);
@@ -28,7 +29,7 @@ export default function HomeButton(props) {
             aria-label="menu"
             onClick={handleClick}
 					>
-						<BugReportIcon />
+						<MenuIcon />
 			</IconButton>
       <Menu
         id="simple-menu"

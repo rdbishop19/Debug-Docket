@@ -3,8 +3,9 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { IconButton } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
-import MenuIcon from '@material-ui/icons/Menu';
+// import MenuIcon from '@material-ui/icons/Menu';
 import useBasicAuth from '../../hooks/ui/useBasicAuth';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 //TODO: uncomment once these components are built
 const profile = React.forwardRef((props, ref) => <RouterLink innerRef={ref} to="/profile/edit" {...props} />);
@@ -31,7 +32,7 @@ export default function HomeButton(props) {
 	return (
 		<div>
 			<IconButton edge="end" color="inherit" aria-label="menu" onClick={handleClick}>
-				<MenuIcon />
+				<AccountCircleIcon />
 			</IconButton>
 			<Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
 				<MenuItem onClick={handleClose} component={profile}>
