@@ -15,7 +15,7 @@ import {
 	Select,
 	Tooltip,
 	IconButton,
-    TextField
+	TextField
 } from '@material-ui/core';
 import Settings from '../../repositories/Settings';
 import { EntryContext } from '../providers/EntryProvider';
@@ -102,25 +102,33 @@ export default function EntryEdit(props) {
 	const { id, title, description, priority, severity, category, isCompleted } = entry;
 
 	return (
-		<div style={{ flex: 1 }}>
+		<div style={{ flex: 1, minWidth: "375px" }}>
 			<h3>TICKET</h3>
-			<Paper>
+			<Paper style={{ width: '97%', margin: '0 10px' }}>
 				<Typography component="div">
-					<form style={{ width: '95%', textAlign: "left", padding: '15px' }} onSubmit={handleSubmit}>
-						<FormControl component="fieldset" style={{ width: "90%", padding: "15px"}}>
+					<form style={{ width: '97%', textAlign: 'left', padding: '15px' }} onSubmit={handleSubmit}>
+						<FormControl component="fieldset" style={{ width: '90%', padding: '15px' }}>
 							<InputLabel>Title:</InputLabel>
 							<Input value={title} name="title" onChange={handleFieldChange} />
 						</FormControl>
 						<br />
-						<FormControl style={{ width: "90%", padding: "15px"}}>
-							{/* <InputLabel>Description:</InputLabel> */}
-							<TextField value={description} label="Description:" variant="outlined" name="description" multiline rows="3" onChange={handleFieldChange} />
+						<FormControl style={{ width: '90%', padding: '15px' }}>
+							<TextField
+								value={description}
+								label="Description:"
+								variant="outlined"
+								name="description"
+								multiline
+								rows="3"
+								onChange={handleFieldChange}
+							/>
 						</FormControl>
 						<br />
-						<br />
-						<FormControl style={{ width: "90%"}}>
-							<FormLabel style={{ display: "inline"}}>Status:</FormLabel>
-							<RadioGroup
+						<div style={{ width: '100%', textAlign: 'center' }}>
+
+						<FormControl style={{ width: '90%', margin: "0 auto" }}>
+							<FormLabel>Status:</FormLabel>
+							<RadioGroup style={{ paddingLeft: "200px"}}
 								row
 								value={isCompleted}
 								aria-label="status"
@@ -132,33 +140,34 @@ export default function EntryEdit(props) {
 							</RadioGroup>
 						</FormControl>
 						<br />
-						<br />
+
 						<Dropdowns
 							priority={priority}
 							severity={severity}
 							category={category}
 							handleRadioChange={handleRadioChange}
 						/>
+
 						<br />
 						<br />
-						<Button type="submit" color="primary" variant="contained">
-							Save
-						</Button>
-						<Button
-							type="button"
-							color="default"
-							variant="outlined"
-							onClick={() => props.history.push('/home')}
-						>
-							Cancel
-						</Button>
-						<Tooltip title="Delete" aria-label="delete">
-							<IconButton aria-label="delete" size="small" onClick={handleDelete}>
-								<DeleteIcon />
-							</IconButton>
-						</Tooltip>
+							<Button type="submit" color="primary" variant="contained">
+								Save
+							</Button>
+							<Button
+								type="button"
+								color="default"
+								variant="outlined"
+								onClick={() => props.history.push('/home')}
+							>
+								Cancel
+							</Button>
+							<Tooltip title="Delete" aria-label="delete">
+								<IconButton aria-label="delete" size="small" onClick={handleDelete}>
+									<DeleteIcon />
+								</IconButton>
+							</Tooltip>
+						</div>
 					</form>
-					<br />
 				</Typography>
 			</Paper>
 		</div>
