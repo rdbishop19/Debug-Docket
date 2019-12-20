@@ -1,9 +1,23 @@
 import React, { useState } from 'react';
-import EntryCard from './EntryCard';
+import EntryCardNonAuth from './EntryCardNonAuth';
 import EntryInputNew from './EntryInputNew';
+import { Typography } from '@material-ui/core';
 
 export default function EntriesHomeContainer(props) {
-    const [bugArray, setBugArray] = useState([])
+    const [bugArray, setBugArray] = useState([
+        {
+            id: 0,
+            todo: "Register for Debug Docket"
+        },
+        {
+            id: 1,
+            todo: "Take more breaks"
+        },
+        {
+            id: 2,
+            todo: "Look up the word 'Pomodoro'"
+        }
+    ])
     const [isEditing, setIsEditing] = useState(false)
     const [editingId, setEditingId] = useState()
     
@@ -33,11 +47,12 @@ export default function EntriesHomeContainer(props) {
     return (
         <div style={{ flex: 1 }}>
             <h3>DOCK IT</h3>
-            <h4>Current Bugs</h4>
             <EntryInputNew addNew={addNew} />
             <br />
+            <h3>TO-DO LIST</h3>
+            <Typography variant="caption">Register/Sign in to start your bug tracking journey</Typography>
             {bugArray.map((item) => {
-                return <EntryCard key={item.id}
+                return <EntryCardNonAuth key={item.id}
                                 item={item}
                                 isEditing={isEditing}
                                 editingId={editingId} 
@@ -48,59 +63,3 @@ export default function EntriesHomeContainer(props) {
         </div>
     );
 }
-
-// class EntriesHomeContainer extends Component {
-// 	state = {
-//         bugArray: [],
-//         isEditing: false,
-//         editingId: '',
-// 	};
-
-// 	addNew = (todo) => {
-// 		const { bugArray } = this.state;
-// 		this.setState({
-// 			bugArray: [ { id: bugArray.length, todo: todo }, ...bugArray ]
-// 		});
-//     };
-
-//     edit = (id) => {
-//         this.setState({
-//             isEditing: true,
-//             editingId: id,
-//         })
-//         console.log('editing parent state', this.state )
-//     };
-//     cancelEdit = () => {
-//         this.setState({
-//             isEditing: false,
-//         })
-//     }
-
-// 	updateItem = (todo, index) => {
-//         let bugArray = [ ...this.state.bugArray ]; // create the copy of state array
-// 		bugArray[index] = { id: index, todo: todo }; //new value
-// 		this.setState({ bugArray: bugArray, isEditing: false, editingId: '' }); //update the value
-// 	};
-
-// 	render() {
-// 		return (
-// 			<div style={{ flex: 1 }}>
-// 				<h3>DOCK IT</h3>
-// 				<h4>Current Bugs</h4>
-// 				<EntryInputNew addNew={this.addNew} />
-// 				<br />
-// 				{this.state.bugArray.map((item) => {
-//                     return <EntryCard key={item.id} 
-//                                     item={item} 
-//                                     isEditing={this.state.isEditing}
-//                                     editingId={this.state.editingId} 
-//                                     edit={this.edit} 
-//                                     updateItem={this.updateItem}
-//                                     cancelEdit={this.cancelEdit} />;
-// 				})}
-// 			</div>
-// 		);
-// 	}
-// }
-
-// export default EntriesHomeContainer
