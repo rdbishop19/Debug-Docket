@@ -5,18 +5,30 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 
 export default function NavTimer() {
-	const {
-		timer,
-		mode,
-        active,
-        toggle,
-	} = useContext(TimerContext);
+	const { timer, mode, active, toggle } = useContext(TimerContext);
 
 	const minutes = Math.floor((timer % (1000 * 60 * 60)) / (1000 * 60));
 	const seconds = Math.floor((timer % (1000 * 60)) / 1000);
 
 	return (
 		<React.Fragment>
+			<Typography>
+				{mode === 'session' && 'SESSION'}
+				{mode === 'break' && 'BREAK'}
+			</Typography>
+			{active ? (
+				<Tooltip title="Pause" aria-label="pause">
+					<IconButton variant="outlined" color="default" onClick={toggle} size="small">
+						<PauseIcon />
+					</IconButton>
+				</Tooltip>
+			) : (
+				<Tooltip title="Resume" aria-label="resume-timer">
+					<IconButton variant="outlined" color="secondary" onClick={toggle} size="small">
+						<PlayArrowIcon />
+					</IconButton>
+				</Tooltip>
+			)}
 			{timer > 0 ? (
 				<Tooltip title="Current Timer" aria-label="current-timer" placement="bottom">
 					<Typography onClick={toggle} style={{ cursor: 'pointer' }}>
@@ -28,23 +40,6 @@ export default function NavTimer() {
 			) : (
 				<Typography>00:00</Typography>
 			)}
-			{active ? (
-				<Tooltip title="Pause" aria-label="pause">
-				    <IconButton variant="outlined" color="default" onClick={toggle} size="small">
-    					<PauseIcon />
-    				</IconButton>
-				</Tooltip>
-			) : (
-				<Tooltip title="Resume" aria-label="resume-timer">
-				    <IconButton variant="outlined" color="secondary" onClick={toggle} size="small">
-    					<PlayArrowIcon />
-    				</IconButton>
-				</Tooltip>
-			)}
-			<Typography>
-				{mode === 'session' && 'SESSION'}
-				{mode === 'break' && 'BREAK'}
-			</Typography>
 		</React.Fragment>
 	);
 }
