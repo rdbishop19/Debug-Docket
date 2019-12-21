@@ -13,7 +13,9 @@ export default function NavTimer() {
 
 	return (
 		<React.Fragment>
-			<TimerIcon style={{ margin: "0 5px"}}/>
+			<Tooltip title={active ? 'Timer running' : 'Timer paused'}>
+				<TimerIcon style={{ margin: '0 5px', color: active ? 'salmon' : 'white' }} />
+			</Tooltip>
 			<Typography>
 				{mode === 'session' && 'SESSION'}
 				{mode === 'break' && 'BREAK'}

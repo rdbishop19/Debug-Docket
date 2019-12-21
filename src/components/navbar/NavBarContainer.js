@@ -65,7 +65,7 @@ function NavBarNonUser(props) {
 					{/* <Typography variant="subtitle1" className={classes.menuButton}>
 						<CurrentTime />
 					</Typography> */}
-					<NavTimer m={2}/>
+					<NavTimer/>
 
 					<Typography variant="h6" className={classes.title} onClick={goToHome}>
 						Debug
