@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import NavBarContainer from './navbar/NavBarContainer';
 import ApplicationViews from './ApplicationViews';
+import { TimerProvider } from './providers/TimerProvider';
 
 export class DebugDocket extends Component {
 	render() {
 		return (
-			<React.Fragment>
+			<TimerProvider>
                 <NavBarContainer />
 				<ApplicationViews />
-			</React.Fragment>
+			</TimerProvider>
 		);
 	}
 }
