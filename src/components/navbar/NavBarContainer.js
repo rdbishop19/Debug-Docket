@@ -39,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
 		flexGrow: 1,
 		textAlign: 'center',
 		cursor: 'pointer'
+	},
+	timer: {
+		margin: "0 20px"
 	}
 }));
 
@@ -59,10 +62,10 @@ function NavBarNonUser(props) {
 			<AppBar position="static">
 				<Toolbar>
 					{isAuthenticated() && <HomeButton className={classes.menuButton} />}
-					<Typography variant="subtitle1" className={classes.menuButton}>
+					{/* <Typography variant="subtitle1" className={classes.menuButton}>
 						<CurrentTime />
-					</Typography>
-					<NavTimer />
+					</Typography> */}
+					<NavTimer m={2}/>
 
 					<Typography variant="h6" className={classes.title} onClick={goToHome}>
 						Debug

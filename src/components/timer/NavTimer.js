@@ -3,6 +3,7 @@ import { TimerContext } from '../providers/TimerProvider';
 import { Card, Typography, Tooltip, Button, IconButton } from '@material-ui/core';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
+import TimerIcon from '@material-ui/icons/Timer';
 
 export default function NavTimer() {
 	const { timer, mode, active, toggle } = useContext(TimerContext);
@@ -12,6 +13,7 @@ export default function NavTimer() {
 
 	return (
 		<React.Fragment>
+			<TimerIcon style={{ margin: "0 5px"}}/>
 			<Typography>
 				{mode === 'session' && 'SESSION'}
 				{mode === 'break' && 'BREAK'}
