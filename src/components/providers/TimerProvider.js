@@ -70,7 +70,6 @@ export const TimerProvider = (props) => {
 		// const seconds = Math.floor((timer % (1000 * 60)) / 1000);
 
 		// const timeInterval = 1000; //milliseconds
-		console.log('timer updated');
 		if (timer <= 0 && active) {
 			if (mode === 'session') {
 				if (Notification.permission === 'granted') {
