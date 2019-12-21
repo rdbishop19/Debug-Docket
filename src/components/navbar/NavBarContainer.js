@@ -13,6 +13,8 @@ import { Link as RouterLink } from 'react-router-dom';
 import useBasicAuth from '../../hooks/ui/useBasicAuth';
 import CurrentTime from '../timer/CurrentTime';
 
+import './NavBar.css'
+
 const login = React.forwardRef((props, ref) => <RouterLink innerRef={ref} to="/login" {...props} />);
 const getLoggedInUser = () => {
 	const localUser = JSON.parse(localStorage.getItem('credentials'));
@@ -64,7 +66,7 @@ function NavBarNonUser(props) {
 
 					<Typography variant="h6" className={classes.title} onClick={goToHome}>
 						Debug
-						<BugReportIcon />
+						<BugReportIcon className="seconds" />
 						Docket
 					</Typography>
 					{isAuthenticated() ? (
