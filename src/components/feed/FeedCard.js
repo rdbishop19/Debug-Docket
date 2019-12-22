@@ -110,7 +110,7 @@ export default function FeedCard(props) {
 				}
 			/>
 			<CardContent style={{ backgroundColor: "almond"}}>
-				<Typography component="p" variant="p">
+				<Typography>
 					{entry.title}
 				</Typography>
 				{/* <Button onClick={() => history.push(`/entries/${Number(entry.id)}/details`)}>Details</Button> */}

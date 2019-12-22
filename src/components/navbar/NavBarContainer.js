@@ -13,6 +13,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import useBasicAuth from '../../hooks/ui/useBasicAuth';
 import CurrentTime from '../timer/CurrentTime';
 import NavTimer from '../timer/NavTimer';
+import { FormControlLabel, Switch } from '@material-ui/core';
 
 const login = React.forwardRef((props, ref) => <RouterLink innerRef={ref} to="/login" {...props} />);
 const getLoggedInUser = () => {
@@ -47,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 function NavBarNonUser(props) {
 	const user = getLoggedInUser();
-	console.log('user', user);
+	// console.log('user', user);
 	const classes = useStyles();
 	const { isAuthenticated } = useBasicAuth();
 
@@ -72,6 +73,7 @@ function NavBarNonUser(props) {
 						<BugReportIcon />
 						Docket
 					</Typography>
+					<FormControlLabel control={<Switch onClick={props.toggleDarkMode}/>} label="Dark mode" />
 					{isAuthenticated() ? (
 						<ProfileButton className={classes.menuButton} user={user} {...props} />
 					) : (

@@ -4,10 +4,13 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import DebugDocket from './components/DebugDocket';
+import { ThemeProvider } from './components/providers/ThemeProvider';
 
 ReactDOM.render(
     <Router>
-        <DebugDocket />
+        <ThemeProvider>
+            <DebugDocket />
+        </ThemeProvider>
     </Router>
     ,document.getElementById('root'));
 
