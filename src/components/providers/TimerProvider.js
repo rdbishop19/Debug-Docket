@@ -117,7 +117,8 @@ export const TimerProvider = (props) => {
 		setActive(false);
 		setMode('session');
 		setTimer(sessionTime);
-		setBreakTime(breakTime);
+        setBreakTime(breakTime);
+        document.title = "Debug Docket"
 	}
 
 	function restartBreak() {
