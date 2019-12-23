@@ -46,9 +46,6 @@ export default function Timer() {
 		margin: '0 auto',
 	};
 
-	const borderStyle = {
-		backgroundColor: active && mode === "session" ? primary.light : secondary.main,
-	}
 	return (
 		<Card style={timerStyle}>
 			<CardContent>
@@ -88,7 +85,7 @@ export default function Timer() {
 							</Tooltip>
 						) : (
 							<Tooltip title="Play" aria-label="play" placement="left">
-								<Button variant="contained" color="primary" onClick={toggle} size="large">
+								<Button variant="contained" color={ type === "dark" ? "secondary" : "primary" } onClick={toggle} size="large">
 									<PlayArrowIcon />
 								</Button>
 							</Tooltip>
@@ -117,7 +114,7 @@ export default function Timer() {
 								<Grid container spacing={0}>
 									<Grid item xs={3}>
 										<IconButton onClick={increment} size="small" edge="start">
-											<AddIcon color="primary" />
+											<AddIcon />
 										</IconButton>
 									</Grid>
 									{/* <Input /> */}
@@ -131,7 +128,7 @@ export default function Timer() {
 									</Grid>
 									<Grid item xs={3}>
 										<IconButton onClick={decrement} size="small" edge="end">
-											<RemoveIcon color="secondary" />
+											<RemoveIcon />
 										</IconButton>
 									</Grid>
 									<Grid item xs={12}>
@@ -145,7 +142,7 @@ export default function Timer() {
 								<Grid container spacing={0}>
 									<Grid item xs={3}>
 										<IconButton onClick={incrementBreak} size="small">
-											<AddIcon color="primary" />
+											<AddIcon/>
 										</IconButton>
 									</Grid>
 									{/* <Input value={breakTime}/> */}
@@ -159,7 +156,7 @@ export default function Timer() {
 									</Grid>
 									<Grid item xs={3}>
 										<IconButton onClick={decrementBreak} size="small">
-											<RemoveIcon color="secondary" />
+											<RemoveIcon />
 										</IconButton>
 									</Grid>
 									<Grid item xs={12}>
