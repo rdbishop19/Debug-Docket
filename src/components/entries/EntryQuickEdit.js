@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, CardHeader, Tooltip, IconButton, InputLabel, Input, CardContent, TextField } from '@material-ui/core';
+import { Card, CardHeader, Tooltip, IconButton, InputLabel, Input, CardContent, TextField, useTheme } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
@@ -38,6 +38,9 @@ export default function EntryQuickEdit(props) {
 		updateItem(editedItem, item.id);
 	};
 
+	const theme = useTheme()
+	const { palette: { type, primary, secondary, error }} = theme
+
 	return (
 		<Card>
 			<CardHeader
@@ -59,6 +62,8 @@ export default function EntryQuickEdit(props) {
 							label="Title"
 							type="text"
 							style={{ width: '95%'}}
+							InputProps={{ color: type === "light" ? "primary" : "secondary"}}
+							InputLabelProps={{ color: type === "light" ? 'primary' : 'secondary'}}
 							defaultValue={item.title}
 							onKeyPress={handleKeyPress}
 							autoFocus={true}
@@ -77,6 +82,8 @@ export default function EntryQuickEdit(props) {
 					type="text"
 					style={{ width: '95%' }}
 					label="Description"
+					InputProps={{ color: type === "light" ? "primary" : "secondary"}}
+					InputLabelProps={{ color: type === "light" ? 'primary' : 'secondary'}}
 					defaultValue={item.description}
 					onKeyPress={handleKeyPress}
 					multiline
