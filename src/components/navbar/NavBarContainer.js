@@ -12,6 +12,7 @@ import BugReportIcon from '@material-ui/icons/BugReport';
 import { Link as RouterLink } from 'react-router-dom';
 import useBasicAuth from '../../hooks/ui/useBasicAuth';
 import CurrentTime from '../timer/CurrentTime';
+import NavTimer from '../timer/NavTimer';
 
 const login = React.forwardRef((props, ref) => <RouterLink innerRef={ref} to="/login" {...props} />);
 const getLoggedInUser = () => {
@@ -38,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
 		flexGrow: 1,
 		textAlign: 'center',
 		cursor: 'pointer'
+	},
+	timer: {
+		margin: "0 20px"
 	}
 }));
 
@@ -58,9 +62,10 @@ function NavBarNonUser(props) {
 			<AppBar position="static">
 				<Toolbar>
 					{isAuthenticated() && <HomeButton className={classes.menuButton} />}
-					<Typography variant="subtitle1" className={classes.menuButton}>
+					{/* <Typography variant="subtitle1" className={classes.menuButton}>
 						<CurrentTime />
-					</Typography>
+					</Typography> */}
+					<NavTimer/>
 
 					<Typography variant="h6" className={classes.title} onClick={goToHome}>
 						Debug
