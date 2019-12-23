@@ -39,7 +39,7 @@ export default function EntryQuickEdit(props) {
 	};
 
 	const theme = useTheme()
-	const { palette: { type, primary, secondary, error }} = theme
+	const { palette: { type, /* primary, secondary, error */ }} = theme
 
 	return (
 		<Card>
