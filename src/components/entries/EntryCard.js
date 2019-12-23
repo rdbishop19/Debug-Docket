@@ -2,7 +2,7 @@ import React from 'react';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 import { Tooltip, Card, Typography } from '@material-ui/core';
-
+import { useTheme } from '@material-ui/core/styles';
 import EntryQuickEdit from './EntryQuickEdit';
 
 function convertDateTimeFromISO(date) {
@@ -10,10 +10,12 @@ function convertDateTimeFromISO(date) {
 }
 
 export default function EntryCard(props) {
+	const theme = useTheme()
+	const { palette: { type, primary, secondary }} = theme
 	const { item, isEditing, edit, editingId, cancelEdit, updateItem, deleteItem, match, history } = props;
-
+	// console.log(theme)
 	const listStyle = {
-		backgroundColor: '#4ecca3',
+		backgroundColor: type === "dark" ? primary.light : secondary.main,
 		padding: '5px',
 		margin: '5px 5px',
 		border: '0.2px solid black',

@@ -7,6 +7,7 @@ import RemoveIcon from '@material-ui/icons/Remove';
 // import UpdateIcon from '@material-ui/icons/Update';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
+import { useTheme } from '@material-ui/core/styles';
 
 import { TimerContext } from '../providers/TimerProvider';
 
@@ -36,9 +37,20 @@ export default function Timer() {
 	// useEffect(() => {
 
 	// }, [ active, timer ]);
+	const theme = useTheme()
+	const { palette: { type, primary, secondary, error }} = theme
 
+	const timerStyle = {
+		backgroundColor: active && mode === "session" ? error.main : secondary.main,
+		width: '50%',
+		margin: '0 auto',
+	};
+
+	const borderStyle = {
+		backgroundColor: active && mode === "session" ? primary.light : secondary.main,
+	}
 	return (
-		<Card style={{ width: '50%', margin: '0 auto', backgroundColor: mode === 'session' ? 'salmon' : 'aquamarine' }}>
+		<Card style={timerStyle}>
 			<CardContent>
 				<Typography component="h3" variant="h3">
 					<Card>

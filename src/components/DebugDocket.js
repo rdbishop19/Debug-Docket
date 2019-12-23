@@ -11,7 +11,7 @@ export default function DebugDocket(props) {
 
 	const [ theme, toggleDarkMode ] = useDarkMode(themeObject);
 	const themeConfig = createMuiTheme(theme)
-	console.log('theme', theme)
+	
 	return (
 		<MuiThemeProvider theme={themeConfig}>
 			<CssBaseline />
