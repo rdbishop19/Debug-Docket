@@ -4,7 +4,7 @@ import ApplicationViews from './ApplicationViews';
 import { TimerProvider } from './providers/TimerProvider';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { ThemeContext } from './providers/ThemeProvider';
-
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 export default function DebugDocket(props) {
 	const { useDarkMode, themeObject } = useContext(ThemeContext);
@@ -14,6 +14,7 @@ export default function DebugDocket(props) {
 	console.log('theme', theme)
 	return (
 		<MuiThemeProvider theme={themeConfig}>
+			<CssBaseline />
 			<TimerProvider>
 				<NavBarContainer toggleDarkMode={toggleDarkMode}/>
 				<ApplicationViews />
