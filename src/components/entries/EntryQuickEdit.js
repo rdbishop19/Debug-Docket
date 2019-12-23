@@ -39,7 +39,7 @@ export default function EntryQuickEdit(props) {
 	};
 
 	return (
-		<Card style={{ backgroundColor: "beige"}}>
+		<Card>
 			<CardHeader
 				// avatar={
 
@@ -58,7 +58,7 @@ export default function EntryQuickEdit(props) {
 							id="title"
 							label="Title"
 							type="text"
-							style={{ width: '95%', backgroundColor: "white" }}
+							style={{ width: '95%'}}
 							defaultValue={item.title}
 							onKeyPress={handleKeyPress}
 							autoFocus={true}
@@ -75,7 +75,7 @@ export default function EntryQuickEdit(props) {
 				<TextField
 					id="description"
 					type="text"
-					style={{ width: '95%', backgroundColor: "white" }}
+					style={{ width: '95%' }}
 					label="Description"
 					defaultValue={item.description}
 					onKeyPress={handleKeyPress}
@@ -97,7 +97,7 @@ export default function EntryQuickEdit(props) {
 				</Tooltip>
 				<Tooltip title="Save" aria-label="save">
 					<IconButton
-						color="primary"
+						color="secondary"
 						style={{ margin: '0 15px' }}
 						aria-label="save"
 						size="small"

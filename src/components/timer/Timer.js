@@ -11,6 +11,8 @@ import { useTheme } from '@material-ui/core/styles';
 
 import { TimerContext } from '../providers/TimerProvider';
 
+import './Timer.css'
+
 export default function Timer() {
 	const {
 		timer,
@@ -47,7 +49,7 @@ export default function Timer() {
 	};
 
 	return (
-		<Card style={timerStyle}>
+		<Card style={timerStyle} className={ active ? "timer-glow" : ""}>
 			<CardContent>
 				<Typography component="h3" variant="h3">
 					<Card>
