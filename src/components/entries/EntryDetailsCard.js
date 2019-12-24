@@ -143,27 +143,29 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 				</Button>
 			</Card>
 			<div style={{ margin: '10px', flex: 1, minWidth: "375px" }}>
-				<TextField
-					id="comment"
-					type="text"
-					style={{ width: '97%', margin: '15px 15px' }}
-					placeholder={
-						isLoggedInUserEntry ? 'Comment on your bug' : 'Add a comment to help your fellow dev'
-					}
-					InputProps={style}
-					value={comment}
-					// onKeyPress={handleKeyPress}
-					multiline
-					rows="3"
-					onChange={(event, value) => handleChange(event, value)}
-					variant="outlined"
-				/>
-				<div style={{ textAlign: 'right', marginRight: '25px' }}>
-					<Button color={style.color} variant="contained" onClick={postNewComment}>
-						Comment
-					</Button>
-				</div>
-				<Typography variant="h5">Comments</Typography>
+				<Card>
+					<TextField
+						id="comment"
+						type="text"
+						style={{ width: '97%', margin: '15px 15px' }}
+						placeholder={
+							isLoggedInUserEntry ? 'Comment on your bug' : 'Add a comment to help your fellow dev'
+						}
+						InputProps={style}
+						value={comment}
+						// onKeyPress={handleKeyPress}
+						multiline
+						rows="3"
+						onChange={(event, value) => handleChange(event, value)}
+						variant="outlined"
+					/>
+					<div style={{ textAlign: 'right', marginRight: '30px', marginTop: '-10px', marginBottom: '10px' }}>
+						<Button color={style.color} variant="contained" onClick={postNewComment}>
+							Comment
+						</Button>
+					</div>
+				</Card>
+				<Typography variant="h5" style={{ textAlign: "center"}}>COMMENTS</Typography>
 				<Card style={{ height: "55vh"}}>
 					<br />
 					{commentArray.length > 0 ? (
