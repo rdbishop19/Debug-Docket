@@ -26,7 +26,7 @@ export default {
     },
     // get all comments from system
     async getSingleEntryCommentList(entryId) {
-        const e = await fetch(`${Settings.remoteURL}/comments?entryId=${entryId}&_sort=timestamp`)
+        const e = await fetch(`${Settings.remoteURL}/comments?entryId=${entryId}&_sort=timestamp&_expand=user`)
         return await e.json()
     },
 

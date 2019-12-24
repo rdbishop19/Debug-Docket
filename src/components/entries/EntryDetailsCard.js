@@ -2,6 +2,7 @@ import React, { useContext /* , { useEffect } */, useState, useRef, useEffect } 
 import { Paper, Typography, Card, Button, TextField } from '@material-ui/core';
 import { UserContext } from '../providers/UserProvider';
 import CommentRepository from '../../repositories/CommentRepository';
+import CommentCard from '../comments/CommentCard';
 
 function convertDateTimeFromISO(date) {
 	return new Date(date);
@@ -120,7 +121,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 				id="comment"
 				type="text"
 				style={{ width: '97%', margin: '15px 15px' }}
-				placeholder="Know a possible way to solve this bug?"
+				placeholder={isLoggedInUserEntry ? "Add a comment to your own bug" : "Know a possible way to solve this bug?"}
 				// label="Comment"
 				// ref={comment}
 				value={comment}
@@ -136,10 +137,12 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 				</Button>
 			</div>
 			<Typography variant="h5">Comments</Typography>
-			<Paper>
+			<Paper style={{ margin: "10px"}}>
+				<br/>
 				{commentArray.length ? commentArray.map((comment) => {
-					return <Card>{comment.text}</Card>;
+					return <CommentCard key={comment.id} comment={comment} />
 				}): <h4>No comments</h4>}
+				<br/>
 			</Paper>
 		</React.Fragment>
 	);
