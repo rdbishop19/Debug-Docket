@@ -40,7 +40,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 	} = entry;
 
 	const theme = useTheme();
-	const { palette: { type, primary, secondary } } = theme;
+	const { palette: { type, primary, secondary, error } } = theme;
 
 	const { getLoggedInUser } = useContext(UserContext);
 	const activeUserId = getLoggedInUser().id;
@@ -101,12 +101,26 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 		color: type === 'light' ? 'primary' : 'secondary'
 	};
 
+	let entryStyle = {
+		backgroundColor: type === "light" ? error.main : error.dark,
+		margin: '10px 10px',
+		padding: '3px',
+		borderRadius: "5px"
+	};
+	// display color change if bug has been solved/closed
+	if (entry.isCompleted) {
+		entryStyle = {
+			...entryStyle,
+			backgroundColor: type === "light" ? secondary.light : secondary.dark,
+		};
+	}
+
 	return (
 		<React.Fragment>
 			<div style={{ flex: 1, textAlign: 'center', minWidth: '375px', margin: '10px' }}>
 				<Typography variant="h5">BUG DETAILS</Typography>
 				<Card style={{ padding: '10px', height: '82.3vh' }}>
-					<CardHeader
+					<CardHeader style={entryStyle}
 						// style={entryStyle}
 						avatar={
 							<Avatar
@@ -132,7 +146,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 							</Typography>
 						}
 						action={
-							<React.Fragment>
+							<div style={{ marginTop: "10px"}}>
 								{isLoggedInUserEntry && (
 									<Tooltip title="Edit" aria-label="edit">
 										<IconButton onClick={() => history.push(`/home/${id}/edit`)}>
@@ -145,7 +159,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 										<ArrowBackIcon />
 									</IconButton>
 								</Tooltip>
-							</React.Fragment>
+							</div>
 						}
 					/>
 					<Typography>
