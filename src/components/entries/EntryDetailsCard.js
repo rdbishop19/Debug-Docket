@@ -141,7 +141,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 					type="text"
 					style={{ width: '97%', margin: '15px 15px' }}
 					placeholder={
-						isLoggedInUserEntry ? 'Add a comment to your own bug' : 'Know a possible way to solve this bug?'
+						isLoggedInUserEntry ? 'Comment on your bug' : 'Add a comment to help your fellow dev'
 					}
 					// label="Comment"
 					// ref={comment}

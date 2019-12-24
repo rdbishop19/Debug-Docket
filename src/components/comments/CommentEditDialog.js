@@ -32,6 +32,7 @@ export default function CommentEditDialog({comment, open, handleDialogClose, upd
       <Dialog open={open} onClose={handleDialogClose}aria-labelledby="form-dialog-title" width="fit-content">
         <DialogTitle id="form-dialog-title">Edit Comment</DialogTitle>
         <DialogContent>
+            Original: 
           <DialogContentText>
             {comment.text}
           </DialogContentText>
