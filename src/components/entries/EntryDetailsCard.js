@@ -49,16 +49,16 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 			timestamp: new Date().toISOString()
 		};
 		console.log(newComment);
+		// post new comment to DB
 		CommentRepository.postNewComment(newComment)
 		.then((newComment)=>{
+			// update state by appending newComment to current commentArray
 			setCommentArray({
 				...commentArray,
 				newComment
 			})
 		})
-		//todo: post to DB
 
-		//todo: get new comment list then update state
 	};
 
 	const getComments = () => {
@@ -66,7 +66,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 		.then(setCommentArray)
 	}
 
-	useEffect(getComments, [commentArray])
+	useEffect(getComments, [])
 
 	return (
 		<React.Fragment>
@@ -139,8 +139,8 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 			<Typography variant="h5">Comments</Typography>
 			<Paper style={{ margin: "10px"}}>
 				<br/>
-				{commentArray.length ? commentArray.map((comment) => {
-					return <CommentCard key={comment.id} comment={comment} />
+				{commentArray.length > 0 ? commentArray.map((comment) => {
+					return <CommentCard key={comment.id} comment={comment} isUserEntry={activeUserId === comment.userId}/>
 				}): <h4>No comments</h4>}
 				<br/>
 			</Paper>
