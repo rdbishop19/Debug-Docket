@@ -39,7 +39,7 @@ export default function CommentCard({ comment, isUserEntry }) {
 				<span style={styles.nameStyle}>
 					{isUserEntry ? "(you) " : `${user.firstName} ${user.lastName} `}
 				</span>
-				<Tooltip title={new Date(timestamp).toString()} placement="top">
+				<Tooltip title={new Date(timestamp).toString()} placement="top" arrow>
 					<span style={styles.timerStyle}>{moment(timestamp).fromNow()}</span>
 				</Tooltip>
 			</Typography>
