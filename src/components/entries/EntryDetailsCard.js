@@ -60,6 +60,13 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 			setComment('');
 		});
 	};
+	
+	const updateComment = commentObj => {
+		CommentRepository.updateComment(commentObj)
+		.then(() => {
+			CommentRepository.getSingleEntryCommentList(entry.id).then(setCommentArray)
+		})
+	}
 
 	const deleteComment = (id) => {
 		CommentRepository.delete(id).then(() => {
@@ -83,7 +90,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 				height: '85vh',
 			}}
 		>
-			<Card style={{ margin: '10px 10px', flex: 1, textAlign: "center" }}>
+			<Card style={{ margin: '10px 10px', flex: 1, textAlign: "center", minWidth: "375px" }}>
 				<Typography variant="h5" component="h3">
 					BUG DETAILS
 				</Typography>
@@ -128,7 +135,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 					Go back
 				</Button>
 			</Card>
-			<div style={{ margin: '10px', flex: 1 }}>
+			<div style={{ margin: '10px', flex: 1, minWidth: "375px" }}>
 				<TextField
 					id="comment"
 					type="text"
@@ -151,7 +158,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 					</Button>
 				</div>
 				<Typography variant="h5">Comments</Typography>
-				<Paper style={{ height: "55vh"}}>
+				<Card style={{ height: "55vh"}}>
 					<br />
 					{commentArray.length > 0 ? (
 						commentArray.map((comment) => {
@@ -162,6 +169,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 									activeUserId={activeUserId}
 									isUserEntry={activeUserId === entry.userId}
 									deleteComment={deleteComment}
+									updateComment={updateComment}
 								/>
 							);
 						})
@@ -169,7 +177,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 						<h4>No comments</h4>
 					)}
 					<br />
-				</Paper>
+				</Card>
 			</div>
 		</div>
 	);
