@@ -1,8 +1,23 @@
 import React, { useContext /* , { useEffect } */, useState, useRef, useEffect } from 'react';
-import { Paper, Typography, Card, Button, TextField, useTheme } from '@material-ui/core';
+import {
+	Paper,
+	Typography,
+	Card,
+	Button,
+	TextField,
+	useTheme,
+	Avatar,
+	CardHeader,
+	Tooltip,
+	IconButton
+} from '@material-ui/core';
 import { UserContext } from '../providers/UserProvider';
 import CommentRepository from '../../repositories/CommentRepository';
 import CommentCard from '../comments/CommentCard';
+import moment from 'moment';
+import EntryDetailsMoreButton from './EntryDetailsMoreButton';
+import EditIcon from '@material-ui/icons/Edit';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 function convertDateTimeFromISO(date) {
 	return new Date(date);
@@ -24,9 +39,9 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 		totalBreakTime
 	} = entry;
 
-    const theme = useTheme()
-	const { palette: { type, primary, secondary }} = theme
-	
+	const theme = useTheme();
+	const { palette: { type, primary, secondary } } = theme;
+
 	const { getLoggedInUser } = useContext(UserContext);
 	const activeUserId = getLoggedInUser().id;
 	const isLoggedInUserEntry = activeUserId === userId;
@@ -63,13 +78,12 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 			setComment('');
 		});
 	};
-	
-	const updateComment = commentObj => {
-		CommentRepository.updateComment(commentObj)
-		.then(() => {
-			CommentRepository.getSingleEntryCommentList(entry.id).then(setCommentArray)
-		})
-	}
+
+	const updateComment = (commentObj) => {
+		CommentRepository.updateComment(commentObj).then(() => {
+			CommentRepository.getSingleEntryCommentList(entry.id).then(setCommentArray);
+		});
+	};
 
 	const deleteComment = (id) => {
 		CommentRepository.delete(id).then(() => {
@@ -84,65 +98,127 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 	useEffect(getComments, []);
 
 	const style = {
-        color: type === "light" ? "primary" : "secondary"
-	}
-	
-	return (
-		<div
-			style={{
-				display: 'flex',
-				flexDirection: 'row',
-				flexWrap: 'wrap',
-				justifyContent: 'center',
-				height: '85vh',
-			}}
-		>
-			<Card style={{ margin: '10px 10px', flex: 1, textAlign: "center", minWidth: "375px" }}>
-				<Typography variant="h5" component="h3">
-					BUG DETAILS
-				</Typography>
+		color: type === 'light' ? 'primary' : 'secondary'
+	};
 
-				<Typography>
-					<span>Title: </span>
-					{title}
-				</Typography>
-				<Typography>
-					<span>Description: </span>
-					{description}
-				</Typography>
-				<Typography>
-					<span>Status: </span>
-					{isCompleted ? 'Closed' : 'Open'}
-				</Typography>
-				<Typography>
-					<span>Submitted on: </span>
-					{new Date(timeStarted).toLocaleString()}
-				</Typography>
-				<Typography>
-					<span>Severity: </span>
-					{severity.label}
-				</Typography>
-				<Typography>
-					<span>Priority: </span>
-					{priority.label}
-				</Typography>
-				<Typography>
-					<span>Category: </span>
-					{category.label}
-				</Typography>
-				{isLoggedInUserEntry && (
-					<React.Fragment>
-						<Button variant="outlined" color="default" onClick={() => history.push(`/home/${id}/edit`)}>
-							Edit
+	return (
+		<React.Fragment>
+			<div style={{ flex: 1, textAlign: 'center', minWidth: '375px', margin: '10px' }}>
+				<Typography variant="h5">BUG DETAILS</Typography>
+				<Card style={{ padding: '10px', height: '82.3vh' }}>
+					<CardHeader
+						// style={entryStyle}
+						avatar={
+							<Avatar
+								aria-label="profile-picture"
+								src={entry.user.avatarUrl}
+								edge="end"
+								style={{ margin: '5px' }}
+								// className={classes.large}
+							>
+								{entry.user.firstName.slice(0, 1)}
+								{entry.user.lastName.slice(0, 1)}
+							</Avatar>
+						}
+						title={
+							<Typography>
+								{
+									<span>
+										{entry.user.firstName} {entry.user.lastName}{' '}
+									</span>
+								}
+								{activeUserId === entry.userId && <span>(you) </span>}
+								<span>{moment(entry.timeStarted).fromNow()}</span>
+							</Typography>
+						}
+						action={
+							<React.Fragment>
+								{isLoggedInUserEntry && (
+									<Tooltip title="Edit" aria-label="edit">
+										<IconButton onClick={() => history.push(`/home/${id}/edit`)}>
+											<EditIcon />
+										</IconButton>
+									</Tooltip>
+								)}
+								<Tooltip title="Go back" aria-label="go-back">
+									<IconButton onClick={history.goBack}>
+										<ArrowBackIcon />
+									</IconButton>
+								</Tooltip>
+							</React.Fragment>
+						}
+					/>
+					<Typography>
+						<span>Title: </span>
+						{title}
+					</Typography>
+					<Typography>
+						<span>Description: </span>
+						{description}
+					</Typography>
+					<Typography>
+						<span>Status: </span>
+						{isCompleted ? 'Closed' : 'Open'}
+					</Typography>
+					<Typography>
+						<span>Submitted on: </span>
+						{new Date(timeStarted).toLocaleString()}
+					</Typography>
+					<Typography>
+						<span>Severity: </span>
+						{severity.label}
+					</Typography>
+					<Typography>
+						<span>Priority: </span>
+						{priority.label}
+					</Typography>
+					<Typography>
+						<span>Category: </span>
+						{category.label}
+					</Typography>
+					{/* <div>
+						{isLoggedInUserEntry && (
+							<React.Fragment>
+								<Button
+									variant="outlined"
+									color="default"
+									onClick={() => history.push(`/home/${id}/edit`)}
+								>
+									Edit
+								</Button>
+							</React.Fragment>
+						)}
+						<Button variant="outlined" color={style.color} onClick={() => history.goBack()}>
+							Go back
 						</Button>
-						{/* <Button variant="contained" color="secondary" onClick={deleteEntry}>Delete</Button> */}
-					</React.Fragment>
-				)}
-				<Button variant="outlined" color="primary" onClick={() => history.goBack()}>
-					Go back
-				</Button>
-			</Card>
-			<div style={{ margin: '10px', flex: 1, minWidth: "375px" }}>
+					</div> */}
+				</Card>
+			</div>
+			<div style={{ margin: '10px', flex: 1, minWidth: '375px' }}>
+				<Typography variant="h5" style={{ textAlign: 'center' }}>
+					COMMENTS
+				</Typography>
+				<Card style={{ height: '55vh' }}>
+					<br />
+					{commentArray.length > 0 ? (
+						commentArray.map((comment) => {
+							return (
+								<CommentCard
+									key={comment.id}
+									comment={comment}
+									activeUserId={activeUserId}
+									isUserEntry={activeUserId === entry.userId}
+									deleteComment={deleteComment}
+									updateComment={updateComment}
+								/>
+							);
+						})
+					) : (
+						<h4>No comments</h4>
+					)}
+					<br />
+				</Card>
+				<br />
 				<Card>
 					<TextField
 						id="comment"
@@ -165,28 +241,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 						</Button>
 					</div>
 				</Card>
-				<Typography variant="h5" style={{ textAlign: "center"}}>COMMENTS</Typography>
-				<Card style={{ height: "55vh"}}>
-					<br />
-					{commentArray.length > 0 ? (
-						commentArray.map((comment) => {
-							return (
-								<CommentCard
-									key={comment.id}
-									comment={comment}
-									activeUserId={activeUserId}
-									isUserEntry={activeUserId === entry.userId}
-									deleteComment={deleteComment}
-									updateComment={updateComment}
-								/>
-							);
-						})
-					) : (
-						<h4>No comments</h4>
-					)}
-					<br />
-				</Card>
 			</div>
-		</div>
+		</React.Fragment>
 	);
 }
