@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useTheme, Typography, Paper, Tooltip, Button, IconButton, Avatar } from '@material-ui/core';
+import { useTheme, Typography, Paper, Tooltip, Button, IconButton, Avatar, makeStyles } from '@material-ui/core';
 import moment from 'moment';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
@@ -20,8 +20,15 @@ import CommentDeleteDialog from './CommentDeleteDialog';
 //     }
 //     else return timestamp
 // }
+const useStyles = makeStyles(theme => ({
+    tooltip: {
+      maxWidth: 'none',
+      backgroundColor: 'black',
+    }
+  }));
 
 export default function CommentCard(props) {
+    const classes = useStyles()
 	const { comment, isUserEntry, deleteComment, activeUserId, updateComment } = props;
 	const { text, user, timestamp } = comment;
 	const theme = useTheme();
@@ -53,8 +60,8 @@ export default function CommentCard(props) {
 			margin: '20px 25px'
 		},
 		nameStyle: {
-			// color: type === 'light' ? primary.main : secondary.main
-			color: secondary.dark
+			color: type === 'light' ? primary.main : secondary.main
+			// color: secondary.dark
 		},
 		timerStyle: {
 			cursor: 'pointer'
@@ -62,10 +69,6 @@ export default function CommentCard(props) {
 		menuButtonStyle: {
 			backgroundColor: 'black'
 		}
-		// small: {
-		//     width: theme.spacing(2),
-		//     height: theme.spacing(2),
-		//   },
 	};
 	return (
 		<div style={styles.cardStyle}>
@@ -85,7 +88,7 @@ export default function CommentCard(props) {
 						{activeUserId === comment.userId ? '(you) ' : `${user.firstName} ${user.lastName} `}
 					</span>
 					<span>{` • `}</span>
-					<Tooltip title={new Date(timestamp).toString()} placement="top" arrow>
+					<Tooltip title={new Date(timestamp).toString()} placement="top" arrow classes={{ tooltip: classes.tooltip }}>
 						<span style={styles.timerStyle}>{moment(timestamp).fromNow()}</span>
 					</Tooltip>
 					<CommentMenu style={styles.menuButtonStyle} {...props} handleClickOpen={handleClickOpen} handleOpenDeleteDialog={handleOpenDeleteDialog}/>

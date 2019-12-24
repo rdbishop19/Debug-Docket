@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Input, TextField } from '@material-ui/core'
+import { Input, TextField, useTheme } from '@material-ui/core'
 
 export default function EntryInputNew(props) {
 
@@ -21,6 +21,9 @@ export default function EntryInputNew(props) {
         setHelperText(initialHelper)
     }
 
+    const theme = useTheme()
+	const { palette: { type/* , primary, secondary, error */ }} = theme
+
     return (
         <form onSubmit={handleSubmit}>
             {/* <Input type="text" name="todo" placeholder="Add new bug" onChange={handleFieldChange} required/> */}
@@ -28,13 +31,14 @@ export default function EntryInputNew(props) {
                 id="new-todo"
                 name="todo"
                 label="To-Do item"
-                style={{ margin: 8 }}
+                InputProps={{ color: type === "light" ? "primary" : "secondary"}}
+                style={{ margin: 8, width: "95%" }}
                 placeholder={`What's on the docket today?`}
                 helperText={helperText}
-                style={{ width: "95% "}}
                 margin="none"
                 InputLabelProps={{
                     shrink: true,
+                    color: type === "light" ? 'primary' : 'secondary'
                 }}
                 onChange={handleFieldChange}
                 variant="outlined"

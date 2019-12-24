@@ -1,0 +1,22 @@
+@keyframes glowing {
+  0% { box-shadow: 0 0 10px #c4a300; }
+  40% { box-shadow: 0 0 15px #c4a300; }
+  60% { box-shadow: 0 0 15px #c4a300; }
+  100% { box-shadow: 0 0 10px #c4a300; }
+}
+
+.timer-glow {
+  animation: glowing 3000ms infinite;
+}
+
+@keyframes glowing-small {
+  0% { box-shadow: 0 0 5px #c4a300; }
+  40% { box-shadow: 0 0 10px #c4a300; }
+  60% { box-shadow: 0 0 10px #c4a300; }
+  100% { box-shadow: 0 0 5px #c4a300; }
+}
+
+.timer-glow-nav {
+  animation: glowing-small 3000ms infinite;
+}
+

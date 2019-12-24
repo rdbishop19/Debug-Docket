@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Button, IconButton, Tooltip, Card } from '@material-ui/core';
+import { Typography, Button, IconButton, Tooltip, Card, useTheme } from '@material-ui/core';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 export default function SearchCard({ user, addNewFriend }) {
 	const [ loadingStatus, setLoadingStatus ] = useState(false);
@@ -8,13 +8,16 @@ export default function SearchCard({ user, addNewFriend }) {
 		setLoadingStatus((loadingStatus) => !loadingStatus);
 		addNewFriend(id);
 	};
+
+	const theme = useTheme()
+	const { palette: { type }} = theme
 	return (
 		<Card style={{ margin: '5px' }}>
 		    <Typography component="div">
     			<Tooltip title="Add friend" aria-label="add-friend">
     				<IconButton
     					variant="contained"
-    					color="primary"
+    					color={type === 'light' ? 'primary' : 'secondary'}
     					onClick={() => handleClick(user.id)}
     					disabled={loadingStatus}
     				>

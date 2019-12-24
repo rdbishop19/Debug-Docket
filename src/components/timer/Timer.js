@@ -7,8 +7,11 @@ import RemoveIcon from '@material-ui/icons/Remove';
 // import UpdateIcon from '@material-ui/icons/Update';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
+import { useTheme } from '@material-ui/core/styles';
 
 import { TimerContext } from '../providers/TimerProvider';
+
+import './Timer.css'
 
 export default function Timer() {
 	const {
@@ -36,9 +39,17 @@ export default function Timer() {
 	// useEffect(() => {
 
 	// }, [ active, timer ]);
+	const theme = useTheme()
+	const { palette: { type, primary, secondary, error }} = theme
+
+	const timerStyle = {
+		backgroundColor: active && mode === "session" ? error.main : secondary.main,
+		width: '50%',
+		margin: '0 auto',
+	};
 
 	return (
-		<Card style={{ width: '50%', margin: '0 auto', backgroundColor: mode === 'session' ? 'salmon' : 'aquamarine' }}>
+		<Card style={timerStyle} className={ active ? "timer-glow" : ""}>
 			<CardContent>
 				<Typography component="h3" variant="h3">
 					<Card>
@@ -76,7 +87,7 @@ export default function Timer() {
 							</Tooltip>
 						) : (
 							<Tooltip title="Play" aria-label="play" placement="left">
-								<Button variant="contained" color="primary" onClick={toggle} size="large">
+								<Button variant="contained" color={ type === "dark" ? "secondary" : "primary" } onClick={toggle} size="large">
 									<PlayArrowIcon />
 								</Button>
 							</Tooltip>
@@ -105,7 +116,7 @@ export default function Timer() {
 								<Grid container spacing={0}>
 									<Grid item xs={3}>
 										<IconButton onClick={increment} size="small" edge="start">
-											<AddIcon color="primary" />
+											<AddIcon />
 										</IconButton>
 									</Grid>
 									{/* <Input /> */}
@@ -119,7 +130,7 @@ export default function Timer() {
 									</Grid>
 									<Grid item xs={3}>
 										<IconButton onClick={decrement} size="small" edge="end">
-											<RemoveIcon color="secondary" />
+											<RemoveIcon />
 										</IconButton>
 									</Grid>
 									<Grid item xs={12}>
@@ -133,7 +144,7 @@ export default function Timer() {
 								<Grid container spacing={0}>
 									<Grid item xs={3}>
 										<IconButton onClick={incrementBreak} size="small">
-											<AddIcon color="primary" />
+											<AddIcon/>
 										</IconButton>
 									</Grid>
 									{/* <Input value={breakTime}/> */}
@@ -147,7 +158,7 @@ export default function Timer() {
 									</Grid>
 									<Grid item xs={3}>
 										<IconButton onClick={decrementBreak} size="small">
-											<RemoveIcon color="secondary" />
+											<RemoveIcon />
 										</IconButton>
 									</Grid>
 									<Grid item xs={12}>

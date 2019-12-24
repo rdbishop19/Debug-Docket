@@ -1,9 +1,11 @@
 import React, { useContext } from 'react';
 import { TimerContext } from '../providers/TimerProvider';
-import { Card, Typography, Tooltip, Button, IconButton } from '@material-ui/core';
+import { Card, Typography, Tooltip, Button, IconButton, useTheme } from '@material-ui/core';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 import TimerIcon from '@material-ui/icons/Timer';
+
+import '../timer/Timer.css'
 
 export default function NavTimer() {
 	const { timer, mode, active, toggle } = useContext(TimerContext);
@@ -11,10 +13,13 @@ export default function NavTimer() {
 	const minutes = Math.floor((timer % (1000 * 60 * 60)) / (1000 * 60));
 	const seconds = Math.floor((timer % (1000 * 60)) / 1000);
 
+	const theme = useTheme();
+	const { palette: { type, error /* primary, secondary, error */ } } = theme;
+
 	return (
 		<React.Fragment>
 			<Tooltip title={active ? 'Timer running' : 'Timer paused'}>
-				<TimerIcon style={{ margin: '0 5px', color: active ? 'salmon' : 'white' }} />
+				<TimerIcon style={{ margin: '0 5px', color: active ? error.main : 'white' }} />
 			</Tooltip>
 			<Typography>
 				{mode === 'session' && 'SESSION'}
@@ -22,7 +27,7 @@ export default function NavTimer() {
 			</Typography>
 			{active ? (
 				<Tooltip title="Pause" aria-label="pause">
-					<IconButton variant="outlined" color="default" onClick={toggle} size="small">
+					<IconButton variant="outlined" color="default" onClick={toggle} size="small" >
 						<PauseIcon />
 					</IconButton>
 				</Tooltip>

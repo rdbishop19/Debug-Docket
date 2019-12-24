@@ -8,7 +8,8 @@ import {
 	Avatar,
 	CardHeader,
 	IconButton,
-	Tooltip
+	Tooltip,
+	useTheme
 } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -44,17 +45,21 @@ export default function FeedCard(props) {
 	console.log('user', user);
 	const feedView = container === 'feed';
 	const historyView = container === 'history';
-	//TODO: update this later during styline time
+
+	const theme = useTheme();
+	const { palette: { type, primary, secondary, error } } = theme;
+	// default view + show all open bugs with red background
 	let entryStyle = {
-		backgroundColor: '#a7ffeb',
+		backgroundColor: type === "light" ? error.main : error.dark,
 		margin: '10px 10px',
 		padding: '3px',
 		borderRadius: "5px"
 	};
-	if (entry.userId === activeUser.id) {
+	// display color change if bug has been solved/closed
+	if (entry.isCompleted) {
 		entryStyle = {
 			...entryStyle,
-			backgroundColor: 'salmon'
+			backgroundColor: type === "light" ? secondary.light : secondary.dark,
 		};
 	}
 
@@ -102,6 +107,8 @@ export default function FeedCard(props) {
 					<Tooltip title="Details" aria-label="details">
 						<IconButton
 							aria-label="details"
+							size="small"
+							style={{ marginTop: "5px"}}
 							onClick={() => history.push(`/entries/${Number(entry.id)}/details`)}
 						>
 							<MoreVertIcon />
@@ -110,7 +117,7 @@ export default function FeedCard(props) {
 				}
 			/>
 			<CardContent style={{ backgroundColor: "almond"}}>
-				<Typography component="p" variant="p">
+				<Typography>
 					{entry.title}
 				</Typography>
 				{/* <Button onClick={() => history.push(`/entries/${Number(entry.id)}/details`)}>Details</Button> */}
