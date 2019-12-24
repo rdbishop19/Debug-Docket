@@ -1,5 +1,5 @@
 import React, { useContext /* , { useEffect } */, useState, useRef, useEffect } from 'react';
-import { Paper, Typography, Card, Button, TextField } from '@material-ui/core';
+import { Paper, Typography, Card, Button, TextField, useTheme } from '@material-ui/core';
 import { UserContext } from '../providers/UserProvider';
 import CommentRepository from '../../repositories/CommentRepository';
 import CommentCard from '../comments/CommentCard';
@@ -24,6 +24,9 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 		totalBreakTime
 	} = entry;
 
+    const theme = useTheme()
+	const { palette: { type, primary, secondary }} = theme
+	
 	const { getLoggedInUser } = useContext(UserContext);
 	const activeUserId = getLoggedInUser().id;
 	const isLoggedInUserEntry = activeUserId === userId;
@@ -80,6 +83,10 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 
 	useEffect(getComments, []);
 
+	const style = {
+        color: type === "light" ? "primary" : "secondary"
+	}
+	
 	return (
 		<div
 			style={{
@@ -143,8 +150,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 					placeholder={
 						isLoggedInUserEntry ? 'Comment on your bug' : 'Add a comment to help your fellow dev'
 					}
-					// label="Comment"
-					// ref={comment}
+					InputProps={style}
 					value={comment}
 					// onKeyPress={handleKeyPress}
 					multiline
@@ -153,7 +159,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 					variant="outlined"
 				/>
 				<div style={{ textAlign: 'right', marginRight: '25px' }}>
-					<Button color="primary" variant="contained" onClick={postNewComment}>
+					<Button color={style.color} variant="contained" onClick={postNewComment}>
 						Comment
 					</Button>
 				</div>
