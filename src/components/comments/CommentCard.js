@@ -1,6 +1,7 @@
 import React from 'react';
-import { useTheme, Typography, Paper, Tooltip } from '@material-ui/core';
+import { useTheme, Typography, Paper, Tooltip, Button, IconButton } from '@material-ui/core';
 import moment from 'moment';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 // const formatTime = (timestamp) => {
 //     // console.log(moment(timestamp).dayOfYear())
@@ -16,7 +17,7 @@ import moment from 'moment';
 //     else return timestamp
 // }
 
-export default function CommentCard({ comment, isUserEntry }) {
+export default function CommentCard({ comment, isUserEntry, deleteComment, activeUserId }) {
 	const { text, user, timestamp } = comment;
 	const theme = useTheme();
 	const { palette: { type, primary, secondary, error } } = theme;
@@ -37,11 +38,18 @@ export default function CommentCard({ comment, isUserEntry }) {
 		<div style={styles.cardStyle}>
 			<Typography>
 				<span style={styles.nameStyle}>
-					{isUserEntry ? "(you) " : `${user.firstName} ${user.lastName} `}
+					{activeUserId === comment.userId ? "(you) " : `${user.firstName} ${user.lastName} `}
 				</span>
 				<Tooltip title={new Date(timestamp).toString()} placement="top" arrow>
 					<span style={styles.timerStyle}>{moment(timestamp).fromNow()}</span>
 				</Tooltip>
+                {(isUserEntry || comment.userId === activeUserId) && 
+                    <Tooltip title="Delete comment" aria-label="delete-comment">
+                        <IconButton onClick={() => deleteComment(comment.id)} size="small">
+                            <DeleteIcon />
+                        </IconButton>
+                    </Tooltip>
+                    }
 			</Typography>
 			<Typography>{text}</Typography>
 		</div>

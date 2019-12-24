@@ -53,13 +53,24 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 		CommentRepository.postNewComment(newComment)
 		.then((newComment)=>{
 			// update state by appending newComment to current commentArray
-			setCommentArray({
-				...commentArray,
-				newComment
-			})
+			// setCommentArray({
+			// 	...commentArray,
+			// 	newComment
+			// })
+			CommentRepository.getSingleEntryCommentList(entry.id)
+			.then(setCommentArray)
+			setComment('')
 		})
 
 	};
+
+	const deleteComment = id => {
+		CommentRepository.delete(id)
+		.then(() => {
+			CommentRepository.getSingleEntryCommentList(entry.id)
+			.then(setCommentArray)
+		})
+	}
 
 	const getComments = () => {
 		CommentRepository.getSingleEntryCommentList(entry.id)
@@ -140,7 +151,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 			<Paper style={{ margin: "10px"}}>
 				<br/>
 				{commentArray.length > 0 ? commentArray.map((comment) => {
-					return <CommentCard key={comment.id} comment={comment} isUserEntry={activeUserId === comment.userId}/>
+					return <CommentCard key={comment.id} comment={comment} activeUserId={activeUserId} isUserEntry={activeUserId === entry.userId} deleteComment={deleteComment}/>
 				}): <h4>No comments</h4>}
 				<br/>
 			</Paper>
