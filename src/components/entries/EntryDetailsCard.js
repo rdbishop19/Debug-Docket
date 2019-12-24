@@ -50,111 +50,127 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 		};
 		console.log(newComment);
 		// post new comment to DB
-		CommentRepository.postNewComment(newComment)
-		.then((newComment)=>{
+		CommentRepository.postNewComment(newComment).then((newComment) => {
 			// update state by appending newComment to current commentArray
 			// setCommentArray({
 			// 	...commentArray,
 			// 	newComment
 			// })
-			CommentRepository.getSingleEntryCommentList(entry.id)
-			.then(setCommentArray)
-			setComment('')
-		})
-
+			CommentRepository.getSingleEntryCommentList(entry.id).then(setCommentArray);
+			setComment('');
+		});
 	};
 
-	const deleteComment = id => {
-		CommentRepository.delete(id)
-		.then(() => {
-			CommentRepository.getSingleEntryCommentList(entry.id)
-			.then(setCommentArray)
-		})
-	}
+	const deleteComment = (id) => {
+		CommentRepository.delete(id).then(() => {
+			CommentRepository.getSingleEntryCommentList(entry.id).then(setCommentArray);
+		});
+	};
 
 	const getComments = () => {
-		CommentRepository.getSingleEntryCommentList(entry.id)
-		.then(setCommentArray)
-	}
+		CommentRepository.getSingleEntryCommentList(entry.id).then(setCommentArray);
+	};
 
-	useEffect(getComments, [])
+	useEffect(getComments, []);
 
 	return (
-		<React.Fragment>
-			<Paper style={{ margin: '10px 10px', textAlign: 'center' }}>
-				<Card>
-					<Typography variant="h5" component="h3">
-						BUG DETAILS
-					</Typography>
+		<div
+			style={{
+				display: 'flex',
+				flexDirection: 'row',
+				flexWrap: 'wrap',
+				justifyContent: 'center',
+				height: '85vh',
+			}}
+		>
+			<Card style={{ margin: '10px 10px', flex: 1, textAlign: "center" }}>
+				<Typography variant="h5" component="h3">
+					BUG DETAILS
+				</Typography>
 
-					<Typography>
-						<span>Title: </span>
-						{title}
-					</Typography>
-					<Typography>
-						<span>Description: </span>
-						{description}
-					</Typography>
-					<Typography>
-						<span>Status: </span>
-						{isCompleted ? 'Closed' : 'Open'}
-					</Typography>
-					<Typography>
-						<span>Submitted on: </span>
-						{new Date(timeStarted).toLocaleString()}
-					</Typography>
-					<Typography>
-						<span>Severity: </span>
-						{severity.label}
-					</Typography>
-					<Typography>
-						<span>Priority: </span>
-						{priority.label}
-					</Typography>
-					<Typography>
-						<span>Category: </span>
-						{category.label}
-					</Typography>
-					{isLoggedInUserEntry && (
-						<React.Fragment>
-							<Button variant="outlined" color="default" onClick={() => history.push(`/home/${id}/edit`)}>
-								Edit
-							</Button>
-							{/* <Button variant="contained" color="secondary" onClick={deleteEntry}>Delete</Button> */}
-						</React.Fragment>
-					)}
-					<Button variant="outlined" color="primary" onClick={() => history.goBack()}>
-						Go back
-					</Button>
-				</Card>
-			</Paper>
-			<TextField
-				id="comment"
-				type="text"
-				style={{ width: '97%', margin: '15px 15px' }}
-				placeholder={isLoggedInUserEntry ? "Add a comment to your own bug" : "Know a possible way to solve this bug?"}
-				// label="Comment"
-				// ref={comment}
-				value={comment}
-				// onKeyPress={handleKeyPress}
-				multiline
-				rows="3"
-				onChange={(event, value) => handleChange(event, value)}
-				variant="outlined"
-			/>
-			<div style={{ textAlign: 'right', marginRight: '25px' }}>
-				<Button color="primary" variant="contained" onClick={postNewComment}>
-					Comment
+				<Typography>
+					<span>Title: </span>
+					{title}
+				</Typography>
+				<Typography>
+					<span>Description: </span>
+					{description}
+				</Typography>
+				<Typography>
+					<span>Status: </span>
+					{isCompleted ? 'Closed' : 'Open'}
+				</Typography>
+				<Typography>
+					<span>Submitted on: </span>
+					{new Date(timeStarted).toLocaleString()}
+				</Typography>
+				<Typography>
+					<span>Severity: </span>
+					{severity.label}
+				</Typography>
+				<Typography>
+					<span>Priority: </span>
+					{priority.label}
+				</Typography>
+				<Typography>
+					<span>Category: </span>
+					{category.label}
+				</Typography>
+				{isLoggedInUserEntry && (
+					<React.Fragment>
+						<Button variant="outlined" color="default" onClick={() => history.push(`/home/${id}/edit`)}>
+							Edit
+						</Button>
+						{/* <Button variant="contained" color="secondary" onClick={deleteEntry}>Delete</Button> */}
+					</React.Fragment>
+				)}
+				<Button variant="outlined" color="primary" onClick={() => history.goBack()}>
+					Go back
 				</Button>
+			</Card>
+			<div style={{ margin: '10px', flex: 1 }}>
+				<TextField
+					id="comment"
+					type="text"
+					style={{ width: '97%', margin: '15px 15px' }}
+					placeholder={
+						isLoggedInUserEntry ? 'Add a comment to your own bug' : 'Know a possible way to solve this bug?'
+					}
+					// label="Comment"
+					// ref={comment}
+					value={comment}
+					// onKeyPress={handleKeyPress}
+					multiline
+					rows="3"
+					onChange={(event, value) => handleChange(event, value)}
+					variant="outlined"
+				/>
+				<div style={{ textAlign: 'right', marginRight: '25px' }}>
+					<Button color="primary" variant="contained" onClick={postNewComment}>
+						Comment
+					</Button>
+				</div>
+				<Typography variant="h5">Comments</Typography>
+				<Paper style={{ height: "55vh"}}>
+					<br />
+					{commentArray.length > 0 ? (
+						commentArray.map((comment) => {
+							return (
+								<CommentCard
+									key={comment.id}
+									comment={comment}
+									activeUserId={activeUserId}
+									isUserEntry={activeUserId === entry.userId}
+									deleteComment={deleteComment}
+								/>
+							);
+						})
+					) : (
+						<h4>No comments</h4>
+					)}
+					<br />
+				</Paper>
 			</div>
-			<Typography variant="h5">Comments</Typography>
-			<Paper style={{ margin: "10px"}}>
-				<br/>
-				{commentArray.length > 0 ? commentArray.map((comment) => {
-					return <CommentCard key={comment.id} comment={comment} activeUserId={activeUserId} isUserEntry={activeUserId === entry.userId} deleteComment={deleteComment}/>
-				}): <h4>No comments</h4>}
-				<br/>
-			</Paper>
-		</React.Fragment>
+		</div>
 	);
 }
