@@ -6,9 +6,12 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { useTheme } from '@material-ui/core';
 
 export default function CommentEditDialog({comment, open, handleDialogClose, updateComment}) {
-//   const [open, setOpen] = React.useState(false);
+    const theme = useTheme()
+    const { palette: { type, primary, secondary }} = theme
+
     const [editedComment, setEditedComment] = useState(comment.text)
 
     const saveEditedComment = () =>{
@@ -19,13 +22,10 @@ export default function CommentEditDialog({comment, open, handleDialogClose, upd
         updateComment(newComment)
         handleDialogClose()
     }
-//   const handleClickOpen = () => {
-//     setOpen(true);
-//   };
 
-//   const handleClose = () => {
-//     setOpen(false);
-//   };
+    const style = {
+        color: type === "light" ? "primary" : "secondary"
+    }
 
   return (
     <div>
@@ -41,6 +41,8 @@ export default function CommentEditDialog({comment, open, handleDialogClose, upd
             margin="dense"
             id="comment"
             label="Edited"
+            InputProps={style}
+            InputLabelProps={style}
             value={editedComment}
             onChange={(e)=> setEditedComment(e.target.value)}
             type="text"
@@ -48,10 +50,10 @@ export default function CommentEditDialog({comment, open, handleDialogClose, upd
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDialogClose} color="primary">
+          <Button onClick={handleDialogClose} style={style}>
             Cancel
           </Button>
-          <Button onClick={saveEditedComment} color="primary">
+          <Button onClick={saveEditedComment} color={style.color} variant="contained">
             Save
           </Button>
         </DialogActions>
