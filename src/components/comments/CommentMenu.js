@@ -4,7 +4,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { IconButton } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-export default function CommentMenu({ comment, isUserEntry, deleteComment, activeUserId, handleClickOpen }) {
+export default function CommentMenu({ comment, isUserEntry, deleteComment, activeUserId, handleClickOpen, handleOpenDeleteDialog }) {
 	const [ anchorEl, setAnchorEl ] = React.useState(null);
 
 	const handleClick = (event) => {
@@ -21,8 +21,9 @@ export default function CommentMenu({ comment, isUserEntry, deleteComment, activ
     }
 
     const handleDelete = () => {
-        deleteComment(comment.id)
+        // deleteComment(comment.id)
         handleClose()
+        handleOpenDeleteDialog()
     }
 
 	return (

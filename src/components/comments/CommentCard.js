@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTheme, Typography, Paper, Tooltip, Button, IconButton, Avatar } from '@material-ui/core';
 import moment from 'moment';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
 import CommentMenu from './CommentMenu';
 import CommentEditDialog from './CommentEditDialog'
+import CommentDeleteDialog from './CommentDeleteDialog';
 
 // const formatTime = (timestamp) => {
 //     // console.log(moment(timestamp).dayOfYear())
@@ -36,7 +37,17 @@ export default function CommentCard(props) {
 	const handleDialogClose = () => {
 		setOpen(false);
 	};
-	//
+    //
+
+    const [deleteOpen, setDeleteOpen] = useState(false)
+    
+    const handleOpenDeleteDialog = () => {
+        setDeleteOpen(true)
+    }
+    const handleDeleteDialogClose = () => {
+        setDeleteOpen(false)
+    }
+
 	const styles = {
 		cardStyle: {
 			margin: '20px 25px'
@@ -77,11 +88,12 @@ export default function CommentCard(props) {
 					<Tooltip title={new Date(timestamp).toString()} placement="top" arrow>
 						<span style={styles.timerStyle}>{moment(timestamp).fromNow()}</span>
 					</Tooltip>
-					<CommentMenu style={styles.menuButtonStyle} {...props} handleClickOpen={handleClickOpen}/>
+					<CommentMenu style={styles.menuButtonStyle} {...props} handleClickOpen={handleClickOpen} handleOpenDeleteDialog={handleOpenDeleteDialog}/>
 				</Typography>
 			</div>
 			<Typography>{text}</Typography>
             <CommentEditDialog open={open} handleDialogClose={handleDialogClose} comment={comment} updateComment={updateComment}/>
+            <CommentDeleteDialog open={deleteOpen} handleDeleteDialogClose={handleDeleteDialogClose} comment={comment} deleteComment={deleteComment}/>
 		</div>
 	);
 }
