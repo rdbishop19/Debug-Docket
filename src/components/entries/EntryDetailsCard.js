@@ -160,7 +160,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 			color: isCompleted ? 'white' : 'black',
 			width: '100px',
 			borderRadius: '4px',
-			margin: '0 auto'
+			margin: '0 auto',
 		},
 		datetime: {
 			cursor: "pointer",
