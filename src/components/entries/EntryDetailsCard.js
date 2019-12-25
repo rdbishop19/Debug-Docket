@@ -39,6 +39,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 		totalBreakTime
 	} = entry;
 
+	const newest = useRef()
 	const theme = useTheme();
 	const { palette: { type, primary, secondary, error } } = theme;
 
@@ -95,23 +96,28 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 		CommentRepository.getSingleEntryCommentList(entry.id).then(setCommentArray);
 	};
 
+	const scrollToBottom = () => {
+		newest.current.scrollIntoView({ behavior: "smooth" });
+	}
+
 	useEffect(getComments, []);
+	useEffect(scrollToBottom, [commentArray])
 
 	const style = {
 		color: type === 'light' ? 'primary' : 'secondary'
 	};
 
 	let entryStyle = {
-		backgroundColor: type === "light" ? error.main : error.dark,
+		backgroundColor: type === 'light' ? error.main : error.dark,
 		margin: '10px 10px',
 		padding: '3px',
-		borderRadius: "5px"
+		borderRadius: '5px'
 	};
 	// display color change if bug has been solved/closed
 	if (entry.isCompleted) {
 		entryStyle = {
 			...entryStyle,
-			backgroundColor: type === "light" ? secondary.light : secondary.dark,
+			backgroundColor: type === 'light' ? secondary.light : secondary.dark
 		};
 	}
 
@@ -120,7 +126,8 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 			<div style={{ flex: 1, textAlign: 'center', minWidth: '375px', margin: '10px' }}>
 				<Typography variant="h5">BUG DETAILS</Typography>
 				<Card style={{ padding: '10px', height: '82.3vh' }}>
-					<CardHeader style={entryStyle}
+					<CardHeader
+						style={entryStyle}
 						// style={entryStyle}
 						avatar={
 							<Avatar
@@ -146,7 +153,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 							</Typography>
 						}
 						action={
-							<div style={{ marginTop: "10px"}}>
+							<div style={{ marginTop: '10px' }}>
 								{isLoggedInUserEntry && (
 									<Tooltip title="Edit" aria-label="edit">
 										<IconButton onClick={() => history.push(`/home/${id}/edit`)}>
@@ -212,8 +219,8 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 				<Typography variant="h5" style={{ textAlign: 'center' }}>
 					COMMENTS
 				</Typography>
-				<Card style={{ height: '55vh' }}>
-					<br />
+				<Card style={{ height: '55vh', overflow: 'auto' }}>
+					<Typography variant="caption" style={{ float:"left", clear: "both", textAlign: "center", width: "100%" }}>oldest</Typography>
 					{commentArray.length > 0 ? (
 						commentArray.map((comment) => {
 							return (
@@ -230,6 +237,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 					) : (
 						<h4>No comments</h4>
 					)}
+					<Typography variant="caption" ref={newest} style={{ float:"left", clear: "both", textAlign: "center", width: "100%" }}>newest</Typography>
 					<br />
 				</Card>
 				<br />
