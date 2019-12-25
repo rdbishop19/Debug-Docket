@@ -18,10 +18,16 @@ import moment from 'moment';
 import EntryDetailsMoreButton from './EntryDetailsMoreButton';
 import EditIcon from '@material-ui/icons/Edit';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
 function convertDateTimeFromISO(date) {
 	return new Date(date);
 }
+
+const isOverflown = ({ clientWidth, clientHeight, scrollWidth, scrollHeight }) => {
+	return scrollHeight > clientHeight || scrollWidth > clientWidth;
+};
 
 export default function EntryDetailsCard({ entry, history /* , deleteEntry */ }) {
 	const {
@@ -39,6 +45,9 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 		totalBreakTime
 	} = entry;
 
+	const messageList = useRef();
+	const oldest = useRef();
+	const newest = useRef();
 	const theme = useTheme();
 	const { palette: { type, primary, secondary, error } } = theme;
 
@@ -49,6 +58,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 
 	const [ comment, setComment ] = useState('');
 	const [ commentArray, setCommentArray ] = useState([]);
+	const [ visible, setVisible ] = useState(false);
 	// const comment = useRef()
 	// const handleDelete = () => {
 	//     deleteEntry(id).then(()=>history.push("/home"))
@@ -95,23 +105,36 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 		CommentRepository.getSingleEntryCommentList(entry.id).then(setCommentArray);
 	};
 
+	const scrollToDiv = (refDiv) => {
+		refDiv.current.scrollIntoView({ behavior: 'smooth' });
+	};
+
 	useEffect(getComments, []);
+	useEffect(
+		() => {
+			if (isOverflown(messageList.current)) {
+				setVisible(true);
+				// scrollToDiv(newest);
+			}
+		},
+		[ commentArray ]
+	);
 
 	const style = {
 		color: type === 'light' ? 'primary' : 'secondary'
 	};
 
 	let entryStyle = {
-		backgroundColor: type === "light" ? error.main : error.dark,
+		backgroundColor: type === 'light' ? error.main : error.dark,
 		margin: '10px 10px',
 		padding: '3px',
-		borderRadius: "5px"
+		borderRadius: '5px'
 	};
 	// display color change if bug has been solved/closed
 	if (entry.isCompleted) {
 		entryStyle = {
 			...entryStyle,
-			backgroundColor: type === "light" ? secondary.light : secondary.dark,
+			backgroundColor: type === 'light' ? secondary.light : secondary.dark
 		};
 	}
 
@@ -120,7 +143,8 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 			<div style={{ flex: 1, textAlign: 'center', minWidth: '375px', margin: '10px' }}>
 				<Typography variant="h5">BUG DETAILS</Typography>
 				<Card style={{ padding: '10px', height: '82.3vh' }}>
-					<CardHeader style={entryStyle}
+					<CardHeader
+						style={entryStyle}
 						// style={entryStyle}
 						avatar={
 							<Avatar
@@ -146,7 +170,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 							</Typography>
 						}
 						action={
-							<div style={{ marginTop: "10px"}}>
+							<div style={{ marginTop: '10px' }}>
 								{isLoggedInUserEntry && (
 									<Tooltip title="Edit" aria-label="edit">
 										<IconButton onClick={() => history.push(`/home/${id}/edit`)}>
@@ -190,30 +214,21 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 						<span>Category: </span>
 						{category.label}
 					</Typography>
-					{/* <div>
-						{isLoggedInUserEntry && (
-							<React.Fragment>
-								<Button
-									variant="outlined"
-									color="default"
-									onClick={() => history.push(`/home/${id}/edit`)}
-								>
-									Edit
-								</Button>
-							</React.Fragment>
-						)}
-						<Button variant="outlined" color={style.color} onClick={() => history.goBack()}>
-							Go back
-						</Button>
-					</div> */}
 				</Card>
 			</div>
 			<div style={{ margin: '10px', flex: 1, minWidth: '375px' }}>
 				<Typography variant="h5" style={{ textAlign: 'center' }}>
 					COMMENTS
 				</Typography>
-				<Card style={{ height: '55vh' }}>
-					<br />
+				<Card ref={messageList} style={{ height: '55vh', overflow: 'auto' }}>
+					{visible && (
+						<div ref={oldest} style={{ textAlign: 'center', width: '100%' }}>
+							<Typography variant="caption">go to newest</Typography>
+							<IconButton onClick={() => scrollToDiv(newest)} size="small">
+								<KeyboardArrowDownIcon />
+							</IconButton>
+						</div>
+					)}
 					{commentArray.length > 0 ? (
 						commentArray.map((comment) => {
 							return (
@@ -228,9 +243,19 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 							);
 						})
 					) : (
-						<h4>No comments</h4>
+						<div style={{ textAlign: 'center' }}>
+							<Typography variant="caption">No comments yet. Add a note below.</Typography>
+						</div>
 					)}
-					<br />
+					{visible && (
+						<div ref={newest} style={{ float: 'left', clear: 'both', textAlign: 'center', width: '100%' }}>
+							<Typography variant="caption">go to oldest</Typography>
+							<IconButton onClick={() => scrollToDiv(oldest)} size="small">
+								<KeyboardArrowUpIcon />
+							</IconButton>
+						</div>
+					)}
+					{/* <br /> */}
 				</Card>
 				<br />
 				<Card>
