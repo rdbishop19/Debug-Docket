@@ -9,7 +9,9 @@ import {
 	Avatar,
 	CardHeader,
 	Tooltip,
-	IconButton
+	IconButton,
+	CardContent,
+	makeStyles
 } from '@material-ui/core';
 import { UserContext } from '../providers/UserProvider';
 import CommentRepository from '../../repositories/CommentRepository';
@@ -29,6 +31,13 @@ const isOverflown = ({ clientWidth, clientHeight, scrollWidth, scrollHeight }) =
 	return scrollHeight > clientHeight || scrollWidth > clientWidth;
 };
 
+const useStyles = makeStyles(theme => ({
+    tooltip: {
+      maxWidth: 'none',
+      backgroundColor: 'black',
+    }
+  }));
+
 export default function EntryDetailsCard({ entry, history /* , deleteEntry */ }) {
 	const {
 		id,
@@ -45,6 +54,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 		totalBreakTime
 	} = entry;
 
+	const classes = useStyles()
 	const messageList = useRef();
 	const oldest = useRef();
 	const newest = useRef();
@@ -138,10 +148,32 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 		};
 	}
 
+	const styles = {
+		title: {
+			fontSize: '1.5em'
+		},
+		headers: {
+			fontWeight: '800'
+		},
+		subheader: {
+			backgroundColor: isCompleted ? primary.dark : 'white',
+			color: isCompleted ? 'white' : 'black',
+			width: '100px',
+			borderRadius: '4px',
+			margin: '0 auto'
+		},
+		datetime: {
+			cursor: "pointer",
+			borderBottom: "0.5px dotted #666"
+		}
+	};
+
+	const status = isCompleted ? 'CLOSED' : 'OPEN';
+
 	return (
 		<React.Fragment>
 			<div style={{ flex: 1, textAlign: 'center', minWidth: '375px', margin: '10px' }}>
-				<Typography variant="h5">BUG DETAILS</Typography>
+				<Typography variant="h6">BUG DETAILS</Typography>
 				<Card style={{ padding: '10px', height: '82.3vh' }}>
 					<CardHeader
 						style={entryStyle}
@@ -166,7 +198,9 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 									</span>
 								}
 								{activeUserId === entry.userId && <span>(you) </span>}
-								<span>{moment(entry.timeStarted).fromNow()}</span>
+								<Tooltip title={new Date(timeStarted).toString()} arrow placement="top" classes={{ tooltip: classes.tooltip }}>
+									<span style={styles.datetime}>{moment(entry.timeStarted).fromNow()}</span>
+								</Tooltip>
 							</Typography>
 						}
 						action={
@@ -185,39 +219,43 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 								</Tooltip>
 							</div>
 						}
+						subheader={<div style={styles.subheader}>{status}</div>}
 					/>
-					<Typography>
-						<span>Title: </span>
-						{title}
-					</Typography>
-					<Typography>
-						<span>Description: </span>
-						{description}
-					</Typography>
-					<Typography>
-						<span>Status: </span>
-						{isCompleted ? 'Closed' : 'Open'}
-					</Typography>
-					<Typography>
-						<span>Submitted on: </span>
-						{new Date(timeStarted).toLocaleString()}
-					</Typography>
-					<Typography>
-						<span>Severity: </span>
-						{severity.label}
-					</Typography>
-					<Typography>
-						<span>Priority: </span>
-						{priority.label}
-					</Typography>
-					<Typography>
-						<span>Category: </span>
-						{category.label}
-					</Typography>
+					<CardContent style={{ textAlign: 'left' }}>
+						<Typography variant="h5">
+							{/* <span>Title: </span> */}
+							{title}
+						</Typography>
+						<hr />
+						<Typography>
+							<span style={styles.headers}>Description: </span>
+							{description}
+						</Typography>
+						{/* <Typography>
+							<span style={styles.headers}>Status: </span>
+							{status}
+						</Typography> */}
+						{/* <Typography>
+							<span style={styles.headers}>Submitted on: </span>
+							{new Date(timeStarted).toLocaleString()}
+						</Typography> */}
+						<Typography>
+							<span style={styles.headers}>Severity: </span>
+							{severity.label}
+						</Typography>
+						<Typography>
+							<span style={styles.headers}>Priority: </span>
+							{priority.label}
+						</Typography>
+						<Typography>
+							<span style={styles.headers}>Category: </span>
+							{category.label}
+						</Typography>
+					</CardContent>
 				</Card>
 			</div>
 			<div style={{ margin: '10px', flex: 1, minWidth: '375px' }}>
-				<Typography variant="h5" style={{ textAlign: 'center' }}>
+				<Typography variant="h6" style={{ textAlign: 'center' }}>
 					COMMENTS
 				</Typography>
 				<Card ref={messageList} style={{ height: '55vh', overflow: 'auto' }}>
