@@ -3,11 +3,17 @@ import EntryCard from './EntryCard';
 import EntryInputNew from './EntryInputNew';
 import { EntryContext } from '../providers/EntryProvider';
 import { UserContext } from '../providers/UserProvider';
-import { Paper, Typography } from '@material-ui/core';
+import { Paper, Typography, List, ListItem, useTheme } from '@material-ui/core';
+import TimerIcon from '@material-ui/icons/Timer';
 
 export default function EntriesHomeContainer(props) {
+	const theme = useTheme();
+	const { palette: { type, primary, secondary } } = theme;
+
 	const [ isEditing, setIsEditing ] = useState(false);
 	const [ editingId, setEditingId ] = useState();
+	const [ selectedIndex, setSelectedIndex ] = React.useState(0);
+	const [ hoveredItem, setHoveredItem ] = useState();
 
 	const { entries, userEntries, createEntry, updateEntry, getUserEntries, deleteEntry, setUserEntries } = useContext(
 		EntryContext
@@ -69,6 +75,18 @@ export default function EntriesHomeContainer(props) {
 		[ loggedInUser ]
 	);
 
+	const handleListItemClick = (event, index) => {
+		setSelectedIndex(index);
+	};
+
+	const handleMouseOver = (event, index) => {
+		// console.log('mouse over')
+		setHoveredItem(index);
+	};
+	const handleMouseOut = (event, index) => {
+		// console.log('mouse out')
+		setHoveredItem();
+	};
 	useEffect(() => {
 		setUserEntries([]);
 	}, []);
@@ -85,21 +103,42 @@ export default function EntriesHomeContainer(props) {
 				<Typography variant="caption" style={{ opacity: '0.5' }}>
 					most recent
 				</Typography>
-				{userEntries.map((item) => {
-					return (
-						<EntryCard
-							key={item.id}
-							item={item}
-							isEditing={isEditing}
-							editingId={editingId}
-							edit={edit}
-							updateItem={updateItem}
-							deleteItem={deleteItem}
-							cancelEdit={cancelEdit}
-							{...props}
-						/>
-					);
-				})}
+				<List>
+					{userEntries.map((item, index) => {
+						return (
+							<ListItem
+								selected={selectedIndex === index}
+								key={item.id}
+								onClick={(event) => handleListItemClick(event, index)}
+								onMouseOver={(event) => handleMouseOver(event, index)}
+								onMouseOut={(event) => handleMouseOut(event, index)}
+								style={{ margin: '0 auto', padding: '0px' }}
+							>
+								{hoveredItem === index &&
+								selectedIndex !== index && (
+									<TimerIcon color="disabled" style={{ marginRight: '-45px', marginLeft: '10px' }} />
+								)}
+								{selectedIndex === index && (
+									<TimerIcon
+										color={type === 'light' ? 'primary' : 'secondary'}
+										style={{ marginRight: '-45px', marginLeft: '10px' }}
+									/>
+								)}
+								<EntryCard
+									item={item}
+									isCurrentTimer={hoveredItem === index}
+									isEditing={isEditing}
+									editingId={editingId}
+									edit={edit}
+									updateItem={updateItem}
+									deleteItem={deleteItem}
+									cancelEdit={cancelEdit}
+									{...props}
+								/>
+							</ListItem>
+						);
+					})}
+				</List>
 				<Typography variant="caption" style={{ opacity: '0.5' }}>
 					oldest
 				</Typography>
