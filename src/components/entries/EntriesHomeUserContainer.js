@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import EntryCard from './EntryCard';
 import EntryInputNew from './EntryInputNew';
 import { EntryContext } from '../providers/EntryProvider';
@@ -12,7 +12,11 @@ export default function EntriesHomeContainer(props) {
 
 	const [ isEditing, setIsEditing ] = useState(false);
 	const [ editingId, setEditingId ] = useState();
-	const [ selectedIndex, setSelectedIndex ] = React.useState(0);
+
+	const storedSelected = localStorage.getItem("currentTimerEntry")
+	const storeSelected = useRef(storedSelected !== null ? storedSelected : -1)
+	// console.log('storeSelected', storeSelected)
+	const [ selectedIndex, setSelectedIndex ] = React.useState(Number(storeSelected.current));
 	const [ hoveredItem, setHoveredItem ] = useState();
 
 	const { entries, userEntries, createEntry, updateEntry, getUserEntries, deleteEntry, setUserEntries } = useContext(
@@ -76,6 +80,7 @@ export default function EntriesHomeContainer(props) {
 	);
 
 	const handleListItemClick = (index) => {
+		storeSelected.current = index
 		setSelectedIndex(index);
 	};
 
@@ -89,6 +94,9 @@ export default function EntriesHomeContainer(props) {
 	};
 	useEffect(() => {
 		setUserEntries([]);
+		return ()=> {
+			localStorage.setItem("currentTimerEntry", storeSelected.current)
+		}
 	}, []);
 
 	return (
