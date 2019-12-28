@@ -141,38 +141,41 @@ export const TimerProvider = (props) => {
 	}
 
 	const updateDatabaseEntry = () => {
-		EntryRepository.get(storedTimerEntry.id).then((entry) => {
-			let updatedEntryTime = {};
-			if (mode === 'session') {
-				updatedEntryTime = {
-					id: storedTimerEntry.id,
-					totalWorkTime: databaseTime + entry.totalWorkTime
-				};
-			} else if (mode === 'break') {
-				updatedEntryTime = {
-					id: storedTimerEntry.id,
-					totalBreakTime: databaseTime + entry.totalBreakTime
-				};
-			}
-			console.log('updatedentry', updatedEntryTime);
-			EntryRepository.updateEntry(updatedEntryTime).then(() => {
-				EntryRepository.get(storedTimerEntry.id).then(setTimerEntry);
-				setDatabaseTime(0);
+		const storedTimerEntry = JSON.parse(localStorage.getItem('currentEntry'));
+		if (storedTimerEntry !== null){
+			EntryRepository.get(storedTimerEntry.id).then((entry) => {
+				let updatedEntryTime = {};
+				if (mode === 'session') {
+					updatedEntryTime = {
+						id: storedTimerEntry.id,
+						totalWorkTime: databaseTime + entry.totalWorkTime
+					};
+				} else if (mode === 'break') {
+					updatedEntryTime = {
+						id: storedTimerEntry.id,
+						totalBreakTime: databaseTime + entry.totalBreakTime
+					};
+				}
+				// console.log('updatedentry', updatedEntryTime);
+				EntryRepository.updateEntry(updatedEntryTime).then(() => {
+					EntryRepository.get(storedTimerEntry.id).then(setTimerEntry);
+					setDatabaseTime(0);
+				});
 			});
-		});
+		}
 	};
 
 	function toggle() {
 		// about to change state from active to inactive, so set state as 'paused' for localStorage
 		if (active) {
 			storeState.current = 'paused';
-			console.log(sessionTime, elapsedTime);
-			console.log(breakTime, elapsedTime);
+			// console.log(sessionTime, elapsedTime);
+			// console.log(breakTime, elapsedTime);
 			updateDatabaseEntry();
 			//TODO: save entry sessionTime to db
 		} else {
-			console.log(sessionTime, elapsedTime);
-			console.log(breakTime, elapsedTime);
+			// console.log(sessionTime, elapsedTime);
+			// console.log(breakTime, elapsedTime);
 			storeState.current = 'started';
 			//TODO: save entry breakTime to db
 		}
