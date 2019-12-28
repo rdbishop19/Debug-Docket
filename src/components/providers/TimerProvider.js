@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import EntryRepository from '../../repositories/EntryRepository';
 
 export const TimerContext = React.createContext();
 
@@ -17,20 +18,26 @@ export const TimerProvider = (props) => {
 			? storedTimer - (new Date().getTime() - storedRefTimer)
 			: storedTimer;
 
-	const defaultTimer = 1500000;
-	const [ timer, setTimer ] = useState(storedTimer ? resumeTimer : 180000); // change to 1500000 when done testing (25 minutes)
-	const [ sessionTime, setSessionTime ] = useState(defaultTimer);
-	const [ breakTime, setBreakTime ] = useState(300000);
+	const defaultSession = 1500000;
+	const defaultBreak = 300000;
+	const [ timer, setTimer ] = useState(storedTimer ? resumeTimer : defaultSession); // change to 1500000 when done testing (25 minutes)
+	const [ sessionTime, setSessionTime ] = useState(defaultSession);
+	const [ breakTime, setBreakTime ] = useState(defaultBreak);
 	const [ mode, setMode ] = useState(storedMode ? storedMode : 'session');
 	const storeTimer = useRef(resumeTimer !== null ? storedTimer : timer);
 	const storeState = useRef(storedState !== null ? storedState : 'paused');
 	const storeMode = useRef(storedMode !== null ? storedMode : 'session');
 
-	const [ active, setActive ] = useState(storedState === 'paused' ? false : true);
+	const [ active, setActive ] = useState(storeState.current === 'paused' ? false : true);
 	const [ elapsedTime, setElapsedTime ] = useState(0);
 
 	const initialTime = useRef();
 	const endTime = useRef();
+
+	const storedTimerEntry = JSON.parse(localStorage.getItem('currentEntry'));
+	const [ timerEntry, setTimerEntry ] = useState(storedTimerEntry !== null ? storedTimerEntry : null);
+
+	const [ databaseTime, setDatabaseTime ] = useState(0);
 
 	const minutes = Math.floor((timer % (1000 * 60 * 60)) / (1000 * 60));
 	const seconds = Math.floor((timer % (1000 * 60)) / 1000);
@@ -78,6 +85,7 @@ export const TimerProvider = (props) => {
 				setMode('break');
 				document.title = 'Break time!';
 				setTimer(breakTime);
+				setElapsedTime(0);
 			} else {
 				if (Notification.permission === 'granted') {
 					new Notification('Break time over. Start a new bug tracking session with the timer.');
@@ -86,7 +94,9 @@ export const TimerProvider = (props) => {
 				document.title = 'Debug Docket';
 				setActive(!active);
 				setTimer(sessionTime);
+				setElapsedTime(0);
 			}
+			updateDatabaseEntry()
 			return;
 		}
 		if (active) {
@@ -105,6 +115,7 @@ export const TimerProvider = (props) => {
 				const delay = currentTime - initialTime.current;
 				setTimer((timer) => timer - delay);
 				setElapsedTime((elapsedTime) => elapsedTime + delay);
+				setDatabaseTime((databaseTime) => databaseTime + delay);
 				storeTimer.current = timer;
 			}, 1000);
 
@@ -117,21 +128,55 @@ export const TimerProvider = (props) => {
 		setActive(false);
 		setMode('session');
 		setTimer(sessionTime);
-        setBreakTime(breakTime);
-        document.title = "Debug Docket"
+		setBreakTime(breakTime);
+		setElapsedTime(0);
+		document.title = 'Debug Docket';
 	}
 
 	function restartBreak() {
 		setMode('break');
 		// setBreakTime(breakTime)
+		setElapsedTime(0);
 		setTimer(breakTime);
 	}
+
+	const updateDatabaseEntry = () => {
+		EntryRepository.get(storedTimerEntry.id).then((entry) => {
+			let updatedEntryTime = {};
+			if (mode === 'session') {
+				updatedEntryTime = {
+					id: storedTimerEntry.id,
+					totalWorkTime: databaseTime + entry.totalWorkTime
+				};
+			} else if (mode === 'break') {
+				updatedEntryTime = {
+					id: storedTimerEntry.id,
+					totalBreakTime: databaseTime + entry.totalBreakTime
+				};
+			}
+			console.log('updatedentry', updatedEntryTime);
+			EntryRepository.updateEntry(updatedEntryTime).then(() => {
+				EntryRepository.get(storedTimerEntry.id).then(setTimerEntry);
+				setDatabaseTime(0);
+			});
+		});
+	};
 
 	function toggle() {
 		// about to change state from active to inactive, so set state as 'paused' for localStorage
 		if (active) {
 			storeState.current = 'paused';
-		} else storeState.current = 'started';
+			console.log(sessionTime, elapsedTime);
+			console.log(breakTime, elapsedTime);
+			updateDatabaseEntry();
+			//TODO: save entry sessionTime to db
+		} else {
+			console.log(sessionTime, elapsedTime);
+			console.log(breakTime, elapsedTime);
+			storeState.current = 'started';
+			//TODO: save entry breakTime to db
+		}
+
 		setActive(!active);
 	}
 
@@ -146,6 +191,10 @@ export const TimerProvider = (props) => {
 	useEffect(updateTimer, [ active, timer ]);
 
 	useEffect(() => {
+		console.log('useEffect');
+		if (storedTimerEntry !== null) {
+			EntryRepository.get(storedTimerEntry.id).then(setTimerEntry);
+		}
 		return () => {
 			saveTimerToLocalStorage();
 		};

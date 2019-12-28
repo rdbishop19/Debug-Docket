@@ -13,8 +13,8 @@ export default function EntriesHomeContainer(props) {
 	const [ isEditing, setIsEditing ] = useState(false);
 	const [ editingId, setEditingId ] = useState();
 
-	const storedSelected = localStorage.getItem("currentTimerEntry")
-	const storeSelected = useRef(storedSelected !== null ? storedSelected : -1)
+	const storedSelected = localStorage.getItem('currentTimerEntry');
+	const storeSelected = useRef(storedSelected !== null ? storedSelected : -1);
 	// console.log('storeSelected', storeSelected)
 	const [ selectedIndex, setSelectedIndex ] = React.useState(Number(storeSelected.current));
 	const [ hoveredItem, setHoveredItem ] = useState();
@@ -79,9 +79,16 @@ export default function EntriesHomeContainer(props) {
 		[ loggedInUser ]
 	);
 
-	const handleListItemClick = (index) => {
-		storeSelected.current = index
-		setSelectedIndex(index);
+	const handleListItemClick = (index, item) => {
+		// console.log(index, selectedIndex)
+		storeSelected.current = index;
+		if (index === selectedIndex){
+			setSelectedIndex(-1)
+			localStorage.removeItem("currentEntry")
+		} else {
+			localStorage.setItem("currentEntry", JSON.stringify(item))
+			setSelectedIndex(index);
+		}
 	};
 
 	const handleMouseOver = (event, index) => {
@@ -94,9 +101,9 @@ export default function EntriesHomeContainer(props) {
 	};
 	useEffect(() => {
 		setUserEntries([]);
-		return ()=> {
-			localStorage.setItem("currentTimerEntry", storeSelected.current)
-		}
+		return () => {
+			localStorage.setItem('currentTimerEntry', storeSelected.current);
+		};
 	}, []);
 
 	return (
@@ -122,21 +129,28 @@ export default function EntriesHomeContainer(props) {
 								onMouseLeave={(event) => handleMouseOut(event, index)}
 								style={{ margin: '0 auto', padding: '0px' }}
 							>
-								<Tooltip title="Double click to set timer">
+								{/* <Tooltip title="Double click to set timer"> */}
 									<React.Fragment>
 										{hoveredItem === index &&
 										selectedIndex !== index && (
-											// <IconButton>
-												<Tooltip title="Set active">
-													<ListItemIcon style={{ marginRight: '-66px', marginLeft: "10px", cursor: "pointer"}} onClick={()=>handleListItemClick(index)}>
-														<TimerIcon color="disabled" />
-													</ListItemIcon>
-												</Tooltip>
-											// </IconButton>
+											<Tooltip title="Set active">
+												<ListItemIcon
+													style={{
+														marginRight: '-66px',
+														marginLeft: '10px',
+														cursor: 'pointer'
+													}}
+													onClick={() => handleListItemClick(index, item)}
+												>
+													<TimerIcon color="disabled" />
+												</ListItemIcon>
+											</Tooltip>
 										)}
 										{selectedIndex === index && (
-											<Tooltip title="Active timer">
-												<ListItemIcon style={{ marginRight: '-80px', marginLeft: '10px' }}>
+											<Tooltip title="Active timer. Click to stop tracking.">
+												<ListItemIcon style={{ marginRight: '-80px', marginLeft: '10px', cursor: "pointer" }}
+															onClick={() => handleListItemClick(index, item)}
+												>
 													<TimerIcon color={type === 'light' ? 'primary' : 'secondary'} />
 												</ListItemIcon>
 											</Tooltip>
@@ -153,7 +167,7 @@ export default function EntriesHomeContainer(props) {
 											{...props}
 										/>
 									</React.Fragment>
-								</Tooltip>
+								{/* </Tooltip> */}
 							</ListItem>
 						);
 					})}
