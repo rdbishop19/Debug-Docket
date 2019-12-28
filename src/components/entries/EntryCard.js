@@ -30,7 +30,7 @@ export default function EntryCard(props) {
 	};
 
 	return (
-		<Card onDoubleClick={handleClick} style={listStyle}>
+		<Card onClick={handleClick} style={listStyle}>
 			{isEditing && editingId === item.id ? (
 				<React.Fragment>
 					{/* <span>Quick Edit</span> */}

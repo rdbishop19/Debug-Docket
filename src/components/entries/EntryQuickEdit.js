@@ -92,37 +92,39 @@ export default function EntryQuickEdit(props) {
 					variant="outlined"
 				/>
 				<br /><br/>
-				<Tooltip title="Edit" aria-label="edit">
-					<IconButton
-						style={{ margin: '0 15px' }}
-						aria-label="edit"
-						size="small"
-						onClick={() => history.push(`${match.path}/${item.id}/edit`)}
-					>
-						<CreateIcon />
-					</IconButton>
-				</Tooltip>
-				<Tooltip title="Save" aria-label="save">
-					<IconButton
-						color="secondary"
-						style={{ margin: '0 15px' }}
-						aria-label="save"
-						size="small"
-						onClick={handleSave}
-					>
-						<SaveIcon />
-					</IconButton>
-				</Tooltip>
-				<Tooltip title="Delete" aria-label="delete">
-					<IconButton
-						aria-label="delete"
-						style={{ margin: '0 15px' }}
-						size="small"
-						onClick={() => deleteItem(item.id)}
-					>
-						<DeleteIcon />
-					</IconButton>
-				</Tooltip>
+				<div style={{ textAlign: "center"}}>
+					<Tooltip title="Edit" aria-label="edit">
+						<IconButton
+							style={{ margin: '0 15px' }}
+							aria-label="edit"
+							size="small"
+							onClick={() => history.push(`${match.path}/${item.id}/edit`)}
+						>
+							<CreateIcon />
+						</IconButton>
+					</Tooltip>
+					<Tooltip title="Save" aria-label="save">
+						<IconButton
+							color="secondary"
+							style={{ margin: '0 15px' }}
+							aria-label="save"
+							size="small"
+							onClick={handleSave}
+						>
+							<SaveIcon />
+						</IconButton>
+					</Tooltip>
+					<Tooltip title="Delete" aria-label="delete">
+						<IconButton
+							aria-label="delete"
+							style={{ margin: '0 15px' }}
+							size="small"
+							onClick={() => deleteItem(item.id)}
+						>
+							<DeleteIcon />
+						</IconButton>
+					</Tooltip>
+				</div>
 			</CardContent>
 		</Card>
 	);

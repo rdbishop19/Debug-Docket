@@ -3,7 +3,7 @@ import EntryCard from './EntryCard';
 import EntryInputNew from './EntryInputNew';
 import { EntryContext } from '../providers/EntryProvider';
 import { UserContext } from '../providers/UserProvider';
-import { Paper, Typography, List, ListItem, useTheme } from '@material-ui/core';
+import { Paper, Typography, List, ListItem, useTheme, ListItemIcon, Tooltip, IconButton } from '@material-ui/core';
 import TimerIcon from '@material-ui/icons/Timer';
 
 export default function EntriesHomeContainer(props) {
@@ -75,7 +75,7 @@ export default function EntriesHomeContainer(props) {
 		[ loggedInUser ]
 	);
 
-	const handleListItemClick = (event, index) => {
+	const handleListItemClick = (index) => {
 		setSelectedIndex(index);
 	};
 
@@ -109,32 +109,43 @@ export default function EntriesHomeContainer(props) {
 							<ListItem
 								selected={selectedIndex === index}
 								key={item.id}
-								onClick={(event) => handleListItemClick(event, index)}
-								onMouseOver={(event) => handleMouseOver(event, index)}
-								onMouseOut={(event) => handleMouseOut(event, index)}
+								// onClick={(event) => handleListItemClick(event, index)}
+								onMouseEnter={(event) => handleMouseOver(event, index)}
+								onMouseLeave={(event) => handleMouseOut(event, index)}
 								style={{ margin: '0 auto', padding: '0px' }}
 							>
-								{hoveredItem === index &&
-								selectedIndex !== index && (
-									<TimerIcon color="disabled" style={{ marginRight: '-45px', marginLeft: '10px' }} />
-								)}
-								{selectedIndex === index && (
-									<TimerIcon
-										color={type === 'light' ? 'primary' : 'secondary'}
-										style={{ marginRight: '-45px', marginLeft: '10px' }}
-									/>
-								)}
-								<EntryCard
-									item={item}
-									isCurrentTimer={hoveredItem === index}
-									isEditing={isEditing}
-									editingId={editingId}
-									edit={edit}
-									updateItem={updateItem}
-									deleteItem={deleteItem}
-									cancelEdit={cancelEdit}
-									{...props}
-								/>
+								<Tooltip title="Double click to set timer">
+									<React.Fragment>
+										{hoveredItem === index &&
+										selectedIndex !== index && (
+											// <IconButton>
+												<Tooltip title="Set active">
+													<ListItemIcon style={{ marginRight: '-66px', marginLeft: "10px", cursor: "pointer"}} onClick={()=>handleListItemClick(index)}>
+														<TimerIcon color="disabled" />
+													</ListItemIcon>
+												</Tooltip>
+											// </IconButton>
+										)}
+										{selectedIndex === index && (
+											<Tooltip title="Active timer">
+												<ListItemIcon style={{ marginRight: '-80px', marginLeft: '10px' }}>
+													<TimerIcon color={type === 'light' ? 'primary' : 'secondary'} />
+												</ListItemIcon>
+											</Tooltip>
+										)}
+										<EntryCard
+											item={item}
+											isCurrentTimer={hoveredItem === index}
+											isEditing={isEditing}
+											editingId={editingId}
+											edit={edit}
+											updateItem={updateItem}
+											deleteItem={deleteItem}
+											cancelEdit={cancelEdit}
+											{...props}
+										/>
+									</React.Fragment>
+								</Tooltip>
 							</ListItem>
 						);
 					})}
