@@ -5,6 +5,7 @@ import { EntryContext } from '../providers/EntryProvider';
 import { UserContext } from '../providers/UserProvider';
 import { Paper, Typography, List, ListItem, useTheme, ListItemIcon, Tooltip, IconButton } from '@material-ui/core';
 import TimerIcon from '@material-ui/icons/Timer';
+import { TimerContext } from '../providers/TimerProvider';
 
 export default function EntriesHomeContainer(props) {
 	const theme = useTheme();
@@ -23,6 +24,7 @@ export default function EntriesHomeContainer(props) {
 		EntryContext
 	);
 	const { getLoggedInUser, loggedInUser } = useContext(UserContext);
+	const { updateDatabaseEntry, resetTimers } = useContext(TimerContext);
 	const activeUser = getLoggedInUser();
 
 	const addNew = (todo) => {
@@ -81,13 +83,16 @@ export default function EntriesHomeContainer(props) {
 
 	const handleListItemClick = (index, item) => {
 		// console.log(index, selectedIndex)
-		storeSelected.current = index;
-		if (index === selectedIndex){
-			setSelectedIndex(-1)
-			localStorage.removeItem("currentEntry")
-		} else {
-			localStorage.setItem("currentEntry", JSON.stringify(item))
-			setSelectedIndex(index);
+		if (window.confirm('This will reset the current timer')) {
+			resetTimers();
+			storeSelected.current = index;
+			if (index === selectedIndex) { // user is un-selecting the currently selected entry
+				setSelectedIndex(-1);
+				localStorage.removeItem('currentEntry');
+			} else {	// user selecting new entry to track
+				localStorage.setItem('currentEntry', JSON.stringify(item));
+				setSelectedIndex(index);
+			}
 		}
 	};
 
@@ -130,43 +135,44 @@ export default function EntriesHomeContainer(props) {
 								style={{ margin: '0 auto', padding: '0px' }}
 							>
 								{/* <Tooltip title="Double click to set timer"> */}
-									<React.Fragment>
-										{hoveredItem === index &&
-										selectedIndex !== index && (
-											<Tooltip title="Set active">
-												<ListItemIcon
-													style={{
-														marginRight: '-66px',
-														marginLeft: '10px',
-														cursor: 'pointer'
-													}}
-													onClick={() => handleListItemClick(index, item)}
-												>
-													<TimerIcon color="disabled" />
-												</ListItemIcon>
-											</Tooltip>
-										)}
-										{selectedIndex === index && (
-											<Tooltip title="Active timer. Click to stop tracking.">
-												<ListItemIcon style={{ marginRight: '-80px', marginLeft: '10px', cursor: "pointer" }}
-															onClick={() => handleListItemClick(index, item)}
-												>
-													<TimerIcon color={type === 'light' ? 'primary' : 'secondary'} />
-												</ListItemIcon>
-											</Tooltip>
-										)}
-										<EntryCard
-											item={item}
-											isCurrentTimer={hoveredItem === index}
-											isEditing={isEditing}
-											editingId={editingId}
-											edit={edit}
-											updateItem={updateItem}
-											deleteItem={deleteItem}
-											cancelEdit={cancelEdit}
-											{...props}
-										/>
-									</React.Fragment>
+								<React.Fragment>
+									{hoveredItem === index &&
+									selectedIndex !== index && (
+										<Tooltip title="Set active">
+											<ListItemIcon
+												style={{
+													marginRight: '-66px',
+													marginLeft: '10px',
+													cursor: 'pointer'
+												}}
+												onClick={() => handleListItemClick(index, item)}
+											>
+												<TimerIcon color="disabled" />
+											</ListItemIcon>
+										</Tooltip>
+									)}
+									{selectedIndex === index && (
+										<Tooltip title="Active timer. Click to stop tracking.">
+											<ListItemIcon
+												style={{ marginRight: '-80px', marginLeft: '10px', cursor: 'pointer' }}
+												onClick={() => handleListItemClick(index, item)}
+											>
+												<TimerIcon color={type === 'light' ? 'primary' : 'secondary'} />
+											</ListItemIcon>
+										</Tooltip>
+									)}
+									<EntryCard
+										item={item}
+										isCurrentTimer={hoveredItem === index}
+										isEditing={isEditing}
+										editingId={editingId}
+										edit={edit}
+										updateItem={updateItem}
+										deleteItem={deleteItem}
+										cancelEdit={cancelEdit}
+										{...props}
+									/>
+								</React.Fragment>
 								{/* </Tooltip> */}
 							</ListItem>
 						);

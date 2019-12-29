@@ -41,8 +41,6 @@ export default function FeedCard(props) {
 	const classes = useStyles();
 	const { entry, activeUser, container, history } = props;
 	const { user } = entry;
-	console.log('entry', entry);
-	console.log('user', user);
 	const feedView = container === 'feed';
 	const historyView = container === 'history';
 

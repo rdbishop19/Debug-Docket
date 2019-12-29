@@ -125,6 +125,7 @@ export const TimerProvider = (props) => {
 		}
 	}
 	function resetTimers() {
+		updateDatabaseEntry()
 		setActive(false);
 		setMode('session');
 		setTimer(sessionTime);
@@ -143,22 +144,22 @@ export const TimerProvider = (props) => {
 	const updateDatabaseEntry = () => {
 		const storedTimerEntry = JSON.parse(localStorage.getItem('currentEntry'));
 		if (storedTimerEntry !== null){
-			EntryRepository.get(storedTimerEntry.id).then((entry) => {
-				let updatedEntryTime = {};
+			const entryId = storedTimerEntry.id
+			EntryRepository.get(entryId).then((entry) => {
+				let updatedEntryTime = {}; // initialize object for scope access inside conditionals
 				if (mode === 'session') {
 					updatedEntryTime = {
-						id: storedTimerEntry.id,
-						totalWorkTime: databaseTime + entry.totalWorkTime
+						id: entryId,
+						totalWorkTime: databaseTime + entry.totalWorkTime // have to add the timer time to the database time
 					};
 				} else if (mode === 'break') {
 					updatedEntryTime = {
-						id: storedTimerEntry.id,
+						id: entryId,
 						totalBreakTime: databaseTime + entry.totalBreakTime
 					};
 				}
-				// console.log('updatedentry', updatedEntryTime);
-				EntryRepository.updateEntry(updatedEntryTime).then(() => {
-					EntryRepository.get(storedTimerEntry.id).then(setTimerEntry);
+				EntryRepository.updateEntry(updatedEntryTime).then((entry) => {
+					setTimerEntry(entry);
 					setDatabaseTime(0);
 				});
 			});
@@ -218,7 +219,8 @@ export const TimerProvider = (props) => {
 				active,
 				toggle,
 				restartBreak,
-				resetTimers
+				resetTimers,
+				updateDatabaseEntry,
 			}}
 		>
 			{props.children}
