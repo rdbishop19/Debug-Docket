@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { EntryContext } from '../providers/EntryProvider';
 import { UserContext } from '../providers/UserProvider';
 import HistoryList from './HistoryList';
@@ -9,6 +9,9 @@ export default function HistoryContainer(props) {
 	const { entries, userEntries, getUserEntries, deleteEntry } = React.useContext(EntryContext);
 	const { getLoggedInUser } = React.useContext(UserContext);
 	const [ searchTerm, setSearchTerm ] = useState('');
+
+    const totalClosed = useRef(0)
+    const totalOpen = useRef(0)
 
 	const initialFilter = {
 		isCompleted: false,
@@ -54,6 +57,11 @@ export default function HistoryContainer(props) {
             deleteEntry(id).then(getUserEntries)
         }
     }
+    // const filterClosedEntries = (total, entry) {
+    //     if (entry.isCompleted){
+    //         return total + 1
+    //     }
+    // }
 	// for when user selects radio dropdowns
 	useEffect(
 		() => {
@@ -95,7 +103,17 @@ export default function HistoryContainer(props) {
 			// eslint-disable-next-line react-hooks/exhaustive-deps
 		},
 		[ activeUser.id ]
-	);
+    );
+    
+    useEffect(()=>{
+        totalOpen.current = userEntries.reduce(function (acc, object) {
+            if (!object.isCompleted){
+                return acc + 1
+            }
+            return acc
+        }, 0)
+        totalClosed.current = userEntries.length - totalOpen.current
+    }, [userEntries])
 
     const theme = useTheme()
 	const { palette: { type, /* primary, secondary, error */ }} = theme
@@ -154,6 +172,17 @@ export default function HistoryContainer(props) {
                 </Typography>
                 <Card style={{ textAlign: 'center', margin: '0 10px', padding: '10px', height: '400px' }}>
                     version 2.0
+                    <div style={{ textAlign: "left"}}>
+                        <Typography>
+                            Open: {totalOpen.current}
+                        </Typography>
+                        <Typography>
+                            Closed: {totalClosed.current}
+                        </Typography>
+                        <Typography>
+                            Total: {userEntries.length}
+                        </Typography>
+                    </div>
                 </Card>
             </Grid>
 			{/* </React.Fragment> */}
