@@ -10,9 +10,9 @@ export default function HistoryList(props) {
     const { entries, activeUser, isFiltering } = props
     return (
         <Paper>
-            <Typography>
+            {/* <Typography>
                 HISTORY LIST
-            </Typography>
+            </Typography> */}
             {entries.length > 0 ? entries.map((entry)=>{
                 return <FeedCard id={entry.id} key={entry.id} entry={entry} activeUser={activeUser} container="history" {...props}/>
             }) : <React.Fragment>
