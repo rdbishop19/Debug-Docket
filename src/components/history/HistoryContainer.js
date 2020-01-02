@@ -152,7 +152,7 @@ export default function HistoryContainer(props) {
                 <Typography variant="h6" style={{ textAlign: 'center'}}>
                     STATS
                 </Typography>
-                <Card style={{ height: "400px", textAlign: "center"}}>
+                <Card style={{ textAlign: 'center', margin: '0 10px', padding: '10px', height: '400px' }}>
                     version 2.0
                 </Card>
             </Grid>
