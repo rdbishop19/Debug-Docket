@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FormControl, InputLabel, Select, MenuItem, FormHelperText } from '@material-ui/core';
+import { FormControl, InputLabel, Select, MenuItem, FormHelperText, useTheme } from '@material-ui/core';
 import Settings from '../../repositories/Settings';
 
 export default function Dropdowns(props) {
@@ -14,17 +14,25 @@ export default function Dropdowns(props) {
 		fetch(`${Settings.remoteURL}/severities`).then((data) => data.json()).then(setSeverities);
 
 		fetch(`${Settings.remoteURL}/categories`).then((data) => data.json()).then(setCategories);
-	}, []);
+    }, []);
+    
+    const theme = useTheme()
+    const { palette: { type, /* primary, secondary, error */ }} = theme
+    
+    const inputStyle = {
+        color: type === "light" ? "primary" : "secondary"
+    }
+
 	return (
 		<React.Fragment>
-			<FormControl>
+			<FormControl color={inputStyle.color}>
 				<InputLabel id="priority-label">Priority</InputLabel>
 				<Select
 					labelId="priority-label"
 					id="priority"
 					value={priority.id}
 					name="priority"
-					onChange={handleRadioChange}
+                    onChange={handleRadioChange}
 				>
 					<MenuItem key="0" value="0">
 						<em>n/a</em>
@@ -43,14 +51,14 @@ export default function Dropdowns(props) {
 				<FormHelperText>Order to be fixed</FormHelperText>
 			</FormControl>
 
-			<FormControl>
+			<FormControl color={inputStyle.color}>
 				<InputLabel id="severity-label">Severity</InputLabel>
 				<Select
 					labelId="severity-label"
 					id="severity"
 					value={severity.id}
 					name="severity"
-					onChange={handleRadioChange}
+                    onChange={handleRadioChange}
 				>
 					<MenuItem key="0" value="0">
 						<em>n/a</em>
@@ -70,14 +78,14 @@ export default function Dropdowns(props) {
 			</FormControl>
 			{/* <br />
 			<br /> */}
-			<FormControl>
+			<FormControl color={inputStyle.color}>
 				<InputLabel id="category-label">Category</InputLabel>
 				<Select
 					labelId="category-label"
 					id="category"
 					value={category.id}
 					name="category"
-					onChange={handleRadioChange}
+                    onChange={handleRadioChange}
 				>
 					<MenuItem key="0" value="0">
 						<em>none</em>

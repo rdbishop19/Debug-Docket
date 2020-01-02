@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { EntryContext } from '../providers/EntryProvider';
 import { UserContext } from '../providers/UserProvider';
 import HistoryList from './HistoryList';
-import { Input, Typography, Button, Grid, Card } from '@material-ui/core';
+import { Input, Typography, Button, Grid, Card, useTheme } from '@material-ui/core';
 import Dropdowns from '../inputform/Dropdowns';
 
 export default function HistoryContainer(props) {
@@ -90,25 +90,31 @@ export default function HistoryContainer(props) {
 		[ activeUser.id ]
 	);
 
-	const { priority, severity, category } = filter;
+    const theme = useTheme()
+	const { palette: { type, /* primary, secondary, error */ }} = theme
+    const { priority, severity, category } = filter;
+    
+    const inputStyle = {
+        color: type === "light" ? "primary" : "secondary"
+    }
 
 	return (
 		<Grid container spacing={1}>
 			<Grid item xs={6} sm={3}>
 				{/* <React.Fragment> */}
-				<Typography variant="h5" component="h3" style={{ textAlign: 'center' }}>
-					<h3>Search</h3>
+				<Typography variant="h6" component="h3" style={{ textAlign: 'center' }}>
+					SEARCH
 				</Typography>
 				<Card style={{ textAlign: 'center', margin: '0 10px', padding: '10px' }}>
 					<form onSubmit={handleSubmit}>
-						<Input placeholder="Search entries by keyword" value={searchTerm} onChange={handleChange} style={{ width: "100%"}} />
+						<Input placeholder="Search entries by keyword" value={searchTerm} onChange={handleChange} style={{ width: "100%"}} color={inputStyle.color}/>
 					</form>
 					<br />
 				</Card>
-				<Typography variant="h5" component="h3" style={{ textAlign: 'center' }}>
-					<h3>Filter</h3>
+				<Typography variant="h6" component="h3" style={{ textAlign: 'center' }}>
+					FILTER
 				</Typography>
-				<Card style={{ textAlign: 'center', margin: '0 10px', height: "40vh", display: "flex", flexDirection: "column", justifyContent: "space-around", padding: "10px" }}>
+				<Card style={{ textAlign: 'center', margin: '0 10px', height: "400px", display: "flex", flexDirection: "column", justifyContent: "space-around", padding: "10px" }}>
 					<Dropdowns
 						priority={priority}
 						severity={severity}
@@ -124,8 +130,8 @@ export default function HistoryContainer(props) {
 				{/* <br /> */}
 			</Grid>
 			<Grid item xs={6} sm={9}>
-                <Typography variant="h5" component="h3" style={{ textAlign: 'center' }}>
-					<h3>Bug History</h3>
+                <Typography variant="h6" component="h3" style={{ textAlign: 'center' }}>
+					BUG HISTORY
 				</Typography>
 				<HistoryList
 					entries={filteredEntries}
