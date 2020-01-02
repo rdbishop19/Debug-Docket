@@ -157,7 +157,8 @@ export default function EntryEdit(props) {
 								type="button"
 								color="default"
 								variant="outlined"
-								onClick={() => props.history.push('/home')}
+								// onClick={() => props.history.push('/home')}
+								onClick={() => props.history.goBack()}
 							>
 								Cancel
 							</Button>

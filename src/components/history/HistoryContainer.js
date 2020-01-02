@@ -6,7 +6,7 @@ import { Input, Typography, Button, Grid, Card, useTheme } from '@material-ui/co
 import Dropdowns from '../inputform/Dropdowns';
 
 export default function HistoryContainer(props) {
-	const { entries, userEntries, getUserEntries } = React.useContext(EntryContext);
+	const { entries, userEntries, getUserEntries, deleteEntry } = React.useContext(EntryContext);
 	const { getLoggedInUser } = React.useContext(UserContext);
 	const [ searchTerm, setSearchTerm ] = useState('');
 
@@ -46,7 +46,14 @@ export default function HistoryContainer(props) {
 	const clearFilters = () => {
 		// setFilter(initialFilter)
 		setFilteredEntries(userEntries);
-	};
+    };
+    
+    const deleteHistoryEntry = id => {
+        if (window.confirm("Delete this entry?")){
+
+            deleteEntry(id).then(getUserEntries)
+        }
+    }
 	// for when user selects radio dropdowns
 	useEffect(
 		() => {
@@ -129,17 +136,26 @@ export default function HistoryContainer(props) {
 				{/* <br /> */}
 				{/* <br /> */}
 			</Grid>
-			<Grid item xs={6} sm={9}>
+			<Grid item xs={6} sm={6}>
                 <Typography variant="h6" component="h3" style={{ textAlign: 'center' }}>
 					BUG HISTORY
 				</Typography>
 				<HistoryList
 					entries={filteredEntries}
 					isFiltering={userEntries > filteredEntries}
-					activeUser={activeUser}
+                    activeUser={activeUser}
+                    deleteHistoryEntry={deleteHistoryEntry}
 					{...props}
 				/>
 			</Grid>
+            <Grid item xs={6} sm={3}>
+                <Typography variant="h6" style={{ textAlign: 'center'}}>
+                    STATS
+                </Typography>
+                <Card style={{ height: "400px", textAlign: "center"}}>
+                    version 2.0
+                </Card>
+            </Grid>
 			{/* </React.Fragment> */}
 		</Grid>
 	);
