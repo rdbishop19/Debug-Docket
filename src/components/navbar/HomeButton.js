@@ -39,8 +39,8 @@ export default function HomeButton(props) {
         onClose={handleClose}
       >
         <MenuItem onClick={handleClose} component={home}>Home</MenuItem>
-        <MenuItem onClick={handleClose} component={feed}>Feed</MenuItem>
-        <MenuItem onClick={handleClose} component={history}>History</MenuItem>
+        <MenuItem onClick={handleClose} component={feed}>Social Feed</MenuItem>
+        <MenuItem onClick={handleClose} component={history}>Bug History</MenuItem>
 
       </Menu>
     </div>
