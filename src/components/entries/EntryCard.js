@@ -12,7 +12,7 @@ function convertDateTimeFromISO(date) {
 export default function EntryCard(props) {
 	const theme = useTheme()
 	const { palette: { type, primary, secondary }} = theme
-	const { item, isEditing, edit, editingId, cancelEdit, updateItem, deleteItem, match, history } = props;
+	const { item, isEditing, edit, editingId, cancelEdit, updateItem, deleteItem, match, history, isCurrentTimer } = props;
 	// console.log(theme)
 	const listStyle = {
 		backgroundColor: type === "dark" ? primary.light : secondary.main,
@@ -20,7 +20,9 @@ export default function EntryCard(props) {
 		margin: '5px 5px',
 		border: '0.2px solid black',
 		borderRadius: '5px',
-		cursor: 'pointer'
+		cursor: 'pointer',
+		width: "90%",
+		marginLeft: "10%",
 	};
 
 	const handleClick = (e) => {
