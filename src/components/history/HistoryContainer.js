@@ -33,7 +33,7 @@ export default function HistoryContainer(props) {
 	};
 	const totalClosed = useRef(0);
 	const totalOpen = useRef(0);
-	const totalSession = useRef(0);
+	const totalSession = useRef(null);
 	const totalBreak = useRef(0);
 	const legendOptions = useRef(initialLegendOptions);
 
@@ -138,16 +138,12 @@ export default function HistoryContainer(props) {
 				return acc;
 			}, 0);
 			totalClosed.current = userEntries.length - totalOpen.current;
-			totalSession.current = Math.ceil(
-				userEntries.reduce(function(acc, object) {
-					return acc + object.totalWorkTime / 60000;
-				}, 0)
-			);
-			totalBreak.current = Math.ceil(
-				userEntries.reduce(function(acc, object) {
-					return acc + object.totalBreakTime / 60000;
-				}, 0)
-			);
+			totalSession.current = userEntries.reduce(function(acc, object) {
+				return acc + object.totalWorkTime;
+			}, 0);
+			totalBreak.current = userEntries.reduce(function(acc, object) {
+				return acc + object.totalBreakTime;
+			}, 0);
 		},
 		[ userEntries ]
 	);
@@ -179,7 +175,7 @@ export default function HistoryContainer(props) {
 		labels: [ 'SESSION', 'BREAK' ],
 		datasets: [
 			{
-				data: [ totalSession.current, totalBreak.current ],
+				data: [ Math.floor(totalSession.current / 60000), Math.floor(totalBreak.current / 60000) ],
 				backgroundColor: [ primary.light, secondary.light ],
 				hoverBackgroundColor: [ primary.main, secondary.main ],
 				borderColor: 'none',
@@ -187,6 +183,19 @@ export default function HistoryContainer(props) {
 			}
 		]
 	};
+
+	const sessionDisplayHours = Math.floor((totalSession.current % (1000 * 60)) / (1000 * 60));
+	const sessionDisplayMinutes = Math.floor((totalSession.current % (1000 * 60 * 60)) / (1000 * 60));
+
+	const breakDisplayHours = Math.floor((totalBreak.current % (1000 * 60)) / (1000 * 60));
+	const breakDisplayMinutes = Math.floor((totalBreak.current % (1000 * 60 * 60)) / (1000 * 60));
+
+	// const totalTime = totalSession.current + totalBreak.current
+	const totalDisplayHours = sessionDisplayHours + breakDisplayHours;
+	const totalDisplayMinutes = sessionDisplayMinutes + breakDisplayMinutes;
+
+	const sessionBreakRatio =
+		totalSession.current && totalSession.current / (totalSession.current + totalBreak.current);
 
 	return (
 		<Grid container spacing={1}>
@@ -252,10 +261,10 @@ export default function HistoryContainer(props) {
 					STATS
 				</Typography>
 				<Card style={{ textAlign: 'center', margin: '0 10px', padding: '10px' }}>
-					version 2.0
 					<div style={{ textAlign: 'center' }}>
+						<Typography>Keep up the great work! #DevEveryDay</Typography>
 						<Card style={{ padding: '10px', margin: '10px' }}>
-							<Typography>BUG TOTALS</Typography>
+							<Typography style={{ fontSize: '1.5em' }}>BUG TOTALS</Typography>
 							<Doughnut
 								data={data}
 								legend={legendOptions.current}
@@ -268,8 +277,41 @@ export default function HistoryContainer(props) {
 						<Typography>Closed: {totalClosed.current}</Typography>
 						<Typography>Total: {userEntries.length}</Typography>
 						<hr width="80%" />
+						{sessionBreakRatio > 0.8333 ? (
+							<React.Fragment>
+								<Typography>Take frequent debugging breaks to stay sharp.</Typography>
+								<Typography>
+									<span
+										style={{
+											color: type === 'light' ? error.main : error.light,
+											fontWeight: '900',
+											fontSize: '1.4em'
+										}}
+									>
+										{100 - Math.floor(sessionBreakRatio * 100)}%
+									</span>{' '}
+									of your time has been dedicated to breaks.
+								</Typography>
+							</React.Fragment>
+						) : (
+							<React.Fragment>
+								<Typography>You have mastered the Art of the Break. #DevSourcerer</Typography>
+								<Typography>
+									<span
+										style={{
+											color: type === 'light' ? primary.main : secondary.main,
+											fontWeight: '900',
+											fontSize: '1.4em'
+										}}
+									>
+										{100 - Math.floor(sessionBreakRatio * 100)}%
+									</span>{' '}
+									of your time has been dedicated to breaks.
+								</Typography>
+							</React.Fragment>
+						)}
 						<Card style={{ padding: '10px', margin: '10px' }}>
-							<Typography>SESSION v. BREAK TIME TOTALS (minutes)</Typography>
+							<Typography style={{ fontSize: '1.5em' }}>SESSION v. BREAK TOTALS (minutes)</Typography>
 							<Doughnut
 								data={data2}
 								legend={legendOptions.current}
@@ -278,6 +320,15 @@ export default function HistoryContainer(props) {
 								options={workDoughnutOptions}
 							/>
 						</Card>
+						<Typography>
+							Session Time: {sessionDisplayHours}h {sessionDisplayMinutes}m
+						</Typography>
+						<Typography>
+							Break Time: {breakDisplayHours}h {breakDisplayMinutes}m
+						</Typography>
+						<Typography>
+							Total: {totalDisplayHours}h {totalDisplayMinutes}m
+						</Typography>
 					</div>
 				</Card>
 			</Grid>
