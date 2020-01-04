@@ -184,10 +184,10 @@ export default function HistoryContainer(props) {
 		]
 	};
 
-	const sessionDisplayHours = Math.floor((totalSession.current % (1000 * 60)) / (1000 * 60));
+	const sessionDisplayHours = Math.floor((totalSession.current % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 	const sessionDisplayMinutes = Math.floor((totalSession.current % (1000 * 60 * 60)) / (1000 * 60));
 
-	const breakDisplayHours = Math.floor((totalBreak.current % (1000 * 60)) / (1000 * 60));
+	const breakDisplayHours = Math.floor((totalBreak.current % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 	const breakDisplayMinutes = Math.floor((totalBreak.current % (1000 * 60 * 60)) / (1000 * 60));
 
 	// const totalTime = totalSession.current + totalBreak.current
