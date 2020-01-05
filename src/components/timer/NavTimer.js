@@ -16,15 +16,19 @@ export default function NavTimer() {
 	const theme = useTheme();
 	const { palette: { type, error /* primary, secondary, error */ } } = theme;
 
+	const currentEntry = JSON.parse(localStorage.getItem('currentEntry'));
+
 	return (
 		<React.Fragment>
 			<Tooltip title={active ? 'Timer running' : 'Timer paused'}>
 				<TimerIcon style={{ margin: '0 5px', color: active ? error.main : 'white' }} />
 			</Tooltip>
-			<Typography>
-				{mode === 'session' && 'SESSION'}
-				{mode === 'break' && 'BREAK'}
-			</Typography>
+			<Tooltip title={currentEntry !== null ? `TIMER TRACKING: ${currentEntry.title}` : "No bug selected. But you're still awesome."} aria-label="current-entry">
+				<Typography style={{ cursor: "default"}}>
+					{mode === 'session' && 'SESSION'}
+					{mode === 'break' && 'BREAK'}
+				</Typography>
+			</Tooltip>
 			{active ? (
 				<Tooltip title="Pause" aria-label="pause">
 					<IconButton variant="outlined" color="default" onClick={toggle} size="small" >

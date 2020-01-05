@@ -8,21 +8,30 @@ import TimerIcon from '@material-ui/icons/Timer';
 import { TimerContext } from '../providers/TimerProvider';
 
 export default function EntriesHomeContainer(props) {
+	const { entries, userEntries, createEntry, updateEntry, getUserEntries, deleteEntry, setUserEntries } = useContext(
+		EntryContext
+	);
 	const theme = useTheme();
 	const { palette: { type, primary, secondary } } = theme;
 
 	const [ isEditing, setIsEditing ] = useState(false);
 	const [ editingId, setEditingId ] = useState();
 
-	const storedSelected = localStorage.getItem('currentTimerEntry');
+	const storedSelected = JSON.parse(localStorage.getItem('currentEntry'));
 	const storeSelected = useRef(storedSelected !== null ? storedSelected : -1);
-	// console.log('storeSelected', storeSelected)
-	const [ selectedIndex, setSelectedIndex ] = React.useState(Number(storeSelected.current));
+	const [ selectedIndex, setSelectedIndex ] = useState(-1);
+	
+	useEffect(()=>{
+		// console.log('useEffect')
+		if (storedSelected !== null){
+			const findSelected = (entry) => entry.id === storedSelected.id
+			const found = userEntries.findIndex(findSelected)
+			setSelectedIndex(found)
+		}
+	}, [userEntries])
+	// console.log('found', found)
 	const [ hoveredItem, setHoveredItem ] = useState();
 
-	const { entries, userEntries, createEntry, updateEntry, getUserEntries, deleteEntry, setUserEntries } = useContext(
-		EntryContext
-	);
 	const { getLoggedInUser, loggedInUser } = useContext(UserContext);
 	const { updateDatabaseEntry, resetTimers } = useContext(TimerContext);
 	const activeUser = getLoggedInUser();
@@ -118,7 +127,7 @@ export default function EntriesHomeContainer(props) {
 			{/* <Typography variant="h5"> */}
 			<h3>MY TICKETS</h3>
 			{/* </Typography> */}
-			<Paper style={{ width: '97%', margin: '0 10px' }}>
+			<Paper style={{ width: '97%', margin: '0 10px', height: '57vh', overflow: "auto" }}>
 				<br />
 				<Typography variant="caption" style={{ opacity: '0.5' }}>
 					most recent

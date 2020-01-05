@@ -35,6 +35,7 @@ const useBasicAuth = () => {
         localStorage.removeItem("credentials")
         sessionStorage.removeItem("credentials")
         localStorage.removeItem("currentEntry")
+        localStorage.removeItem("currentTimerEntry")
     }
 
     // return an object with these functions so they can be used elsewhere
