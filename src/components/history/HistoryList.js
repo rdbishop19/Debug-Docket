@@ -7,14 +7,14 @@ import FeedCard from '../feed/FeedCard'
     Author: Ryan Bishop
 */
 export default function HistoryList(props) {
-    const { entries, activeUser, isFiltering } = props
+    const { entries, activeUser, isFiltering, deleteHistoryEntry } = props
     return (
         <Paper>
-            <Typography>
+            {/* <Typography>
                 HISTORY LIST
-            </Typography>
+            </Typography> */}
             {entries.length > 0 ? entries.map((entry)=>{
-                return <FeedCard id={entry.id} key={entry.id} entry={entry} activeUser={activeUser} container="history" {...props}/>
+                return <FeedCard id={entry.id} key={entry.id} entry={entry} activeUser={activeUser} container="history" deleteHistoryEntry={deleteHistoryEntry} {...props}/>
             }) : <React.Fragment>
                     {isFiltering ? 
                         <h5>No entries match these search/filter criteria</h5>
