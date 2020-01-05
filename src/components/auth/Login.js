@@ -12,12 +12,15 @@ import {
 	FormControlLabel,
 	Paper,
 	Typography,
-	Link
+	Link,
+	Grid
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Link as RouterLink } from 'react-router-dom';
 import { EntryContext } from '../providers/EntryProvider';
+import GuestMode from './GuestMode';
+import Motto from './Motto';
 /* 
     Purpose: Render the login screen and set user in storage
     Author: Ryan Bishop
@@ -77,70 +80,78 @@ const Login = (props) => {
 	return (
 		<React.Fragment>
 			<Paper className={classes.root}>
-				<Typography variant="h4" component="h3">
-					Welcome Back!
-				</Typography>
-				<Typography component="p">Please enter your account information.</Typography>
-				<Typography component="div">
-					<br />
-					<form onSubmit={handleLogin} autoComplete="off" style={{ width: '200px', margin: '0 auto' }}>
-						<FormControl>
-							<InputLabel htmlFor="email">Email</InputLabel>
-							<Input inputRef={email} id="email" type="email" autoComplete="email" required autoFocus />
-						</FormControl>
-						<FormControl>
-							<InputLabel htmlFor="password">Password</InputLabel>
-							<Input
-								inputRef={password}
-								id="password"
-								type="password"
-								autoComplete="current-password"
-								required
-							/>
-						</FormControl>
-						<FormControl margin="normal">
-							<FormControlLabel
-								control={
-									<Checkbox
-										// had to abandon 'ref' and use state instead
-										// inputRef={remember}
-										id="remember"
-										value="remember"
-										checked={checked}
-										color="primary"
-										onChange={() => setChecked(!checked)}
-										inputProps={{
-											'aria-label': 'primary checkbox'
-										}}
+				<Grid container spacing={1}>
+					<Grid item xs={8} sm={8}>
+						<Motto />
+					</Grid>
+					<Grid item xs={4} sm={4}>
+						<Typography variant="h4" component="h3">
+							Welcome Back!
+						</Typography>
+						<Typography component="p">Please enter your account information.</Typography>
+						<Typography component="div">
+							<br />
+							<form
+								onSubmit={handleLogin}
+								autoComplete="off"
+								style={{ width: '200px', margin: '0 auto' }}
+							>
+								<FormControl>
+									<InputLabel htmlFor="email">Email</InputLabel>
+									<Input
+										inputRef={email}
+										id="email"
+										type="email"
+										autoComplete="email"
+										required
+										autoFocus
 									/>
-								}
-								label="Remember me?"
-							/>
-						</FormControl>
-						<FormControl margin="normal">
-							<Button type="submit" variant="contained" color="primary">
-								Sign in
-							</Button>
-						</FormControl>
-					</form>
-					<Link component={register} to="/register">
-						New user? Create account
-					</Link>
-				</Typography>
+								</FormControl>
+								<FormControl>
+									<InputLabel htmlFor="password">Password</InputLabel>
+									<Input
+										inputRef={password}
+										id="password"
+										type="password"
+										autoComplete="current-password"
+										required
+									/>
+								</FormControl>
+								<FormControl margin="normal">
+									<FormControlLabel
+										control={
+											<Checkbox
+												// had to abandon 'ref' and use state instead
+												// inputRef={remember}
+												id="remember"
+												value="remember"
+												checked={checked}
+												color="primary"
+												onChange={() => setChecked(!checked)}
+												inputProps={{
+													'aria-label': 'primary checkbox'
+												}}
+											/>
+										}
+										label="Remember me?"
+									/>
+								</FormControl>
+								<FormControl margin="normal">
+									<Button type="submit" variant="contained" color="primary">
+										Sign in
+									</Button>
+								</FormControl>
+							</form>
+							<Link component={register} to="/register">
+								New user? Create account
+							</Link>
+						</Typography>
+					</Grid>
+				</Grid>
 			</Paper>
-            <br/><br/>
-			<div style={{ width: "200px", margin: "0 auto", textAlign: "center"}} >
-                <Typography variant="subtitle1">
-                    Afraid of bugs?
-                </Typography>
-                <Button color="secondary" 
-                        variant="contained" 
-                        style={{ textAlign: "center", width: "100%"}}
-                        onClick={()=> props.history.push("/")}
-                        >
-                    Use Guest Mode
-                </Button>
-			</div>
+			{/* <br />
+			<br /> */}
+			<GuestMode {...props} />
 		</React.Fragment>
 	);
 };
