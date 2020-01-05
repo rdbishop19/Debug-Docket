@@ -34,6 +34,7 @@ const useBasicAuth = () => {
         setIsLoggedIn(false)
         localStorage.removeItem("credentials")
         sessionStorage.removeItem("credentials")
+        localStorage.removeItem("currentEntry")
     }
 
     // return an object with these functions so they can be used elsewhere
