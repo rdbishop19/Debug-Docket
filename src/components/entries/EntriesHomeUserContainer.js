@@ -22,11 +22,12 @@ export default function EntriesHomeContainer(props) {
 	const [ selectedIndex, setSelectedIndex ] = useState(-1);
 	
 	useEffect(()=>{
-		console.log('useEffect')
-		const findSelected = (entry) => entry.id === storedSelected.id
-		const found = userEntries.findIndex(findSelected)
-		setSelectedIndex(found)
-
+		// console.log('useEffect')
+		if (storedSelected !== null){
+			const findSelected = (entry) => entry.id === storedSelected.id
+			const found = userEntries.findIndex(findSelected)
+			setSelectedIndex(found)
+		}
 	}, [userEntries])
 	// console.log('found', found)
 	const [ hoveredItem, setHoveredItem ] = useState();
