@@ -4,6 +4,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
 import SaveIcon from '@material-ui/icons/Save';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 export default function EntryQuickEdit(props) {
 	const { cancelEdit, deleteItem, updateItem, item, history, match } = props;
@@ -105,7 +106,7 @@ export default function EntryQuickEdit(props) {
 					</Tooltip>
 					<Tooltip title="Save" aria-label="save">
 						<IconButton
-							color="secondary"
+							color={type === "light" ? 'primary' : 'secondary'}
 							style={{ margin: '0 15px' }}
 							aria-label="save"
 							size="small"
@@ -124,6 +125,16 @@ export default function EntryQuickEdit(props) {
 							<DeleteIcon />
 						</IconButton>
 					</Tooltip>
+					<Tooltip title="Details" aria-label="details">
+							<IconButton
+								aria-label="details"
+								size="small"
+								style={{ margin: '0 15px' }}
+								onClick={() => history.push(`/entries/${Number(item.id)}/details`)}
+							>
+								<MoreVertIcon />
+							</IconButton>
+						</Tooltip>
 				</div>
 			</CardContent>
 		</Card>
