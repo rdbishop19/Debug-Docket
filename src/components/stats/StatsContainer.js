@@ -7,8 +7,7 @@ import { Doughnut } from 'react-chartjs-2';
 export default function StatsContainer() {
 	const { userEntries } = React.useContext(EntryContext);
 
-	const theme = useTheme();
-	const { palette: { type, primary, secondary, error } } = theme;
+	const { palette: { type, primary, secondary, error } } = useTheme();
 
 	const initialLegendOptions = {
 		display: true,
@@ -24,12 +23,14 @@ export default function StatsContainer() {
 		}
 	};
 
+    // setup refs for accessing throughout component
 	const totalClosed = useRef(0);
 	const totalOpen = useRef(0);
-	const totalSession = useRef(null);
+	const totalSession = useRef(0);
 	const totalBreak = useRef(0);
-	const legendOptions = useRef(initialLegendOptions);
-	const data = {
+    const legendOptions = useRef(initialLegendOptions);
+    
+	const dataBugTotals = {
 		labels: [ 'OPEN', 'CLOSED' ],
 		datasets: [
 			{
@@ -42,10 +43,11 @@ export default function StatsContainer() {
 		]
 	};
 
-	const data2 = {
+	const dataSessionBreakTotals = {
 		labels: [ 'SESSION', 'BREAK' ],
 		datasets: [
 			{
+                // round 'data' values (original: milliseconds) for human-readable display format
 				data: [ Math.floor(totalSession.current / 60000), Math.floor(totalBreak.current / 60000) ],
 				backgroundColor: [ primary.light, secondary.light ],
 				hoverBackgroundColor: [ primary.main, secondary.main ],
@@ -65,37 +67,41 @@ export default function StatsContainer() {
 		// }
 	};
 
+    // calcuations: hours/minutes rounding for final display format
+    // similar to display logic for timer minutes/seconds
 	const sessionDisplayHours = Math.floor((totalSession.current % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 	const sessionDisplayMinutes = Math.floor((totalSession.current % (1000 * 60 * 60)) / (1000 * 60));
 
 	const breakDisplayHours = Math.floor((totalBreak.current % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 	const breakDisplayMinutes = Math.floor((totalBreak.current % (1000 * 60 * 60)) / (1000 * 60));
 
-	// const totalTime = totalSession.current + totalBreak.current
 	const totalDisplayHours = sessionDisplayHours + breakDisplayHours;
 	const totalDisplayMinutes = sessionDisplayMinutes + breakDisplayMinutes;
 
+    // this ratio determines what component to display to user if they are taking enough break time or not
 	const sessionBreakRatio =
-		totalSession.current && totalSession.current / (totalSession.current + totalBreak.current);
+		totalSession.current > 0 && totalSession.current / (totalSession.current + totalBreak.current);
 
-	useEffect(
-		() => {
-			totalOpen.current = userEntries.reduce(function(acc, object) {
-				if (!object.isCompleted) {
-					return acc + 1;
-				}
-				return acc;
-			}, 0);
-			totalClosed.current = userEntries.length - totalOpen.current;
-			totalSession.current = userEntries.reduce(function(acc, object) {
-				return acc + object.totalWorkTime;
-			}, 0);
-			totalBreak.current = userEntries.reduce(function(acc, object) {
-				return acc + object.totalBreakTime;
-			}, 0);
-		},
-		[ userEntries ]
-	);
+	const calculateTotals = () => {
+        // # of bug entries still OPEN
+		totalOpen.current = userEntries.reduce(function(acc, object) {
+			if (!object.isCompleted) {
+				return acc + 1;
+			}
+			return acc;
+        }, 0);
+        // # of bug entries that have been marked as COMPLETE
+        totalClosed.current = userEntries.length - totalOpen.current;
+        // amount of SESSION time spent on all bug entries
+		totalSession.current = userEntries.reduce(function(acc, object) {
+			return acc + object.totalWorkTime;
+        }, 0);
+        // amount of BREAK time spent on all bug entries
+		totalBreak.current = userEntries.reduce(function(acc, object) {
+			return acc + object.totalBreakTime;
+		}, 0);
+	};
+	useEffect(calculateTotals, [ userEntries ]);
 
 	return (
 		<React.Fragment>
@@ -107,16 +113,27 @@ export default function StatsContainer() {
 					<Card style={{ padding: '10px', margin: '10px' }}>
 						<Typography style={{ fontSize: '1.5em' }}>BUG TOTALS</Typography>
 						<Doughnut
-							data={data}
+							data={dataBugTotals}
 							legend={legendOptions.current}
 							width={200}
 							height={200}
 							options={{ maintainAspectRatio: true }}
 						/>
 					</Card>
-					<Typography>Open: {totalOpen.current}</Typography>
-					<Typography>Closed: {totalClosed.current}</Typography>
-					<Typography>Total: {userEntries.length}</Typography>
+					<div style={{ width: '30%', minWidth: '120px', margin: '0 auto' }}>
+						<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+							<Typography>Open:</Typography>
+							<Typography> {totalOpen.current}</Typography>
+						</div>
+						<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+							<Typography>Closed:</Typography>
+							<Typography> {totalClosed.current}</Typography>
+						</div>
+						<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+							<Typography>Total:</Typography>
+							<Typography> {userEntries.length}</Typography>
+						</div>
+					</div>
 					<hr width="80%" />
 					{sessionBreakRatio > 0.8333 ? (
 						<React.Fragment>
@@ -156,7 +173,7 @@ export default function StatsContainer() {
 					<Card style={{ padding: '10px', margin: '10px' }}>
 						<Typography style={{ fontSize: '1.5em' }}>SESSION v. BREAK TOTALS (minutes)</Typography>
 						<Doughnut
-							data={data2}
+							data={dataSessionBreakTotals}
 							legend={legendOptions.current}
 							width={200}
 							height={200}

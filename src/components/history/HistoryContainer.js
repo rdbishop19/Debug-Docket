@@ -9,10 +9,9 @@ import StatsContainer from '../stats/StatsContainer';
 export default function HistoryContainer(props) {
 	const { entries, userEntries, getUserEntries, deleteEntry } = React.useContext(EntryContext);
 	const { getLoggedInUser } = React.useContext(UserContext);
-	const [ searchTerm, setSearchTerm ] = useState('');
-
-	const theme = useTheme();
-	const { palette: { type/* , primary, secondary, error */ } } = theme;
+    const [ searchTerm, setSearchTerm ] = useState('');
+    
+	const { palette: { type/* , primary, secondary, error */ } } = useTheme();
 
 	const inputStyle = {
 		color: type === 'light' ? 'primary' : 'secondary'
