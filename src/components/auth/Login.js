@@ -15,7 +15,7 @@ import {
 	Link,
 	Grid
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import { Link as RouterLink } from 'react-router-dom';
 import { EntryContext } from '../providers/EntryProvider';
@@ -44,6 +44,11 @@ const Login = (props) => {
 	const password = useRef();
 	// const remember = useRef(false) // abandoned this in favor of useState
 	const classes = useStyles();
+	const { palette: { type, primary, secondary, error } } = useTheme();
+
+    const inputStyle = {
+        color: type === "light" ? "primary" : "secondary"
+    }
 
 	const [ checked, setChecked ] = useState(false);
 	// pull 'login' fn from 'useBasicAuth' component
@@ -96,7 +101,7 @@ const Login = (props) => {
 								autoComplete="off"
 								style={{ width: '200px', margin: '0 auto' }}
 							>
-								<FormControl>
+								<FormControl color={inputStyle.color}>
 									<InputLabel htmlFor="email">Email</InputLabel>
 									<Input
 										inputRef={email}
@@ -107,7 +112,7 @@ const Login = (props) => {
 										autoFocus
 									/>
 								</FormControl>
-								<FormControl>
+								<FormControl color={inputStyle.color}>
 									<InputLabel htmlFor="password">Password</InputLabel>
 									<Input
 										inputRef={password}
@@ -117,7 +122,7 @@ const Login = (props) => {
 										required
 									/>
 								</FormControl>
-								<FormControl margin="normal">
+								<FormControl margin="normal" color={inputStyle.color}>
 									<FormControlLabel
 										control={
 											<Checkbox
@@ -126,7 +131,7 @@ const Login = (props) => {
 												id="remember"
 												value="remember"
 												checked={checked}
-												color="primary"
+												color={inputStyle.color}
 												onChange={() => setChecked(!checked)}
 												inputProps={{
 													'aria-label': 'primary checkbox'
@@ -136,13 +141,13 @@ const Login = (props) => {
 										label="Remember me?"
 									/>
 								</FormControl>
-								<FormControl margin="normal">
-									<Button type="submit" variant="contained" color="primary">
+								<FormControl margin="normal" color={inputStyle.color}>
+									<Button type="submit" variant="contained" color="primary" size="large">
 										Sign in
 									</Button>
 								</FormControl>
 							</form>
-							<Link component={register} to="/register">
+							<Link component={register} to="/register" color={inputStyle.color}>
 								New user? Create account
 							</Link>
 						</Typography>

@@ -16,7 +16,7 @@ import {
 	Checkbox,
 	Grid
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import { Link as RouterLink } from 'react-router-dom';
 import { EntryContext } from '../providers/EntryProvider';
@@ -45,7 +45,11 @@ const Register = (props) => {
 	const [ checked, setChecked ] = useState(false);
 	// use style classes defined above
 	const classes = useStyles();
+    const { palette: { type, primary, secondary, error } } = useTheme();
 
+    const inputStyle = {
+        color: type === "light" ? "primary" : "secondary"
+    }
 	// save new user after validating account creation
 	const { login } = useBasicAuth();
 
@@ -103,21 +107,21 @@ const Register = (props) => {
 						</Typography>
 						<Typography component="p">Create New Account</Typography>
 						<Typography component="div" />
-						<br />
+						{/* <br /> */}
 						<form onSubmit={handleRegister} style={{ width: '200px', margin: '0 auto' }}>
-							<FormControl>
+							<FormControl color={inputStyle.color}>
 								<InputLabel htmlFor="firstName"> First Name </InputLabel>
 								<Input
 									inputRef={firstName}
 									type="text"
-									name="firstName"
+                                    name="firstName"
 									placeholder="First name"
 									autoComplete="given-name"
 									required
 									autoFocus
 								/>
 							</FormControl>
-							<FormControl>
+							<FormControl color={inputStyle.color}>
 								<InputLabel htmlFor="lastName"> Last Name </InputLabel>
 								<Input
 									inputRef={lastName}
@@ -128,7 +132,7 @@ const Register = (props) => {
 									required
 								/>
 							</FormControl>
-							<FormControl>
+							<FormControl color={inputStyle.color}>
 								<InputLabel htmlFor="inputEmail"> Email address </InputLabel>
 								<Input
 									inputRef={email}
@@ -139,7 +143,7 @@ const Register = (props) => {
 									required
 								/>
 							</FormControl>
-							<FormControl>
+							<FormControl color={inputStyle.color}>
 								<InputLabel htmlFor="inputPassword"> Password </InputLabel>
 								<Input
 									inputRef={password}
@@ -150,7 +154,7 @@ const Register = (props) => {
 									required
 								/>
 							</FormControl>
-							<FormControl>
+							<FormControl color={inputStyle.color}>
 								<InputLabel htmlFor="verifyPassword"> Verify Password </InputLabel>
 								<Input
 									inputRef={verifyPassword}
@@ -161,7 +165,7 @@ const Register = (props) => {
 									required
 								/>
 							</FormControl>
-							<FormControl margin="normal">
+							<FormControl margin="normal" color={inputStyle.color}>
 								<FormControlLabel
 									control={
 										<Checkbox
@@ -170,7 +174,7 @@ const Register = (props) => {
 											id="remember"
 											value="remember"
 											checked={checked}
-											color="primary"
+											color={inputStyle.color}
 											onChange={() => setChecked(!checked)}
 											inputProps={{
 												'aria-label': 'primary checkbox'
@@ -181,12 +185,12 @@ const Register = (props) => {
 								/>
 							</FormControl>
 							<FormControl margin="normal">
-								<Button type="submit" variant="contained" color="primary">
+								<Button type="submit" variant="contained" color="primary" size="large">
 									Register
 								</Button>
 							</FormControl>
 						</form>
-						<Link component={loginComponent} to="/login">
+						<Link component={loginComponent} to="/login" color={inputStyle.color}>
 							Already have an account?
 						</Link>
 					</Grid>
