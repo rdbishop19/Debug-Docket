@@ -37,7 +37,7 @@
     animation: rotate 15s infinite steps(60);
 }
 .counterclockwise1 {
-    animation: rotate-reverse 5s infinite steps(60);
+    animation: rotate-reverse 15s infinite steps(60);
 }
 
 @keyframes rotate {

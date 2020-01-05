@@ -29,7 +29,8 @@ export default function Motto() {
 					height: '100%',
 					backgroundColor: error.main,
 					color: 'white',
-					paddingTop: '80px'
+                    paddingTop: '80px',
+                    minWidth: '500px'
 				}}
 			>
 				<Typography variant="h2">
@@ -45,7 +46,7 @@ export default function Motto() {
 					<BugReportIcon fontSize="large" className="bugs clockwise1" />
 					<BugReportIcon fontSize="large" className="bugs counterclockwise1"/>
 					<BugReportIcon fontSize="large" className="bugs clockwise2"/>
-					<Typography variant="h5">say <span style={{ color: "white"}}>'Hello World'</span> to your little friends</Typography>
+					<Typography variant="h5">say <span style={{ color: "white", fontSize: "1.5em"}}>'Hello World'</span> to your little friends</Typography>
 					<BugReportIcon fontSize="large"  />
 					<BugReportIcon fontSize="large" />
 					<BugReportIcon fontSize="large" />
