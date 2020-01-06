@@ -50,7 +50,7 @@ export default function EntryCard(props) {
 				</React.Fragment>
 			) : (
 				<Tooltip title="Click to edit" aria-label="click-to-edit">
-					<Typography component="p" style={{ textAlign: 'left', paddingLeft: '30px' }}>
+					<Typography component="p" style={{ textAlign: 'left', paddingLeft: '15px' }}>
 						{/* <FontAwesomeIcon style={{ marginRight: '10px' }} icon={faCheckSquare} /> */}
 						<span>{item.title}</span>
 					</Typography>
