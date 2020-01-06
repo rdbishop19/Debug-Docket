@@ -23,21 +23,19 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import StatsDetailView from '../stats/StatsDetailView';
+import DateRangeIcon from '@material-ui/icons/DateRange';
 
-function convertDateTimeFromISO(date) {
-	return new Date(date);
-}
 
 const isOverflown = ({ clientWidth, clientHeight, scrollWidth, scrollHeight }) => {
 	return scrollHeight > clientHeight || scrollWidth > clientWidth;
 };
 
-const useStyles = makeStyles(theme => ({
-    tooltip: {
-      maxWidth: 'none',
-      backgroundColor: 'black',
-    }
-  }));
+const useStyles = makeStyles((theme) => ({
+	tooltip: {
+		maxWidth: 'none',
+		backgroundColor: 'black'
+	}
+}));
 
 export default function EntryDetailsCard({ entry, history /* , deleteEntry */ }) {
 	const {
@@ -55,7 +53,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 		totalBreakTime
 	} = entry;
 
-	const classes = useStyles()
+	const classes = useStyles();
 	const messageList = useRef();
 	const oldest = useRef();
 	const newest = useRef();
@@ -161,11 +159,11 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 			color: isCompleted ? 'white' : 'black',
 			width: '100px',
 			borderRadius: '4px',
-			margin: '0 auto',
+			margin: '0 auto'
 		},
 		datetime: {
-			cursor: "pointer",
-			borderBottom: "0.5px dotted #666"
+			cursor: 'pointer',
+			borderBottom: '0.5px dotted #666'
 		}
 	};
 
@@ -173,9 +171,9 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 
 	return (
 		<React.Fragment>
-			<div style={{ flex: 1, textAlign: 'center', minWidth: '375px', margin: '10px'}}>
+			<div style={{ flex: 1, textAlign: 'center', minWidth: '375px', margin: '10px' }}>
 				<Typography variant="h6">BUG DETAILS</Typography>
-				<Card style={{ padding: '10px', height: '82.3vh', overflow: "auto"  }}>
+				<Card style={{ padding: '10px', height: '82.3vh', overflow: 'auto' }}>
 					<CardHeader
 						style={entryStyle}
 						// style={entryStyle}
@@ -199,7 +197,12 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 									</span>
 								}
 								{activeUserId === entry.userId && <span>(you) </span>}
-								<Tooltip title={new Date(timeStarted).toString()} arrow placement="top" classes={{ tooltip: classes.tooltip }}>
+								<Tooltip
+									title={new Date(timeStarted).toString()}
+									arrow
+									placement="top"
+									classes={{ tooltip: classes.tooltip }}
+								>
 									<span style={styles.datetime}>{moment(entry.timeStarted).fromNow()}</span>
 								</Tooltip>
 							</Typography>
@@ -232,27 +235,40 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 							<span style={styles.headers}>Description: </span>
 							{description}
 						</Typography>
-						{/* <Typography>
-							<span style={styles.headers}>Status: </span>
-							{status}
-						</Typography> */}
-						{/* <Typography>
-							<span style={styles.headers}>Submitted on: </span>
-							{new Date(timeStarted).toLocaleString()}
-						</Typography> */}
-						<Typography>
-							<span style={styles.headers}>Severity: </span>
-							{severity.label}
-						</Typography>
-						<Typography>
-							<span style={styles.headers}>Priority: </span>
-							{priority.label}
-						</Typography>
-						<Typography>
-							<span style={styles.headers}>Category: </span>
-							{category.label}
-						</Typography>
-						<StatsDetailView entry={entry}/>
+						<div style={{ display: 'flex' }}>
+							<div style={{ flex: 1 }}>
+								<Typography>
+									<span style={styles.headers}>Severity: </span>
+									{severity.label}
+								</Typography>
+								<Typography>
+									<span style={styles.headers}>Priority: </span>
+									{priority.label}
+								</Typography>
+								<Typography>
+									<span style={styles.headers}>Category: </span>
+									{category.label}
+								</Typography>
+								{entry.isCompleted ? (
+									<React.Fragment>
+										<Typography>
+											<DateRangeIcon />
+											<span style={styles.headers}>Completion/Cycle Time: </span>
+											{moment(entry.timeStarted).to(entry.timeCompleted, true)}
+										</Typography>
+									</React.Fragment>
+								) : (
+									<React.Fragment>
+										<Typography>
+											<DateRangeIcon />
+											<span style={styles.headers}>Open: </span>
+											{moment().to(entry.timeStarted, true)}
+										</Typography>
+									</React.Fragment>
+								)}
+							</div>
+							<StatsDetailView style={{ flex: 1 }} entry={entry} />
+						</div>
 					</CardContent>
 				</Card>
 			</div>
