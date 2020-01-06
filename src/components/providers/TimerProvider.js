@@ -195,7 +195,7 @@ export const TimerProvider = (props) => {
 	useEffect(updateTimer, [ active, timer ]);
 
 	useEffect(() => {
-		console.log('useEffect');
+		// console.log('useEffect');
 		if (storedTimerEntry !== null) {
 			EntryRepository.get(storedTimerEntry.id).then(setTimerEntry);
 		}
