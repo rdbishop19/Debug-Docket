@@ -12,10 +12,10 @@ export default function FeedList(props) {
 	return (
 		// <Paper>
 		<React.Fragment>
-			<Typography variant="h5" component="h3" style={{ textAlign: 'center' }}>
-				<h3>Bug Feed</h3>
+			<Typography variant="h6" component="h3" style={{ textAlign: 'center' }}>
+				BUG FEED
 			</Typography>
-			<div style={{ overflow: "auto", height: "450px"}}>
+			<div style={{ overflow: "auto", height: "83vh"}}>
 			    {entries.length > 0 ? (
     				entries.map((entry) => {
     					return <FeedCard key={entry.id} entry={entry} activeUser={user} container="feed" {...props} />;

@@ -18,10 +18,10 @@ export default function SearchList({ nonFriends, addNewFriend, filterNonFriends 
 
 	return (
 		<React.Fragment>
-			<Typography variant="h5" component="h3" style={{ textAlign: 'center' }}>
-				<h3>Search Users</h3>
+			<Typography variant="h6" component="h3" style={{ textAlign: 'center' }}>
+				SEARCH USERS
 			</Typography>
-			<Card>
+			<Card style={{ overflow: "auto", height: "83vh", margin: "5px"}}>
 				<form onSubmit={handleSubmit} style={{ textAlign: 'center', padding: '10px' }}>
 					<TextField ref={input} placeholder="Enter name" value={searchTerm} onChange={handleChange} />
 				</form>

@@ -5,10 +5,10 @@ import FriendCard from './FriendCard';
 export default function FriendList({ friends, removeFriend }) {
 	return (
 		<React.Fragment>
-			<Typography variant="h5" component="h3" style={{ textAlign: 'center' }}>
-				<h3>Friend List</h3>
+			<Typography variant="h6" component="h3" style={{ textAlign: 'center' }}>
+				FRIEND LIST
 			</Typography>
-			<Card>
+			<Card style={{ overflow: "auto", height: "83vh", margin: "5px"}}>
 				{friends.length > 0 ? (
 					friends.map((friend) => {
 						return <FriendCard key={friend.id} friend={friend} removeFriend={removeFriend} />;
