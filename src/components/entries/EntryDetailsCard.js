@@ -25,7 +25,6 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import StatsDetailView from '../stats/StatsDetailView';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 
-
 const isOverflown = ({ clientWidth, clientHeight, scrollWidth, scrollHeight }) => {
 	return scrollHeight > clientHeight || scrollWidth > clientWidth;
 };
@@ -159,7 +158,8 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 			color: isCompleted ? 'white' : 'black',
 			width: '100px',
 			borderRadius: '4px',
-			margin: '0 auto'
+			margin: '0 5px',
+			padding: '0 3px'
 		},
 		datetime: {
 			cursor: 'pointer',
@@ -167,7 +167,8 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 		}
 	};
 
-	const status = isCompleted ? 'CLOSED' : 'OPEN';
+	const status = isCompleted ? 'CLOSED' : 'OPENED';
+	const timeDisplay = isCompleted ? timeCompleted : timeStarted;
 
 	return (
 		<React.Fragment>
@@ -191,20 +192,13 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 						}
 						title={
 							<Typography>
-								{
+								{activeUserId === entry.userId ? (
+									<span>(you) </span>
+								) : (
 									<span>
 										{entry.user.firstName} {entry.user.lastName}{' '}
 									</span>
-								}
-								{activeUserId === entry.userId && <span>(you) </span>}
-								<Tooltip
-									title={new Date(timeStarted).toString()}
-									arrow
-									placement="top"
-									classes={{ tooltip: classes.tooltip }}
-								>
-									<span style={styles.datetime}>{moment(entry.timeStarted).fromNow()}</span>
-								</Tooltip>
+								)}
 							</Typography>
 						}
 						action={
@@ -223,7 +217,19 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 								</Tooltip>
 							</div>
 						}
-						subheader={<div style={styles.subheader}>{status}</div>}
+						subheader={
+							<React.Fragment>
+								<span style={styles.subheader}>{status}</span>
+								<Tooltip
+									title={`${status} on ${new Date(timeDisplay).toString()}`}
+									arrow
+									placement="top"
+									classes={{ tooltip: classes.tooltip }}
+								>
+									<span style={styles.datetime}>{moment(timeDisplay).fromNow()}</span>
+								</Tooltip>
+							</React.Fragment>
+						}
 					/>
 					<CardContent style={{ textAlign: 'left' }}>
 						<Typography variant="h5">
@@ -249,25 +255,35 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 									<span style={styles.headers}>Category: </span>
 									{category.label}
 								</Typography>
-								{entry.isCompleted ? (
-									<React.Fragment>
-										<Typography>
-											<DateRangeIcon />
-											<span style={styles.headers}>Completion/Cycle Time: </span>
-											{moment(entry.timeStarted).to(entry.timeCompleted, true)}
-										</Typography>
-									</React.Fragment>
-								) : (
-									<React.Fragment>
-										<Typography>
-											<DateRangeIcon />
-											<span style={styles.headers}>Open: </span>
-											{moment().to(entry.timeStarted, true)}
-										</Typography>
-									</React.Fragment>
-								)}
+								{/* <Card> */}
+									<Typography>
+										<span style={styles.headers}>Opened: </span>
+										{moment(timeStarted).format('MM-DD-YYYY')}
+									</Typography>
+									{entry.isCompleted ? (
+										<React.Fragment>
+											<Typography>
+												<span style={styles.headers}>Closed: </span>
+												{moment(timeCompleted).format('MM-DD-YYYY')}
+											</Typography>
+											<Typography>
+												<DateRangeIcon />
+												<span style={styles.headers}>Completion/Lead Time: </span>
+												{moment(timeStarted).to(timeCompleted, true)}
+											</Typography>
+										</React.Fragment>
+									) : (
+										<React.Fragment>
+											<Typography>
+												<DateRangeIcon />
+												<span style={styles.headers}>Open: </span>
+												{moment().to(timeStarted, true)}
+											</Typography>
+										</React.Fragment>
+									)}
+								{/* </Card> */}
 							</div>
-							<StatsDetailView style={{ flex: 1 }} entry={entry} />
+							{entry.totalWorkTime > 0 && <StatsDetailView style={{ flex: 1 }} entry={entry} />}
 						</div>
 					</CardContent>
 				</Card>

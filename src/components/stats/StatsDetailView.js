@@ -2,9 +2,10 @@ import React from 'react';
 import { useRef } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { useTheme, Card, Typography } from '@material-ui/core';
+import moment from 'moment';
 
 export default function StatsDetailView({ entry }) {
-	const { totalWorkTime, totalBreakTime } = entry;
+	const { timeStarted, totalWorkTime, totalBreakTime } = entry;
 	const { palette: { type, primary, secondary, error } } = useTheme();
 
 	const initialLegendOptions = {
