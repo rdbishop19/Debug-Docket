@@ -22,6 +22,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import StatsDetailView from '../stats/StatsDetailView';
 
 function convertDateTimeFromISO(date) {
 	return new Date(date);
@@ -172,9 +173,9 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 
 	return (
 		<React.Fragment>
-			<div style={{ flex: 1, textAlign: 'center', minWidth: '375px', margin: '10px' }}>
+			<div style={{ flex: 1, textAlign: 'center', minWidth: '375px', margin: '10px'}}>
 				<Typography variant="h6">BUG DETAILS</Typography>
-				<Card style={{ padding: '10px', height: '82.3vh' }}>
+				<Card style={{ padding: '10px', height: '82.3vh', overflow: "auto"  }}>
 					<CardHeader
 						style={entryStyle}
 						// style={entryStyle}
@@ -251,6 +252,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 							<span style={styles.headers}>Category: </span>
 							{category.label}
 						</Typography>
+						<StatsDetailView entry={entry}/>
 					</CardContent>
 				</Card>
 			</div>
