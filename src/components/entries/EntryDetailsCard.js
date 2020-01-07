@@ -84,7 +84,7 @@ export default function EntryDetailsCard({ entry, history /* , deleteEntry */ })
 			userId: activeUserId,
 			timestamp: new Date().toISOString()
 		};
-		console.log(newComment);
+		// console.log(newComment);
 		// post new comment to DB
 		CommentRepository.postNewComment(newComment).then((newComment) => {
 			// update state by appending newComment to current commentArray
