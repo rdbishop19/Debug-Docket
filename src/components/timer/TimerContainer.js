@@ -11,7 +11,6 @@ export class TimerContainer extends Component {
 					<br />
 					<Timer />
 					<br />
-					version 2.0
 					<br />
 					<IconButton />
 				</Paper>

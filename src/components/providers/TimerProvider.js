@@ -78,9 +78,13 @@ export const TimerProvider = (props) => {
 
 		// const timeInterval = 1000; //milliseconds
 		if (timer <= 0 && active) {
+			const img = '/favicon-32x32.png'
 			if (mode === 'session') {
 				if (Notification.permission === 'granted') {
-					new Notification('Take a break! You earned it.');
+					// const img = '../../public/favicon-32x32.png';
+					const text = 'Take a break! You earned it.'
+					// var notification = new Notification('To do list', { body: text, icon: img });
+					const notification = new Notification('DEBUG DOCKET', { body: text, icon: img});
 				}
 				setMode('break');
 				document.title = 'Break time!';
@@ -88,7 +92,10 @@ export const TimerProvider = (props) => {
 				setElapsedTime(0);
 			} else {
 				if (Notification.permission === 'granted') {
-					new Notification('Break time over. Start a new bug tracking session with the timer.');
+					// const img = '/public/favicon-32x32.png';
+					const text = 'Break time over. Start a new bug tracking session with the timer.'
+					// var notification = new Notification('To do list', { body: text, icon: img });
+					const notification = new Notification('DEBUG DOCKET', { body: text, icon: img});
 				}
 				setMode('session');
 				document.title = 'Debug Docket';
@@ -195,7 +202,7 @@ export const TimerProvider = (props) => {
 	useEffect(updateTimer, [ active, timer ]);
 
 	useEffect(() => {
-		console.log('useEffect');
+		// console.log('useEffect');
 		if (storedTimerEntry !== null) {
 			EntryRepository.get(storedTimerEntry.id).then(setTimerEntry);
 		}
