@@ -1,68 +1,41 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Debug Docket -- *Say 'Hello World' to your little friends.*
 
-## Available Scripts
+![debug docket demo gif](./debug-docket.gif)
 
-In the project directory, you can run:
+## What is Debug Docket?
 
-### `npm start`
++ Software Bug/Issue Tracker 
++ Time Management Tool
++ Developer Social Platform
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Debugging is an important skill for any developer. But bugs can have a bad reputation, being costly, stress-inducing, and annoying. I built DEBUG DOCKET to shift that mindset by approaching bugs with a growth mindset through healthy time management, helpful analytics and team engagement.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Pre-requisites
+1. Make sure you have `npm` installed on your computer. [Installating npm](https://www.npmjs.com/get-npm)
+1. You will then need `JSON-server`. After installing `npm`, run the following in your terminal: `npm install -g json-server`
 
-### `npm test`
+## Installation & Setup
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Clone this repository
+1. `cd` into the directory it creates
+1. In the `api` directory, create a copy of the `database.json.example` and remove the .example extension.
+1. Run `npm install` and wait for all dependencies to be installed
+1. Run `npm start` to verify that installation was successful.
 
-### `npm run build`
+## Running Your Server
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Open another terminal window and navigate to the `api` folder within `src`
+1. Run `json-server -p 5002 -w database.json`
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## Using the App
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. In the browser, navigate to `localhost:3000`
+1. If you have never used Debug Docket before, `Register` a new account
+1. If you are a returning user, `Login` with your account information
+1. Start tracking your software bugs in the `To-Do` list
+1. Select a specific bug with the timer icon and then start the timer to begin tracking the time spent working on that bug
+1. Once you earn a break from your work, check out the `Social Feed` or `Bug History` to add friends or see the stats on the bugs you've worked on.
+1. Clock It and Dock It!
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+---
+&copy;2019 - Ryan Bishop
