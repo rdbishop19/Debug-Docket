@@ -75,8 +75,14 @@ export default function StatsContainer() {
 	const breakDisplayHours = Math.floor((totalBreak.current % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 	const breakDisplayMinutes = Math.floor((totalBreak.current % (1000 * 60 * 60)) / (1000 * 60));
 
-	const totalDisplayHours = sessionDisplayHours + breakDisplayHours;
-	const totalDisplayMinutes = sessionDisplayMinutes + breakDisplayMinutes;
+	let totalDisplayMinutes = sessionDisplayMinutes + breakDisplayMinutes;
+	let totalDisplayHours = sessionDisplayHours + breakDisplayHours;
+	
+	// need this to convert minutes/hours if the combo of minutes between break + session is greater than 60
+	if (totalDisplayMinutes > 60){
+		totalDisplayMinutes -= 60
+		totalDisplayHours += 1
+	}
 
     // this ratio determines what component to display to user if they are taking enough break time or not
 	const sessionBreakRatio =
