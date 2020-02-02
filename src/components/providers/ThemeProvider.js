@@ -6,8 +6,8 @@ export const ThemeContext = React.createContext()
 export const ThemeProvider = props => {
     const themeObject = {
         palette: {
-            primary: { main: '#4a148c' },
-            secondary: { main: '#1de9b6' },
+            primary: { main: '#8000ff' },
+            secondary: { main: '#03dac6' },
             type: 'light',
         },
         themeName: 'Debug Docket',
