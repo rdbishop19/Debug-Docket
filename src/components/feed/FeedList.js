@@ -8,7 +8,7 @@ import FeedCard from './FeedCard';
 */
 
 export default function FeedList(props) {
-	const { entries, user } = props;
+	const { entries, user, deleteEntry } = props;
 	return (
 		// <Paper>
 		<React.Fragment>
@@ -18,7 +18,7 @@ export default function FeedList(props) {
 			<div style={{ overflow: "auto", height: "83vh"}}>
 			    {entries.length > 0 ? (
     				entries.map((entry) => {
-    					return <FeedCard key={entry.id} entry={entry} activeUser={user} container="feed" {...props} />;
+    					return <FeedCard key={entry.id} entry={entry} activeUser={user} container="feed" deleteEntry={deleteEntry} {...props} />;
     				})
     			) : (
     				<h5>No entries. Add friends to see their bugs along with yours.</h5>

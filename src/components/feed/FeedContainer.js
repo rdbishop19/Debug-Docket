@@ -16,7 +16,7 @@ export default function FeedContainer(props) {
 
 	//get current friends list
 	const { friends, nonFriends, addNewFriend, removeFriend, filterNonFriends } = useContext(FriendContext);
-	// const { entries, userEntries, setEntries } = useContext(EntryContext)
+	const { userEntries, getUserEntries, deleteEntry } = useContext(EntryContext)
 	const [ entries, setEntries ] = useState([]);
 	const [ filteredEntries, setFilteredEntries ] = useState([]);
 	//TODO: get all entries from you and your friends
@@ -25,7 +25,7 @@ export default function FeedContainer(props) {
 		// console.log('friends', friends)
 		// console.log('entries', entries)
 		EntryRepository.getAll().then(setEntries);
-	}, []);
+	}, [userEntries]);
 
 	useEffect(
 		() => {
@@ -47,6 +47,12 @@ export default function FeedContainer(props) {
 		[ entries, userId, friends, nonFriends ]
 	);
 
+	const deleteHistoryEntry = (id) => {
+		if (window.confirm('Delete this entry?')) {
+			deleteEntry(id).then(getUserEntries);
+		}
+	};
+
 	return (
 		<React.Fragment>
 			<Grid container spacing={3}>
@@ -54,7 +60,7 @@ export default function FeedContainer(props) {
 					<FriendList user={activeUser} friends={friends} removeFriend={removeFriend} {...props} />
 				</Grid>
 				<Grid item xs={6} sm={6}>
-					<FeedList user={activeUser} entries={filteredEntries} {...props} />
+					<FeedList user={activeUser} entries={filteredEntries} deleteHistoryEntry={deleteHistoryEntry} {...props} />
 				</Grid>
 				<Grid item xs={6} sm={3}>
 					<SearchList
